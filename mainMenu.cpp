@@ -65,7 +65,6 @@ void mainMenu::chooseTheme()
 				}
 			}
 		}
-		
 
 		window.clear(Color::White);
 		window.display();
