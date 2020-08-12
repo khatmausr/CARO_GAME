@@ -30,6 +30,23 @@ void mainMenu::displayOpeningScreen()
 
 void mainMenu::chooseTheme()
 {
+	Texture t_mapSelection; t_mapSelection.loadFromFile("image/Map Selection.png");
+	Sprite mapSelection(t_mapSelection);
+
+	// Transition
+	RectangleShape whiteRec(Vector2f(1200.f, 700.f));
+
+	for (int i = 255; i >= 0; i--)
+	{
+		whiteRec.setFillColor(Color(255, 255, 255, i));
+
+		window.clear(Color::White);
+		window.draw(mapSelection);
+		window.draw(whiteRec);
+		window.display();
+	}
+
+	// Choosing theme
 	bool isDone = false;
 	do
 	{
@@ -49,12 +66,12 @@ void mainMenu::chooseTheme()
 				{
 				case Keyboard::Left:
 				{
-					
+
 					break;
 				}
 				case Keyboard::Right:
 				{
-					
+
 					break;
 				}
 				case Keyboard::Enter:
@@ -66,7 +83,9 @@ void mainMenu::chooseTheme()
 			}
 		}
 
+		// Display
 		window.clear(Color::White);
+		window.draw(mapSelection);
 		window.display();
 	} while (!isDone);
 }

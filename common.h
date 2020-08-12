@@ -3,8 +3,10 @@
 // Libraries
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <string>
 
 // Headers
+#include "board.h"
 #include "game.h"
 #include "mainMenu.h"
 #include "onePlayer.h"
@@ -13,7 +15,7 @@
 
 // Define constants
 #define WINDOW_WIDTH  1200
-#define WINDOW_HEIGHT 780
+#define WINDOW_HEIGHT 700
 
 #define BOARD_SIZE 20
 
@@ -36,6 +38,9 @@ extern Sprite gameBackground;
 
 extern Texture t_logo;
 extern Sprite logo;
+
+extern Texture t_button_X, t_button_O;
+extern Sprite button_X, button_O;
 
 extern Font font_arial;
 extern Font font_courierNew;

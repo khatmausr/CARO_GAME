@@ -15,6 +15,9 @@ Sprite gameBackground;
 Texture t_logo;
 Sprite logo;
 
+Texture t_button_X, t_button_O;
+Sprite button_X, button_O;
+
 // Font
 Font font_arial;
 Font font_courierNew;

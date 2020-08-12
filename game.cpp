@@ -1,5 +1,31 @@
 #include "common.h"
 
+game::game()
+{
+    x = BOARD_SIZE / 2 - 1; y = BOARD_SIZE / 2 - 1;
+    turn = 1;
+}
+
+void game::continueGame()
+{
+
+}
+
+void game::loadGame()
+{
+
+}
+
+bool game::isContinue()
+{
+    return true;
+}
+
+void game::changeTurn()
+{
+    if (turn == 1) turn = -1; else turn = 1;
+}
+
 void game::startTwoPlayers()
 {
     menuMusic.stop();
@@ -10,18 +36,10 @@ void game::startTwoPlayers()
     gameMusic.play();
 
     // Loading display objects
-    Texture t1, t2, t3, t4, t5;
-    t2.loadFromFile("image/x.png"); t2.setSmooth(true);
-    t3.loadFromFile("image/o.png"); t3.setSmooth(true);
-    t4.loadFromFile("image/x_cursor.png"); t4.setSmooth(true);
-    t5.loadFromFile("image/o_cursor.png"); t5.setSmooth(true);
-
-    Sprite button_X(t2), button_O(t3), pointer_X(t4), pointer_O(t5);
-
-    // Some variable
-    int arr[20][20] = { 0 };
-    int dx = 0, dy = 0;
-    bool turn = 1; //1: X's turn    0: O's turn
+    Texture t1, t2;
+    t1.loadFromFile("image/x_cursor.png"); t1.setSmooth(true);
+    t2.loadFromFile("image/o_cursor.png"); t2.setSmooth(true);
+    Sprite cursor_X(t1), cursor_O(t2);
 
     // Window
     bool isexit = false;
@@ -44,30 +62,29 @@ void game::startTwoPlayers()
                 {
                 case Keyboard::Left:
                 {
-                    if (dx > 0) dx--;
+                    if (x > 0) x--;
                     break;
                 }
                 case Keyboard::Right:
                 {
-                    if (dx < BOARD_SIZE - 1) dx++;
+                    if (x < BOARD_SIZE - 1) x++;
                     break;
                 }
                 case Keyboard::Up:
                 {
-                    if (dy > 0) dy--;
+                    if (y > 0) y--;
                     break;
                 }
                 case Keyboard::Down:
                 {
-                    if (dy < BOARD_SIZE - 1) dy++;
+                    if (y < BOARD_SIZE - 1) y++;
                     break;
                 }
-                case Keyboard::Enter:
+                case Keyboard::Enter: case Keyboard::Space:
                 {
-                    if (!arr[dx][dy])
+                    if (b.markCell(x, y, turn))
                     {
-                        arr[dx][dy] = (turn) ? 1 : -1;
-                        turn = !turn;
+                        changeTurn();
                     }
                     break;
                 }
@@ -84,28 +101,17 @@ void game::startTwoPlayers()
         window.clear(Color::White);
         window.draw(gameBackground);
 
-        for (int i = 0; i < BOARD_SIZE; ++i)
-            for (int j = 0; j < BOARD_SIZE; ++j)
-                if (arr[i][j] == 1)
-                {
-                    button_X.setPosition(Vector2f(BOARD_LEFT + i * 40, BOARD_TOP + j * 40));
-                    window.draw(button_X);
-                }
-                else if (arr[i][j] == -1)
-                {
-                    button_O.setPosition(Vector2f(BOARD_LEFT + i * 40, BOARD_TOP + j * 40));
-                    window.draw(button_O);
-                }
+        b.displayBoard();
 
-        if (turn)
+        if (turn == 1)
         {
-            pointer_X.setPosition(Vector2f(BOARD_LEFT + dx * 40, BOARD_TOP + dy * 40));
-            window.draw(pointer_X);
+            cursor_X.setPosition(Vector2f(BOARD_LEFT + x * 30, BOARD_TOP + y * 30));
+            window.draw(cursor_X);
         }
-        else
+        else if (turn == -1)
         {
-            pointer_O.setPosition(Vector2f(BOARD_LEFT + dx * 40, BOARD_TOP + dy * 40));
-            window.draw(pointer_O);
+            cursor_O.setPosition(Vector2f(BOARD_LEFT + x * 30, BOARD_TOP + y * 30));
+            window.draw(cursor_O);
         }
 
         window.display();
@@ -113,4 +119,9 @@ void game::startTwoPlayers()
 
     gameMusic.stop();
     menuMusic.play();
+}
+
+void game::displayWinner(int whoWin)
+{
+    
 }

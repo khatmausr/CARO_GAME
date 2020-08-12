@@ -10,8 +10,14 @@ void common::initGame()
 	t_gameBackground.loadFromFile("image/game_background.png");
 	gameBackground.setTexture(t_gameBackground);
 
-	t_logo; t_logo.loadFromFile("image/menu_logo.png");
+	t_logo.loadFromFile("image/menu_logo.png");
 	logo.setTexture(t_logo); logo.setPosition(Vector2f(450.f, 50.f));
+
+	t_button_X.loadFromFile("image/X.png");
+	button_X.setTexture(t_button_X);
+
+	t_button_O.loadFromFile("image/O.png");
+	button_O.setTexture(t_button_O);
 
 	font_arial.loadFromFile("font/arial.ttf");
 	font_courierNew.loadFromFile("font/courierNew.ttf");
