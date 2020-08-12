@@ -25,42 +25,20 @@ void common::initGame()
 
 void common::runGame()
 {
-	// Starting screen
-	Texture t_icon; t_icon.loadFromFile("image/group02_logo.png");
-	Sprite icon(t_icon); icon.setPosition(Vector2f(850.f, 400.f));
-
-	Music menuStartup;
-	menuStartup.openFromFile("sound/menu_startup.ogg");
-	menuStartup.play();
-
-	for (int i = 0; i < 256; i++)
-	{
-		window.clear(Color::White);
-		icon.setColor(sf::Color(255, 255, 255, i));
-		window.draw(icon);
-		window.display();
-	}
-	for (int i = 0; i < 1000; i++)
-	{
-		window.clear(Color::White);
-		window.draw(icon);
-		window.display();
-	}
-	for (int i = 255; i >= 0; i--)
-	{
-		window.clear(Color::White);
-		icon.setColor(sf::Color(255, 255, 255, i));
-		window.draw(icon);
-		window.display();
-	}
-
-	menuMusic.play();
-
-	// Initializing Menu
+	// Initializing
 	game g;
 	mainMenu m;
 	subMenu sm;
 	int choice = 1;
+
+	// Opening
+	m.displayOpeningScreen();
+
+	// Choosing theme
+	m.chooseTheme();
+
+	// Play mainMenu music
+	menuMusic.play();
 
 	// Opening Window
 	while (window.isOpen())

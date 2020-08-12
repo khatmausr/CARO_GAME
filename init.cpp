@@ -24,3 +24,6 @@ Music menuMusic;
 
 SoundBuffer s_optionSound;
 Sound optionSound;
+
+// Theme
+int theme;

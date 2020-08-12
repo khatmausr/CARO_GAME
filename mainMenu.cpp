@@ -1,5 +1,76 @@
 #include "common.h"
 
+void mainMenu::displayOpeningScreen()
+{
+	Texture t_icon; t_icon.loadFromFile("image/group02_logo.png");
+	Sprite icon(t_icon); icon.setPosition(Vector2f(500.f, 225.f));
+
+	Music menuStartup;
+	menuStartup.openFromFile("sound/menu_startup.ogg");
+	menuStartup.play();
+
+	for (int i = 0; i <= 255; i++)
+	{
+		window.clear(Color::White);
+		icon.setColor(sf::Color(255, 255, 255, i));
+		window.draw(icon);
+		window.display(); 
+	}
+
+	sleep(milliseconds(1500));
+
+	for (int i = 255; i >= 0; i--)
+	{
+		window.clear(Color::White);
+		icon.setColor(sf::Color(255, 255, 255, i));
+		window.draw(icon);
+		window.display();
+	}
+}
+
+void mainMenu::chooseTheme()
+{
+	bool isDone = false;
+	do
+	{
+		Event e;
+
+		while (window.pollEvent(e))
+		{
+			if (e.type == Event::Closed)
+			{
+				isDone = true;
+				window.close();
+			}
+
+			if (e.type == Event::KeyPressed)
+			{
+				switch (e.key.code)
+				{
+				case Keyboard::Left:
+				{
+					
+					break;
+				}
+				case Keyboard::Right:
+				{
+					
+					break;
+				}
+				case Keyboard::Enter:
+				{
+					isDone = true;
+					break;
+				}
+				}
+			}
+		}
+
+		window.clear(Color::White);
+		window.display();
+	} while (!isDone);
+}
+
 void mainMenu::displayMainMenu(int choice)
 {
 	window.clear(Color::White);

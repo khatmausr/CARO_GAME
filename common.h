@@ -12,13 +12,15 @@
 #include "twoPlayers.h"
 
 // Define constants
-#define WINDOW_WIDTH  1920
-#define WINDOW_HEIGHT 1080
+#define WINDOW_WIDTH  1200
+#define WINDOW_HEIGHT 700
 
 #define BOARD_SIZE 20
 
-#define BOARD_LEFT 550.f
-#define BOARD_TOP  100.f
+#define BOARD_LEFT 300.f
+#define BOARD_TOP  50.f
+
+#define THEME_MAX 3
 
 // Namespace
 using namespace sf;
@@ -41,6 +43,9 @@ extern Font font_courierNew;
 extern Music menuMusic;
 extern SoundBuffer s_optionSound;
 extern Sound optionSound;
+
+extern int theme;
+
 // Common methods
 class common
 {
