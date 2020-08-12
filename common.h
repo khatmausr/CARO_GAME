@@ -13,7 +13,7 @@
 
 // Define constants
 #define WINDOW_WIDTH  1200
-#define WINDOW_HEIGHT 700
+#define WINDOW_HEIGHT 780
 
 #define BOARD_SIZE 20
 
