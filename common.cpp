@@ -10,17 +10,58 @@ void common::initGame()
 	t_gameBackground.loadFromFile("image/game_background.png");
 	gameBackground.setTexture(t_gameBackground);
 
-	t_logo; t_logo.loadFromFile("image/menu_logo.png");
+	t_logo.loadFromFile("image/menu_logo.png");
 	logo.setTexture(t_logo); logo.setPosition(Vector2f(450.f, 50.f));
 
 	font_arial.loadFromFile("font/arial.ttf");
 	font_courierNew.loadFromFile("font/courierNew.ttf");
+	font_bebasNeueBold.loadFromFile("font/BebasNeue-Bold.ttf");
 
 	menuMusic.openFromFile("sound/menu_music.ogg");
 	menuMusic.setLoop(true);
 
 	s_optionSound.loadFromFile("sound/optionSound.ogg");
 	optionSound.setBuffer(s_optionSound);
+
+	// Green
+	if (!t_greenButton_default.loadFromFile("image/Button/Green/Button-default.png"))
+		std::cout << "Can not load texture!\n";
+	if (!t_greenButton_mouseOver.loadFromFile("image/Button/Green/Button-mouseOver.png"))
+		std::cout << "Can not load texture!\n";
+	if (!t_greenButton_pressed.loadFromFile("image/Button/Green/Button-pressed.png"))
+		std::cout << "Can not load texture!\n";
+
+	// Blue
+	if (!t_blueButton_default.loadFromFile("image/Button/Blue/Button-default.png"))
+		std::cout << "Can not load texture!\n";
+	if (!t_blueButton_mouseOver.loadFromFile("image/Button/Blue/Button-mouseOver.png"))
+		std::cout << "Can not load texture!\n";
+	if (!t_blueButton_pressed.loadFromFile("image/Button/Blue/Button-pressed.png"))
+		std::cout << "Can not load texture!\n";
+
+	// Brown
+	if (!t_brownButton_default.loadFromFile("image/Button/Brown/Button-default.png"))
+		std::cout << "Can not load texture!\n";
+	if (!t_brownButton_mouseOver.loadFromFile("image/Button/Brown/Button-mouseOver.png"))
+		std::cout << "Can not load texture!\n";
+	if (!t_brownButton_pressed.loadFromFile("image/Button/Brown/Button-pressed.png"))
+		std::cout << "Can not load texture!\n";
+
+	// Red
+	if (!t_redButton_default.loadFromFile("image/Button/Red/Button-default.png"))
+		std::cout << "Can not load texture!\n";
+	if (!t_redButton_mouseOver.loadFromFile("image/Button/Red/Button-mouseOver.png"))
+		std::cout << "Can not load texture!\n";
+	if (!t_redButton_pressed.loadFromFile("image/Button/Red/Button-pressed.png"));
+
+	// Yellow
+	if (!t_yellowButton_default.loadFromFile("image/Button/Yellow/Button-default.png"))
+		std::cout << "Can not load texture!\n";
+	if (!t_yellowButton_mouseOver.loadFromFile("image/Button/Yellow/Button-mouseOver.png"))
+		std::cout << "Can not load texture!\n";
+	if (!t_yellowButton_pressed.loadFromFile("image/Button/Yellow/Button-pressed.png"))
+		std::cout << "Can not load texture!\n";
+
 }
 
 void common::runGame()
@@ -30,12 +71,12 @@ void common::runGame()
 	mainMenu m;
 	subMenu sm;
 	int choice = 1;
-
+	Button btn(&t_blueButton_default, &t_blueButton_mouseOver, &t_blueButton_pressed, "NEW GAME", sf::Vector2f(500.0f, 50.0f));
 	// Opening
-	m.displayOpeningScreen();
+	//m.displayOpeningScreen();
 
 	// Choosing theme
-	m.chooseTheme();
+	//m.chooseTheme();
 
 	// Play mainMenu music
 	menuMusic.play();
@@ -47,7 +88,6 @@ void common::runGame()
 		while (window.pollEvent(e))
 		{
 			if (e.type == Event::Closed) window.close();
-
 			if (e.type == Event::KeyPressed)
 				switch (e.key.code)
 				{
@@ -114,6 +154,16 @@ void common::runGame()
 				}
 				}
 		}
-		m.displayMainMenu(choice);
+		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+			btn.updateState(sf::Vector2f(mousePos), true);
+		else if (e.type == sf::Event::MouseMoved)
+			btn.updateState(sf::Vector2f(mousePos), false);
+		std::cout << mousePos.x << " " << mousePos.y << std::endl;
+		window.clear();
+		window.draw(*btn.getPlaceHolder());
+		window.draw(*btn.getText());
+		window.display();
+		//m.displayMainMenu(choice);
 	}
 }
