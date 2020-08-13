@@ -71,7 +71,7 @@ void common::runGame()
 	mainMenu m;
 	subMenu sm;
 	int choice = 1;
-	Button btn(&t_blueButton_default, &t_blueButton_mouseOver, &t_blueButton_pressed, "NEW GAME", sf::Vector2f(500.0f, 50.0f));
+	Button btn(&t_blueButton_default, &t_blueButton_mouseOver, &t_blueButton_pressed, &s_optionSound, "NEW GAME", sf::Vector2f(500.0f, 50.0f));
 	// Opening
 	//m.displayOpeningScreen();
 
@@ -79,7 +79,7 @@ void common::runGame()
 	//m.chooseTheme();
 
 	// Play mainMenu music
-	menuMusic.play();
+	//menuMusic.play();
 
 	// Opening Window
 	while (window.isOpen())
@@ -161,8 +161,7 @@ void common::runGame()
 			btn.updateState(sf::Vector2f(mousePos), false);
 		std::cout << mousePos.x << " " << mousePos.y << std::endl;
 		window.clear();
-		window.draw(*btn.getPlaceHolder());
-		window.draw(*btn.getText());
+		btn.draw();
 		window.display();
 		//m.displayMainMenu(choice);
 	}
