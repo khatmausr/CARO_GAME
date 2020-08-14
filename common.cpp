@@ -141,7 +141,7 @@ void common::runGame()
 						case 0:
 						{
 							g.startTwoPlayers();
-							//mainMenu.setActive(false);
+							if(!g.isContinue()) mainMenu.setActive(false);
 							break;
 						}
 						case 1:

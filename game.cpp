@@ -4,11 +4,12 @@ game::game()
 {
     x = BOARD_SIZE / 2 - 1; y = BOARD_SIZE / 2 - 1;
     turn = 1;
+    continueGame = true;
 }
 
-void game::continueGame()
+void game::setContinue(bool isContinue)
 {
-
+    this->continueGame = isContinue;
 }
 
 void game::loadGame()
@@ -18,7 +19,7 @@ void game::loadGame()
 
 bool game::isContinue()
 {
-    return true;
+    return continueGame;
 }
 
 void game::changeTurn()
@@ -54,6 +55,7 @@ void game::startTwoPlayers()
             {
                 isexit = true;
                 window.close();
+                this->setContinue(false);
             }
 
             if (e.type == Event::KeyPressed)
@@ -118,7 +120,7 @@ void game::startTwoPlayers()
     }
 
     gameMusic.stop();
-    menuMusic.play();
+    if(this->isContinue()) menuMusic.play();
 }
 
 void game::displayWinner(int whoWin)
