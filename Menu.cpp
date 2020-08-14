@@ -13,7 +13,7 @@ Menu::Menu(sf::Texture* backGroundTexture, sf::Vector2f position, float buttonSp
 	background.setTexture(*backGroundTexture);
 	selectedItemIndex = -1;
 	this->buttonSpacing = buttonSpacing;
-	isActive = true;
+	this->isActive = false;
 	this->position = position;
 }
 
@@ -67,4 +67,14 @@ void Menu::update(sf::Vector2f mousePos, bool isClicked)
 		if (btnList[i]->getState() == 2)
 			selectedItemIndex = i;
 	}
+}
+
+bool Menu::onLoad()
+{
+	return isActive;
+}
+
+void Menu::setActive(bool isActive)
+{
+	this->isActive = isActive;
 }

@@ -75,20 +75,28 @@ void common::runGame()
 	// Initializing
 	game g;
 	mainMenu m;
-	Menu mainMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, 250.0f), 75.0f);
+	Menu mainMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
+	Menu newGameMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
 	subMenu sm;
 	int choice = 1;
 	//Button btn(&t_blueButton_default, &t_blueButton_mouseOver, &t_blueButton_pressed, &s_optionSound, "NEW GAME", sf::Vector2f(500.0f, 50.0f));
 	// Opening
 	//m.displayOpeningScreen();
 
-	//Init menu
+	// Init menu
 	mainMenu.pushButton(2, "CONTINUE");
 	mainMenu.pushButton(0, "NEW GAME");
 	mainMenu.pushButton(1, "LOAD GAME");
 	mainMenu.pushButton(1, "HIGH SCORE");
 	mainMenu.pushButton(1, "ABOUT");
 	mainMenu.pushButton(3, "QUIT");
+	mainMenu.setActive(true);
+
+	// Init newGameMenu
+	newGameMenu.pushButton(2, "SINGLE PLAYER");
+	newGameMenu.pushButton(0, "TWO PLAYERS");
+
+	// Init fundamental
 
 	// Choosing theme
 	//m.chooseTheme();
@@ -100,119 +108,100 @@ void common::runGame()
 	while (window.isOpen())
 	{
 		Event e;
-		while (window.pollEvent(e))
+		/*while (window.pollEvent(e))
+			if (e.type == sf::Event::Closed) window.close();*/
+		while (mainMenu.onLoad())
 		{
-			if (e.type == Event::Closed) window.close();
-			if (e.type == Event::KeyPressed)
-				switch (e.key.code)
+			while (window.pollEvent(e))
+			{
+				if (e.type == sf::Event::Closed)
 				{
-				case Keyboard::Up:
+					window.close();
+					mainMenu.setActive(false);
+				}
+				if (e.type == sf::Event::MouseButtonPressed)
 				{
-					if (choice > 0)
+					mainMenu.update(sf::Vector2f(e.mouseButton.x, e.mouseButton.y), true);
+					if (e.mouseButton.button == sf::Mouse::Left )
 					{
-						optionSound.play();
-						choice--;
+						switch (mainMenu.selectedItemIndex)
+						{
+						case 0:
+						{
+							g.startTwoPlayers();
+							//mainMenu.setActive(false);
+							break;
+						}
+						case 1:
+						{
+							newGameMenu.setActive(true);
+							mainMenu.setActive(false);
+							break;
+						}
+						case 2:
+						{
+							sm.loadGameMenu(g);
+							mainMenu.setActive(false);
+							break;
+						}
+						case 3:
+						{
+							sm.highScoreMenu();
+							mainMenu.setActive(false);
+							break;
+						}
+						case 4:
+						{
+							sm.aboutMenu();
+							mainMenu.setActive(false);
+							break;
+						}
+						case 5:
+						{
+							window.close();
+							mainMenu.setActive(false);
+							break;
+						}
+						}
 					}
-					break;
 				}
-				case Keyboard::Down:
-				{
-					if (choice < 6)
-					{
-						optionSound.play();
-						choice++;
-					}
-					break;
-				}
-				case Keyboard::Enter:
-				{
-					optionSound.play();
-					switch (mainMenu.selectedItemIndex)
-					{
-					case 0:
-					{
-						g.startTwoPlayers();
-						break;
-					}
-					case 1:
-					{
-						sm.newGameMenu(g);
-						break;
-					}
-					case 2:
-					{
-						sm.loadGameMenu(g);
-						break;
-					}
-					case 3:
-					{
-						sm.highScoreMenu();
-						break;
-					}
-					case 4:
-					{
-						sm.settingsMenu();
-						break;
-					}
-					case 5:
-					{
-						sm.aboutMenu();
-						break;
-					}
-					case 6:
-					{
-						window.close();
-						break;
-					}
-					}
-					break;
-				}
-				}
+				else if (e.type == sf::Event::MouseMoved)
+					mainMenu.update(sf::Vector2f(e.mouseMove.x, e.mouseMove.y), false);
+			}
+			window.clear();
+			mainMenu.draw();
+			window.display();
 		}
-		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		while (newGameMenu.onLoad())
 		{
-			mainMenu.update(sf::Vector2f(mousePos), true);
-			switch (mainMenu.selectedItemIndex)
+			while (window.pollEvent(e))
 			{
-			case 0:
-			{
-				g.startTwoPlayers();
-				break;
+				if (e.type == sf::Event::Closed)
+				{
+					window.close();
+					newGameMenu.setActive(false);
+				}
+				if (e.type == sf::Event::MouseButtonPressed)
+				{
+					newGameMenu.update(sf::Vector2f(e.mouseButton.x, e.mouseButton.y), true);
+					if (e.mouseButton.button == sf::Mouse::Left)
+					{	
+						switch (newGameMenu.selectedItemIndex)
+						{
+						case 0:
+
+							break;
+						case 1:
+							break;
+						}
+					}
+				}
+				else if (e.type == sf::Event::MouseMoved)
+					newGameMenu.update(sf::Vector2f(e.mouseMove.x, e.mouseMove.y), false);
 			}
-			case 1:
-			{
-				sm.newGameMenu(g);
-				break;
-			}
-			case 2:
-			{
-				sm.loadGameMenu(g);
-				break;
-			}
-			case 3:
-			{
-				sm.highScoreMenu();
-				break;
-			}
-			case 4:
-			{
-				sm.aboutMenu();
-				break;
-			}
-			case 5:
-			{
-				window.close();
-				break;
-			}
-			}
+			window.clear();
+			newGameMenu.draw();
+			window.display();
 		}
-		else if (e.type == sf::Event::MouseMoved)
-			mainMenu.update(sf::Vector2f(mousePos), false);
-		std::cout << mousePos.x << " " << mousePos.y << std::endl;
-		window.clear();
-		mainMenu.draw();
-		window.display();
-		//m.displayMainMenu(choice);
 	}
 }

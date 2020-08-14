@@ -20,6 +20,9 @@
 #define WINDOW_WIDTH  1200
 #define WINDOW_HEIGHT 700
 
+#define MENU_TOP 250.0f
+#define MENU_BUTTON_SPACING 75.0f
+
 #define BOARD_SIZE 20
 
 #define BOARD_LEFT 300.f

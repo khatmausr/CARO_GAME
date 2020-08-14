@@ -7,7 +7,7 @@
 
 class Menu
 {
-protected:
+private:
 	bool isActive;
 
 	sf::Sprite background;
@@ -26,8 +26,8 @@ public:
 
 	void pushButton(unsigned int btnCode, std::string title);
 	void draw();
-
 	void update(sf::Vector2f mousePos, bool isClicked);
-
+	bool onLoad();
+	void setActive(bool isActive);
 };
 
