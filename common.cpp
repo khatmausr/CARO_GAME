@@ -59,7 +59,8 @@ void common::initGame()
 		std::cout << "Can not load texture!\n";
 	if (!t_redButton_mouseOver.loadFromFile("image/Button/Red/Button-mouseOver.png"))
 		std::cout << "Can not load texture!\n";
-	if (!t_redButton_pressed.loadFromFile("image/Button/Red/Button-pressed.png"));
+	if (!t_redButton_pressed.loadFromFile("image/Button/Red/Button-pressed.png"))
+		std::cout << "Can not load texture!\n";
 
 	// Yellow
 	if (!t_yellowButton_default.loadFromFile("image/Button/Yellow/Button-default.png"))
@@ -131,7 +132,7 @@ void common::runGame()
 				}
 				if (e.type == sf::Event::MouseButtonPressed)
 				{
-					mainMenu.update(sf::Vector2f(e.mouseButton.x, e.mouseButton.y), true);
+					mainMenu.update(sf::Vector2f((float) e.mouseButton.x, (float) e.mouseButton.y), true);
 					if (e.mouseButton.button == sf::Mouse::Left)
 					{
 						switch (mainMenu.selectedItemIndex)
@@ -176,7 +177,7 @@ void common::runGame()
 					}
 				}
 				else if (e.type == sf::Event::MouseMoved)
-					mainMenu.update(sf::Vector2f(e.mouseMove.x, e.mouseMove.y), false);
+					mainMenu.update(sf::Vector2f((float) e.mouseMove.x, (float) e.mouseMove.y), false);
 			}
 		}
 		while (newGameMenu.onLoad())
@@ -193,7 +194,7 @@ void common::runGame()
 				}
 				if (e.type == sf::Event::MouseButtonPressed)
 				{
-					newGameMenu.update(sf::Vector2f(e.mouseButton.x, e.mouseButton.y), true);
+					newGameMenu.update(sf::Vector2f((float) e.mouseButton.x, (float) e.mouseButton.y), true);
 					if (e.mouseButton.button == sf::Mouse::Left)
 					{
 						switch (newGameMenu.selectedItemIndex)
@@ -211,7 +212,7 @@ void common::runGame()
 					}
 				}
 				else if (e.type == sf::Event::MouseMoved)
-					newGameMenu.update(sf::Vector2f(e.mouseMove.x, e.mouseMove.y), false);
+					newGameMenu.update(sf::Vector2f((float) e.mouseMove.x, (float) e.mouseMove.y), false);
 			}
 		}
 		while (botMenu.onLoad())
@@ -228,7 +229,7 @@ void common::runGame()
 				}
 				if (e.type == sf::Event::MouseButtonPressed)
 				{
-					botMenu.update(sf::Vector2f(e.mouseButton.x, e.mouseButton.y), true);
+					botMenu.update(sf::Vector2f((float) e.mouseButton.x, (float) e.mouseButton.y), true);
 					if (e.mouseButton.button == sf::Mouse::Left)
 					{
 						switch (botMenu.selectedItemIndex)
@@ -243,7 +244,7 @@ void common::runGame()
 					}
 				}
 				else if (e.type == sf::Event::MouseMoved)
-					botMenu.update(sf::Vector2f(e.mouseMove.x, e.mouseMove.y), false);
+					botMenu.update(sf::Vector2f((float) e.mouseMove.x, (float) e.mouseMove.y), false);
 			}
 		}
 
