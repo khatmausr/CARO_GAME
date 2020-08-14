@@ -55,14 +55,14 @@ void Menu::pushButton(unsigned int btnCode, std::string title)
 void Menu::draw()
 {
 	window.draw(background);
-	for (int i = 0; i < btnList.size(); ++i)
+	for (unsigned int i = 0; i < btnList.size(); ++i)
 		btnList[i]->draw();
 }
 
 void Menu::update(sf::Vector2f mousePos, bool isClicked)
 {
 	selectedItemIndex = -1;
-	for (int i = 0; i < this->btnList.size(); ++i)
+	for (unsigned int i = 0; i < this->btnList.size(); ++i)
 	{
 		btnList[i]->updateState(mousePos, isClicked);
 		if (btnList[i]->getState() == 2)

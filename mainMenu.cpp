@@ -9,20 +9,20 @@ void mainMenu::displayOpeningScreen()
 	menuStartup.openFromFile("sound/menu_startup.ogg");
 	menuStartup.play();
 
-	for (int i = 0; i <= 255; i++)
+	for (int i = 0; i <= 40; i++)
 	{
 		window.clear(Color::White);
-		icon.setColor(sf::Color(255, 255, 255, i));
+		icon.setColor(sf::Color(255, 255, 255, i * 6));
 		window.draw(icon);
 		window.display(); 
 	}
 
-	sleep(milliseconds(1500));
+	sleep(milliseconds(1000));
 
-	for (int i = 255; i >= 0; i--)
+	for (int i = 40; i >= 0; i--)
 	{
 		window.clear(Color::White);
-		icon.setColor(sf::Color(255, 255, 255, i));
+		icon.setColor(sf::Color(255, 255, 255, i * 6));
 		window.draw(icon);
 		window.display();
 	}
