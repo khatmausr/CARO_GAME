@@ -23,14 +23,6 @@ void common::initGame()
 	s_optionSound.loadFromFile("sound/optionSound.ogg");
 	optionSound.setBuffer(s_optionSound);
 
-	// Green
-	if (!t_greenButton_default.loadFromFile("image/Button/Green/Button-default.png"))
-		std::cout << "Can not load texture!\n";
-	if (!t_greenButton_mouseOver.loadFromFile("image/Button/Green/Button-mouseOver.png"))
-		std::cout << "Can not load texture!\n";
-	if (!t_greenButton_pressed.loadFromFile("image/Button/Green/Button-pressed.png"))
-		std::cout << "Can not load texture!\n";
-
 	// Blue
 	if (!t_blueButton_default.loadFromFile("image/Button/Blue/Button-default.png"))
 		std::cout << "Can not load texture!\n";
@@ -45,6 +37,14 @@ void common::initGame()
 	if (!t_brownButton_mouseOver.loadFromFile("image/Button/Brown/Button-mouseOver.png"))
 		std::cout << "Can not load texture!\n";
 	if (!t_brownButton_pressed.loadFromFile("image/Button/Brown/Button-pressed.png"))
+		std::cout << "Can not load texture!\n";
+
+	// Green
+	if (!t_greenButton_default.loadFromFile("image/Button/Green/Button-default.png"))
+		std::cout << "Can not load texture!\n";
+	if (!t_greenButton_mouseOver.loadFromFile("image/Button/Green/Button-mouseOver.png"))
+		std::cout << "Can not load texture!\n";
+	if (!t_greenButton_pressed.loadFromFile("image/Button/Green/Button-pressed.png"))
 		std::cout << "Can not load texture!\n";
 
 	// Red
@@ -69,17 +69,26 @@ void common::runGame()
 	// Initializing
 	game g;
 	mainMenu m;
+	Menu mainMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, 250.0f), 75.0f);
 	subMenu sm;
 	int choice = 1;
-	Button btn(&t_blueButton_default, &t_blueButton_mouseOver, &t_blueButton_pressed, &s_optionSound, "NEW GAME", sf::Vector2f(500.0f, 50.0f));
+	//Button btn(&t_blueButton_default, &t_blueButton_mouseOver, &t_blueButton_pressed, &s_optionSound, "NEW GAME", sf::Vector2f(500.0f, 50.0f));
 	// Opening
 	//m.displayOpeningScreen();
+
+	//Init menu
+	mainMenu.pushButton(2, "CONTINUE");
+	mainMenu.pushButton(0, "NEW GAME");
+	mainMenu.pushButton(1, "LOAD GAME");
+	mainMenu.pushButton(1, "HIGH SCORE");
+	mainMenu.pushButton(1, "ABOUT");
+	mainMenu.pushButton(3, "QUIT");
 
 	// Choosing theme
 	//m.chooseTheme();
 
 	// Play mainMenu music
-	//menuMusic.play();
+	menuMusic.play();
 
 	// Opening Window
 	while (window.isOpen())
@@ -112,7 +121,7 @@ void common::runGame()
 				case Keyboard::Enter:
 				{
 					optionSound.play();
-					switch (choice)
+					switch (mainMenu.selectedItemIndex)
 					{
 					case 0:
 					{
@@ -156,12 +165,52 @@ void common::runGame()
 		}
 		sf::Vector2i mousePos = sf::Mouse::getPosition(window);
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-			btn.updateState(sf::Vector2f(mousePos), true);
+		{
+			mainMenu.update(sf::Vector2f(mousePos), true);
+			switch (mainMenu.selectedItemIndex)
+			{
+			case 0:
+			{
+				g.startTwoPlayers();
+				break;
+			}
+			case 1:
+			{
+				sm.newGameMenu(g);
+				break;
+			}
+			case 2:
+			{
+				sm.loadGameMenu(g);
+				break;
+			}
+			case 3:
+			{
+				sm.highScoreMenu();
+				break;
+			}
+			case 4:
+			{
+				sm.settingsMenu();
+				break;
+			}
+			case 5:
+			{
+				sm.aboutMenu();
+				break;
+			}
+			case 6:
+			{
+				window.close();
+				break;
+			}
+			}
+		}
 		else if (e.type == sf::Event::MouseMoved)
-			btn.updateState(sf::Vector2f(mousePos), false);
+			mainMenu.update(sf::Vector2f(mousePos), false);
 		std::cout << mousePos.x << " " << mousePos.y << std::endl;
 		window.clear();
-		btn.draw();
+		mainMenu.draw();
 		window.display();
 		//m.displayMainMenu(choice);
 	}

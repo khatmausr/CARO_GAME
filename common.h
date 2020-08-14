@@ -8,6 +8,7 @@
 // Headers
 #include "game.h"
 #include "mainMenu.h"
+#include "Menu.h"
 #include "onePlayer.h"
 #include "subMenu.h"
 #include "twoPlayers.h"
@@ -15,7 +16,7 @@
 
 // Define constants
 #define WINDOW_WIDTH  1200
-#define WINDOW_HEIGHT 780
+#define WINDOW_HEIGHT 700
 
 #define BOARD_SIZE 20
 
@@ -50,10 +51,6 @@ extern Sound optionSound;
 extern int theme;
 
 // Button
-extern Texture t_greenButton_default;
-extern Texture t_greenButton_mouseOver;
-extern Texture t_greenButton_pressed;
-
 extern Texture t_blueButton_default;
 extern Texture t_blueButton_mouseOver;
 extern Texture t_blueButton_pressed;
@@ -61,6 +58,10 @@ extern Texture t_blueButton_pressed;
 extern Texture t_brownButton_default;
 extern Texture t_brownButton_mouseOver;
 extern Texture t_brownButton_pressed;
+
+extern Texture t_greenButton_default;
+extern Texture t_greenButton_mouseOver;
+extern Texture t_greenButton_pressed;
 
 extern Texture t_redButton_default;
 extern Texture t_redButton_mouseOver;

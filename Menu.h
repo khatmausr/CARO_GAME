@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "button.h"
+#include "common.h"
 
 #include <vector>
 
@@ -11,18 +12,22 @@ protected:
 
 	sf::Sprite background;
 
-	std::vector<Button> btnlist;
+	std::vector<Button*> btnList;
 	float buttonSpacing;
 
-	sf::Vector2f positsion;
-	unsigned int selectedItemIndex;
+	sf::Vector2f position;
+	
 public:
-	Menu();
-	Menu(sf::Texture* backGroundTexture, std::vector<Button> btnlist, sf::Vector2f position);
+	/*Menu();*/
+	int selectedItemIndex;
+	Menu(sf::Texture* backGroundTexture, sf::Vector2f position, float buttonSpacing);
 	
 	~Menu();
 
+	void pushButton(unsigned int btnCode, std::string title);
 	void draw();
+
+	void update(sf::Vector2f mousePos, bool isClicked);
 
 };
 
