@@ -197,15 +197,10 @@ void common::runGame()
 			}
 			case 4:
 			{
-				sm.settingsMenu();
-				break;
-			}
-			case 5:
-			{
 				sm.aboutMenu();
 				break;
 			}
-			case 6:
+			case 5:
 			{
 				window.close();
 				break;
