@@ -61,6 +61,7 @@ void Menu::draw()
 
 void Menu::update(sf::Vector2f mousePos, bool isClicked)
 {
+	selectedItemIndex = -1;
 	for (int i = 0; i < this->btnList.size(); ++i)
 	{
 		btnList[i]->updateState(mousePos, isClicked);
