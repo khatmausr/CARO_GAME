@@ -3,7 +3,7 @@
 void common::initGame()
 {
 	window.create(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "CARO GAME");
-	window.setFramerateLimit(60);
+	
 
 	t_menuBackground.loadFromFile("image/menu_background.png");
 	menuBackground.setTexture(t_menuBackground);
@@ -84,6 +84,7 @@ void common::runGame()
 	//Button btn(&t_blueButton_default, &t_blueButton_mouseOver, &t_blueButton_pressed, &s_optionSound, "NEW GAME", sf::Vector2f(500.0f, 50.0f));
 	// Opening
 	m.displayOpeningScreen();
+	window.setFramerateLimit(60);
 
 	// Init menu
 	mainMenu.pushButton(2, "CONTINUE");
