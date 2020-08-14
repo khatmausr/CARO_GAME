@@ -245,6 +245,7 @@ void common::runGame()
 					botMenu.update(sf::Vector2f(e.mouseMove.x, e.mouseMove.y), false);
 			}
 		}
+
 	}
 
 }
