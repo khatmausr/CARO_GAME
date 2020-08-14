@@ -77,4 +77,7 @@ bool Menu::onLoad()
 void Menu::setActive(bool isActive)
 {
 	this->isActive = isActive;
+	if (this->isActive)
+		for (Button* btn : btnList)
+			btn->setState(0);
 }
