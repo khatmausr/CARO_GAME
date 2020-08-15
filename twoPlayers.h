@@ -18,6 +18,7 @@ public:
 	void continueGame();
 	void runGame();
 
+	void processKeyPressed(int keyCode);
 	void changeTurn();
 	void displayWinners(int whoWin);
 };
