@@ -4,19 +4,11 @@
 class game
 {
 private:
-	bool continueGame;
-	int turn;
-	int  x, y;
-	std::string name1, name2;
+	twoPlayers g2;
 
 public:
-	board b;
-	
-	game();	
-	void setContinue(bool isContinue);
-	void loadGame();
 	bool isContinue();
-	void changeTurn();
+	void continueGame();
+
 	void startTwoPlayers();
-	void displayWinner(int whoWin);
 };

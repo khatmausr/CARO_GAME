@@ -80,7 +80,7 @@ void common::runGame()
 	Menu mainMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
 	Menu newGameMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
 	Menu botMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
-	subMenu sm;
+	//subMenu sm;
 	int choice = 1;
 	//Button btn(&t_blueButton_default, &t_blueButton_mouseOver, &t_blueButton_pressed, &s_optionSound, "NEW GAME", sf::Vector2f(500.0f, 50.0f));
 	// Opening
@@ -140,8 +140,8 @@ void common::runGame()
 						{
 						case 0:
 						{
-							g.startTwoPlayers();
-							if(!g.isContinue()) mainMenu.setActive(false);
+							if (g.isContinue()) g.continueGame();
+							//if(!g.isContinue()) mainMenu.setActive(false);
 							break;
 						}
 						case 1:
@@ -152,19 +152,19 @@ void common::runGame()
 						}
 						case 2:
 						{
-							sm.loadGameMenu(g);
+							//sm.loadGameMenu(g);
 							//mainMenu.setActive(false);
 							break;
 						}
 						case 3:
 						{
-							sm.highScoreMenu();
+							//sm.highScoreMenu();
 							//mainMenu.setActive(false);
 							break;
 						}
 						case 4:
 						{
-							sm.aboutMenu();
+							//sm.aboutMenu();
 							//mainMenu.setActive(false);
 							break;
 						}

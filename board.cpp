@@ -16,6 +16,13 @@ board::~board()
 	delete[] arr;
 }
 
+void board::resetBoard()
+{
+	for (int i = 0; i < BOARD_SIZE; i++)
+		for (int j = 0; j < BOARD_SIZE; j++)
+			arr[i][j] = 0;
+}
+
 void board::displayBoard()
 {
 	for (int i = 0; i < BOARD_SIZE; ++i)

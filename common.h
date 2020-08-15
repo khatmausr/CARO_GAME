@@ -8,12 +8,12 @@
 
 // Headers
 #include "board.h"
-#include "game.h"
 #include "mainMenu.h"
 #include "Menu.h"
 #include "onePlayer.h"
 #include "subMenu.h"
 #include "twoPlayers.h"
+#include "game.h"
 #include "button.h"
 
 // Define constants
