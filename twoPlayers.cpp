@@ -89,7 +89,7 @@ void twoPlayers::runGame()
 
     // Managing musics after exiting the game
     gameMusic.stop();
-    menuMusic.play();
+    if (window.isOpen()) menuMusic.play();
 }
 
 void twoPlayers::processKeyPressed(int keyCode, bool& isexit)
