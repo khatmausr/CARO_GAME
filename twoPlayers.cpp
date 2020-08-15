@@ -61,10 +61,7 @@ void twoPlayers::runGame()
             }
 
             if (e.type == Event::KeyPressed)
-            {
-                if (e.key.code == Keyboard::Escape) isexit = true;
-                else processKeyPressed(e.key.code, isexit);
-            }
+                processKeyPressed(e.key.code, isexit);
         }
 
         // Display
@@ -164,6 +161,8 @@ void twoPlayers::processKeyPressed(int keyCode, bool& isexit)
         }
         }
     }
+
+    if (keyCode == Keyboard::Escape) isexit = true;
 }
 
 void twoPlayers::changeTurn()
@@ -173,7 +172,7 @@ void twoPlayers::changeTurn()
 
 bool twoPlayers::displayWinners(int whoWin)
 // Return a value to show whether the players want to exit instead of play another game.
-// True: Want to stop, False: Want to play another game
+// True: Stop; False: Play another game
 {
     Text t;
     switch (whoWin)
@@ -245,5 +244,6 @@ bool twoPlayers::displayWinners(int whoWin)
 
         window.display();
     }
+
     return true;
 }
