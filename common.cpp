@@ -3,7 +3,7 @@
 void common::initGame()
 {
 	window.create(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "CARO GAME");
-	
+	window.setFramerateLimit(60);
 
 	t_menuBackground.loadFromFile("image/menu_background.png");
 	menuBackground.setTexture(t_menuBackground);
