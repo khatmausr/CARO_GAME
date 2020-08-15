@@ -63,7 +63,7 @@ void twoPlayers::runGame()
             if (e.type == Event::KeyPressed)
             {
                 if (e.key.code == Keyboard::Escape) isexit = true;
-                else processKeyPressed(e.key.code);
+                else processKeyPressed(e.key.code, isexit);
             }
         }
 
@@ -75,12 +75,12 @@ void twoPlayers::runGame()
 
         if (turn == 1)
         {
-            cursor_X.setPosition(Vector2f(BOARD_LEFT + x * 30, BOARD_TOP + y * 30));
+            cursor_X.setPosition(Vector2f(BOARD_LEFT + y * 30, BOARD_TOP + x * 30));
             window.draw(cursor_X);
         }
         else if (turn == -1)
         {
-            cursor_O.setPosition(Vector2f(BOARD_LEFT + x * 30, BOARD_TOP + y * 30));
+            cursor_O.setPosition(Vector2f(BOARD_LEFT + y * 30, BOARD_TOP + x * 30));
             window.draw(cursor_O);
         }
 
@@ -89,10 +89,10 @@ void twoPlayers::runGame()
 
     // Managing musics after exiting the game
     gameMusic.stop();
-    if (this->isContinue()) menuMusic.play();
+    menuMusic.play();
 }
 
-void twoPlayers::processKeyPressed(int keyCode)
+void twoPlayers::processKeyPressed(int keyCode, bool& isexit)
 {
     if (turn == 1) // X - player could control the game with AWSD and Space buttons
     {
@@ -100,29 +100,30 @@ void twoPlayers::processKeyPressed(int keyCode)
         {
         case Keyboard::A:
         {
-            if (x > 0) x--;
+            if (y > 0) y--;
             break;
         }
         case Keyboard::D:
         {
-            if (x < BOARD_SIZE - 1) x++;
+            if (y < BOARD_SIZE - 1) y++;
             break;
         }
         case Keyboard::W:
         {
-            if (y > 0) y--;
+            if (x > 0) x--;
             break;
         }
         case Keyboard::S:
         {
-            if (y < BOARD_SIZE - 1) y++;
+            if (x < BOARD_SIZE - 1) x++;
             break;
         }
         case Keyboard::Space:
         {
             if (b.markCell(x, y, turn))
             {
-                changeTurn();
+                if (b.checkBoard(x, y)) isexit = displayWinners(turn);
+                else changeTurn();
             }
             break;
         }
@@ -134,29 +135,30 @@ void twoPlayers::processKeyPressed(int keyCode)
         {
         case Keyboard::Left:
         {
-            if (x > 0) x--;
+            if (y > 0) y--;
             break;
         }
         case Keyboard::Right:
         {
-            if (x < BOARD_SIZE - 1) x++;
+            if (y < BOARD_SIZE - 1) y++;
             break;
         }
         case Keyboard::Up:
         {
-            if (y > 0) y--;
+            if (x > 0) x--;
             break;
         }
         case Keyboard::Down:
         {
-            if (y < BOARD_SIZE - 1) y++;
+            if (x < BOARD_SIZE - 1) x++;
             break;
         }
         case Keyboard::Enter:
         {
             if (b.markCell(x, y, turn))
             {
-                changeTurn();
+                if (b.checkBoard(x, y)) isexit = displayWinners(turn);
+                else changeTurn();
             }
             break;
         }
@@ -169,7 +171,79 @@ void twoPlayers::changeTurn()
     if (turn == 1) turn = -1; else turn = 1;
 }
 
-void twoPlayers::displayWinners(int whoWin)
+bool twoPlayers::displayWinners(int whoWin)
+// Return a value to show whether the players want to exit instead of play another game.
+// True: Want to stop, False: Want to play another game
 {
+    Text t;
+    switch (whoWin)
+    {
+    case -1:
+    {
+        t.setString("O win!\n Press Esc to Exit or Enter to play another game...");
+        break;
+    }
+    case 0:
+    {
+        t.setString("Draw!\n Press Esc to Exit or Enter to play another game...");
+        break;
+    }
+    case 1:
+    {
+        t.setString("X win!\n Press Esc to Exit or Enter to play another game...");
+        break;
+    }
+    }
+    t.setFont(font_arial);
+    t.setFillColor(Color::White);
+    t.setCharacterSize(30);
 
+    bool isexit = false;
+    while (!isexit)
+    {
+        // Event
+        Event e;
+
+        while (window.pollEvent(e))
+        {
+            if (e.type == Event::Closed)
+            {
+                turn = 0;
+                isexit = true;
+                window.close();
+            }
+
+            if (e.type == Event::KeyPressed)
+            {
+                switch (e.key.code)
+                {
+                case Keyboard::Escape:
+                {
+                    isexit = true;
+                    resetData();
+                    return true;
+                    break;
+                }
+                case Keyboard::Enter:
+                {
+                    isexit = true;
+                    resetData();
+                    turn = 1;
+                    return false;
+                    break;
+                }
+                }
+            }
+        }
+
+        // Display
+        window.clear(Color::White);
+        window.draw(gameBackground);
+       
+        b.displayBoard();
+        window.draw(t);
+
+        window.display();
+    }
+    return true;
 }

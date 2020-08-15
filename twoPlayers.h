@@ -18,7 +18,7 @@ public:
 	void continueGame();
 	void runGame();
 
-	void processKeyPressed(int keyCode);
+	void processKeyPressed(int keyCode, bool& isExit);
 	void changeTurn();
-	void displayWinners(int whoWin);
+	bool displayWinners(int whoWin);
 };
