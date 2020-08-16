@@ -21,8 +21,9 @@ void twoPlayers::resetData()
 
 void twoPlayers::newGame()
 {
-    turn = 1;
     scoreX = scoreO = 0;
+    resetData();
+    turn = 1;
     runGame();
 }
 
@@ -133,7 +134,7 @@ void twoPlayers::runGame()
 
 void twoPlayers::processKeyPressed(int keyCode, bool& isexit)
 {
-    int x_begin, y_begin, direction;
+    int x_begin = 0, y_begin = 0, direction = 0;
     if (turn == 1) // X - player could control the game with AWSD and Space buttons
     {
         switch (keyCode)
@@ -164,6 +165,8 @@ void twoPlayers::processKeyPressed(int keyCode, bool& isexit)
             {
                 if (direction = b.checkBoard(x, y, x_begin, y_begin))
                     isexit = displayWinners(x_begin, y_begin, direction, turn);
+                else if (b.getCountX() + b.getCountO() == BOARD_SIZE * BOARD_SIZE)
+                    isexit = displayWinners(0, 0, 0, 0);
                 else changeTurn();
             }
             break;
@@ -199,7 +202,9 @@ void twoPlayers::processKeyPressed(int keyCode, bool& isexit)
             if (b.markCell(x, y, turn))
             {
                 if (direction = b.checkBoard(x, y, x_begin, y_begin))
-                isexit = displayWinners(x_begin, y_begin, direction, turn);
+                    isexit = displayWinners(x_begin, y_begin, direction, turn);
+                else if (b.getCountX() + b.getCountO() == BOARD_SIZE * BOARD_SIZE)
+                    isexit = displayWinners(0, 0, 0, 0);
                 else changeTurn();
             }
             break;
@@ -224,48 +229,51 @@ bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int who
     line.setFillColor(Color::White);
     int length = 0;
 
-    switch (direction)
+    if (whoWin)
     {
-    case 1:
-    {
-        line.setPosition(Vector2f((float)BOARD_LEFT + y_begin * 30.f + 16.f, (float)BOARD_TOP + x_begin * 30.f));
-        length = 150;
-        line.rotate(90);
-        break;
-    }
-    case 2:
-    {
-        line.setPosition(Vector2f((float)BOARD_LEFT + y_begin * 30.f, (float)BOARD_TOP + x_begin * 30.f + 14.f));
-        length = 150;
-        break;
-    }
-    case 3:
-    {
-        line.setPosition(Vector2f((float)BOARD_LEFT + y_begin * 30.f + 3.f, (float)BOARD_TOP + x_begin * 30.f));
-        length = 210;
-        line.rotate(45);
-        break;
-    }
-    case 4:
-    {
-        line.setPosition(Vector2f((float)BOARD_LEFT + (y_begin + 1) * 30.f, (float)BOARD_TOP + x_begin * 30.f + 2.f));
-        length = 210;
-        line.rotate(135);
-        break;
-    }
-    }
+        switch (direction)
+        {
+        case 1:
+        {
+            line.setPosition(Vector2f((float)BOARD_LEFT + y_begin * 30.f + 16.f, (float)BOARD_TOP + x_begin * 30.f));
+            length = 150;
+            line.rotate(90);
+            break;
+        }
+        case 2:
+        {
+            line.setPosition(Vector2f((float)BOARD_LEFT + y_begin * 30.f, (float)BOARD_TOP + x_begin * 30.f + 14.f));
+            length = 150;
+            break;
+        }
+        case 3:
+        {
+            line.setPosition(Vector2f((float)BOARD_LEFT + y_begin * 30.f + 3.f, (float)BOARD_TOP + x_begin * 30.f));
+            length = 210;
+            line.rotate(45);
+            break;
+        }
+        case 4:
+        {
+            line.setPosition(Vector2f((float)BOARD_LEFT + (y_begin + 1) * 30.f, (float)BOARD_TOP + x_begin * 30.f + 2.f));
+            length = 210;
+            line.rotate(135);
+            break;
+        }
+        }
 
-    for (int i = 0; i < length; i += 5)
-    {
-        window.clear(Color::Black);
+        for (int i = 0; i < length; i += 5)
+        {
+            window.clear(Color::Black);
 
-        window.draw(gameBackground);
-        b.displayBoard();
+            window.draw(gameBackground);
+            b.displayBoard();
 
-        line.setSize(Vector2f((float)i, 5.f));
-        window.draw(line);
+            line.setSize(Vector2f((float)i, 5.f));
+            window.draw(line);
 
-        window.display();
+            window.display();
+        }
     }
 
     // Ask for continue
@@ -292,7 +300,8 @@ bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int who
     t.setFillColor(Color::White);
     t.setCharacterSize(30);
 
-    if (whoWin == 1) scoreX++; else scoreO++;
+    if (whoWin == 1) scoreX++; 
+    else if (whoWin == -1) scoreO++;
 
     bool isexit = false;
     while (!isexit)
@@ -338,7 +347,7 @@ bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int who
         window.draw(gameBackground); 
         b.displayBoard();
         
-        window.draw(line);
+        if (whoWin) window.draw(line);
         window.draw(t);
 
         window.display();
