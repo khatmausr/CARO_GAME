@@ -267,9 +267,8 @@ bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int who
 
         window.display();
     }
-    sleep(milliseconds(3000));
 
-    //
+    // Ask for continue
     Text t;
     switch (whoWin)
     {
@@ -335,9 +334,11 @@ bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int who
 
         // Display
         window.clear(Color::White);
-        window.draw(gameBackground);
-       
+        
+        window.draw(gameBackground); 
         b.displayBoard();
+        
+        window.draw(line);
         window.draw(t);
 
         window.display();
