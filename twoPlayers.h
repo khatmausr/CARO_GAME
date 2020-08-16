@@ -7,6 +7,7 @@ private:
 	board b;
 	int turn;
 	int x, y;
+	int scoreX, scoreO;
 
 public:
 	twoPlayers();
@@ -20,5 +21,5 @@ public:
 
 	void processKeyPressed(int keyCode, bool& isExit);
 	void changeTurn();
-	bool displayWinners(int whoWin);
+	bool displayWinners(int x_begin, int y_begin, int direction, int whoWin);
 };

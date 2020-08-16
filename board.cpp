@@ -8,12 +8,14 @@ board::board()
 		arr[i] = new int[BOARD_SIZE];
 		for (int j = 0; j < BOARD_SIZE; j++) arr[i][j] = 0;
 	}
+	countX = countO = 0;
 }
 
 board::~board()
 {
 	for (int i = 0; i < BOARD_SIZE; i++) delete[] arr[i];
 	delete[] arr;
+	countX = countO = 0;
 }
 
 void board::resetBoard()
@@ -21,6 +23,7 @@ void board::resetBoard()
 	for (int i = 0; i < BOARD_SIZE; i++)
 		for (int j = 0; j < BOARD_SIZE; j++)
 			arr[i][j] = 0;
+	countX = countO = 0;
 }
 
 void board::displayBoard()
@@ -44,14 +47,17 @@ bool board::markCell(int x, int y, int val)
 	if (!arr[x][y])
 	{
 		arr[x][y] = val;
+		if (val == 1) countX++;
+		else if (val == -1) countO++;
 		return true;
 	}
 	return false;
 }
 
-int board::checkBoard(int x, int y) 
+int board::checkBoard(int x, int y, int& x_begin, int& y_begin) 
 // Return direction of winning cells: 0 - Nothing, 1 - Vertical, 2 - Horizon, 3 - Diagonal, 4 - Anti Diagonal
 {
+	x_begin = 0; y_begin = 0;
 	if (arr[x][y] == 0) return 0;
 
 	// Declairing
@@ -65,7 +71,11 @@ int board::checkBoard(int x, int y)
 	if (i_above == 0) block_above = 1; else block_above = arr[i_above - 1][y];
 	if (i_below == BOARD_SIZE - 1) block_below = 1; else block_below = arr[i_below + 1][y];
 
-	if ((i_below - i_above + 1 == 5) && (!block_above || !block_below)) return 1;
+	if ((i_below - i_above + 1 == 5) && (!block_above || !block_below))
+	{
+		x_begin = i_above; y_begin = y;
+		return 1;
+	}
 
 	// Check horizon
 	j_left = j_right = y;
@@ -74,7 +84,11 @@ int board::checkBoard(int x, int y)
 	if (j_left == 0) block_left = 1; else block_left = arr[x][j_left - 1];
 	if (j_right == BOARD_SIZE - 1) block_right = 1; else block_right = arr[x][j_right + 1];
 
-	if ((j_right - j_left + 1 == 5) && (!block_left || !block_right)) return 2;
+	if ((j_right - j_left + 1 == 5) && (!block_left || !block_right))
+	{
+		x_begin = x; y_begin = j_left;
+		return 2;
+	}
 
 	// Check diagonal
 	i_above = i_below = x; j_left = j_right = y;
@@ -83,7 +97,11 @@ int board::checkBoard(int x, int y)
 	if ((i_above == 0) || (j_left == 0)) block_above = 1; else block_above = arr[i_above - 1][j_left - 1];
 	if ((i_below == BOARD_SIZE - 1) || (j_right == BOARD_SIZE - 1)) block_below = 1; else block_below = arr[i_below + 1][j_right + 1];
 
-	if ((i_below - i_above + 1 == 5) && (!block_above || !block_below)) return 3;
+	if ((i_below - i_above + 1 == 5) && (!block_above || !block_below))
+	{
+		x_begin = i_above; y_begin = j_left;
+		return 3;
+	}
 
 	// Check anti-diagonal
 	i_above = i_below = x; j_left = j_right = y;
@@ -92,8 +110,21 @@ int board::checkBoard(int x, int y)
 	if ((i_above == 0) || (j_right == BOARD_SIZE - 1)) block_above = 1; else block_above = arr[i_above - 1][j_right + 1];
 	if ((i_below == BOARD_SIZE - 1) || (j_left == 0)) block_below = 1; else block_below = arr[i_below + 1][j_left - 1];
 
-	if ((i_below - i_above + 1 == 5) && (!block_above || !block_below)) return 4;
-
+	if ((i_below - i_above + 1 == 5) && (!block_above || !block_below))
+	{
+		x_begin = i_above; y_begin = j_right;
+		return 4;
+	}
 	// Not any case? => return 0
 	return 0;
+}
+
+int board::getCountX()
+{
+	return countX;
+}
+
+int board::getCountO()
+{
+	return countO;
 }
