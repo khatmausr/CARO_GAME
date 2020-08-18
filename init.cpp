@@ -45,10 +45,4 @@ Texture t_brownButton_mouseOver;
 Texture t_redButton_mouseOver;
 Texture t_yellowButton_mouseOver;
 
-Texture t_greenButton_pressed;
-Texture t_blueButton_pressed;
-Texture t_brownButton_pressed;
-Texture t_redButton_pressed;
-Texture t_yellowButton_pressed;
-
 

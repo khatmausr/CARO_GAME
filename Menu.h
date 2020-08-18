@@ -8,7 +8,6 @@
 class Menu
 {
 private:
-	bool isActive;
 
 	sf::Sprite background;
 
@@ -19,6 +18,7 @@ private:
 	
 public:
 	/*Menu();*/
+	bool isActive;
 	int selectedItemIndex;
 	Menu(sf::Texture* backGroundTexture, sf::Vector2f position, float buttonSpacing);
 	
@@ -27,7 +27,8 @@ public:
 	void pushButton(unsigned int btnCode, std::string title);
 	void draw();
 	void update(sf::Vector2f mousePos, bool isClicked);
-	bool onLoad();
-	void setActive(bool isActive);
+	/*bool onLoad();
+	void setActive(bool isActive);*/
+	void setActiveBtn(unsigned int idx, bool isActive);
 };
 

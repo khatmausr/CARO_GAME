@@ -35,15 +35,11 @@ void common::initGame()
 		std::cout << "Can not load texture!\n";
 	if (!t_blueButton_mouseOver.loadFromFile("image/Button/Blue/Button-mouseOver.png"))
 		std::cout << "Can not load texture!\n";
-	if (!t_blueButton_pressed.loadFromFile("image/Button/Blue/Button-pressed.png"))
-		std::cout << "Can not load texture!\n";
 
 	// Brown
 	if (!t_brownButton_default.loadFromFile("image/Button/Brown/Button-default.png"))
 		std::cout << "Can not load texture!\n";
 	if (!t_brownButton_mouseOver.loadFromFile("image/Button/Brown/Button-mouseOver.png"))
-		std::cout << "Can not load texture!\n";
-	if (!t_brownButton_pressed.loadFromFile("image/Button/Brown/Button-pressed.png"))
 		std::cout << "Can not load texture!\n";
 
 	// Green
@@ -51,23 +47,17 @@ void common::initGame()
 		std::cout << "Can not load texture!\n";
 	if (!t_greenButton_mouseOver.loadFromFile("image/Button/Green/Button-mouseOver.png"))
 		std::cout << "Can not load texture!\n";
-	if (!t_greenButton_pressed.loadFromFile("image/Button/Green/Button-pressed.png"))
-		std::cout << "Can not load texture!\n";
 
 	// Red
 	if (!t_redButton_default.loadFromFile("image/Button/Red/Button-default.png"))
 		std::cout << "Can not load texture!\n";
 	if (!t_redButton_mouseOver.loadFromFile("image/Button/Red/Button-mouseOver.png"))
 		std::cout << "Can not load texture!\n";
-	if (!t_redButton_pressed.loadFromFile("image/Button/Red/Button-pressed.png"))
-		std::cout << "Can not load texture!\n";
 
 	// Yellow
 	if (!t_yellowButton_default.loadFromFile("image/Button/Yellow/Button-default.png"))
 		std::cout << "Can not load texture!\n";
 	if (!t_yellowButton_mouseOver.loadFromFile("image/Button/Yellow/Button-mouseOver.png"))
-		std::cout << "Can not load texture!\n";
-	if (!t_yellowButton_pressed.loadFromFile("image/Button/Yellow/Button-pressed.png"))
 		std::cout << "Can not load texture!\n";
 
 }
@@ -94,7 +84,8 @@ void common::runGame()
 	mainMenu.pushButton(1, "HIGH SCORE");
 	mainMenu.pushButton(1, "ABOUT");
 	mainMenu.pushButton(3, "QUIT");
-	mainMenu.setActive(true);
+	mainMenu.setActiveBtn(0, false);
+	mainMenu.isActive = true;
 
 	// Init newGameMenu
 	newGameMenu.pushButton(2, "SINGLE PLAYER");
@@ -119,7 +110,7 @@ void common::runGame()
 		Event e;
 		/*while (window.pollEvent(e))
 			if (e.type == sf::Event::Closed) window.close();*/
-		while (mainMenu.onLoad())
+		while (mainMenu.isActive)
 		{
 			window.clear();
 			mainMenu.draw();
@@ -129,7 +120,7 @@ void common::runGame()
 				if (e.type == sf::Event::Closed)
 				{
 					window.close();
-					mainMenu.setActive(false);
+					mainMenu.isActive = false;
 				}
 				if (e.type == sf::Event::MouseButtonPressed)
 				{
@@ -146,8 +137,8 @@ void common::runGame()
 						}
 						case 1:
 						{
-							newGameMenu.setActive(true);
-							mainMenu.setActive(false);
+							newGameMenu.isActive = true;
+							mainMenu.isActive = false;
 							break;
 						}
 						case 2:
@@ -171,7 +162,7 @@ void common::runGame()
 						case 5:
 						{
 							window.close();
-							mainMenu.setActive(false);
+							mainMenu.isActive = false;
 							break;
 						}
 						}
@@ -181,7 +172,7 @@ void common::runGame()
 					mainMenu.update(sf::Vector2f((float) e.mouseMove.x, (float) e.mouseMove.y), false);
 			}
 		}
-		while (newGameMenu.onLoad())
+		while (newGameMenu.isActive)
 		{
 			window.clear();
 			newGameMenu.draw();
@@ -191,7 +182,7 @@ void common::runGame()
 				if (e.type == sf::Event::Closed)
 				{
 					window.close();
-					newGameMenu.setActive(false);
+					newGameMenu.isActive = false;
 				}
 				if (e.type == sf::Event::MouseButtonPressed)
 				{
@@ -201,13 +192,15 @@ void common::runGame()
 						switch (newGameMenu.selectedItemIndex)
 						{
 						case 0:
-							botMenu.setActive(true);
-							newGameMenu.setActive(false);
+							botMenu.isActive = true;
+							newGameMenu.isActive = false;
 							break;
 						case 1:
 							g.startTwoPlayers();
-							mainMenu.setActive(true);
-							newGameMenu.setActive(false);
+							if (g.isContinue()) mainMenu.setActiveBtn(0, true);
+							else mainMenu.setActiveBtn(0, false);
+							mainMenu.isActive = true;
+							newGameMenu.isActive = false;
 							break;
 						}
 					}
@@ -216,7 +209,7 @@ void common::runGame()
 					newGameMenu.update(sf::Vector2f((float) e.mouseMove.x, (float) e.mouseMove.y), false);
 			}
 		}
-		while (botMenu.onLoad())
+		while (botMenu.isActive)
 		{
 			window.clear();
 			botMenu.draw();
@@ -226,7 +219,7 @@ void common::runGame()
 				if (e.type == sf::Event::Closed)
 				{
 					window.close();
-					botMenu.setActive(false);
+					botMenu.isActive = false;
 				}
 				if (e.type == sf::Event::MouseButtonPressed)
 				{
