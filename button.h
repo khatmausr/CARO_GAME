@@ -5,6 +5,7 @@
 class Button
 {
 private:
+
 	sf::Sound soundEffect;
 
 	sf::Sprite defaultPlaceHolder;
@@ -15,6 +16,7 @@ private:
 
 	sf::Sprite* currentSprite;
 public:
+	bool isActive;
 	unsigned int currentState; // 0 : default | 1 : mouse over OR selected | 2 : pressed
 public:
 	// Constructors of Button
@@ -24,11 +26,12 @@ public:
 	// Destructor
 	~Button();
 	// Methods
-	void updateState(sf::Vector2f mousePos, bool isClicked);
+	void update(sf::Vector2f mousePos, bool isClicked);
 	void setText(std::string title);
 	void setState(unsigned int state);
 	unsigned int getState();
 	void setPosition(sf::Vector2f position);
+	sf::Vector2f getPosition();
 	void draw();
 };
 

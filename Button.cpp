@@ -8,6 +8,8 @@
 //}
 Button::Button(sf::Texture* defaultTexture, sf::Texture* mouseOverTexture, sf::SoundBuffer* soundBuffer, std::string title, sf::Vector2f position)
 {
+	isActive = true;
+
 	currentState = 0;
 
 	defaultPlaceHolder.setTexture(*defaultTexture);
@@ -67,7 +69,7 @@ Button::~Button()
 	currentSprite = NULL;
 }
 
-void Button::updateState(sf::Vector2f mousePos, bool isClicked)
+void Button::update(sf::Vector2f mousePos, bool isClicked)
 {
 	sf::FloatRect radius = currentSprite->getGlobalBounds();
 	if ((mousePos.x > radius.left) && (mousePos.x < (radius.left + radius.width))
@@ -119,9 +121,18 @@ void Button::setPosition(sf::Vector2f position)
 	title.setPosition(position);
 }
 
+sf::Vector2f Button::getPosition()
+{
+	return sf::Vector2f(this->currentSprite->getPosition());
+}
+
 void Button::draw()
 {
-	window.draw(*this->currentSprite);
-	window.draw(this->titleShadow);
-	window.draw(this->title);
+	if (this->isActive)
+	{
+		window.draw(*this->currentSprite);
+		window.draw(this->titleShadow);
+		window.draw(this->title);
+	}
 }
+

@@ -64,21 +64,33 @@ void Menu::update(sf::Vector2f mousePos, bool isClicked)
 	selectedItemIndex = -1;
 	for (unsigned int i = 0; i < this->btnList.size(); ++i)
 	{
-		btnList[i]->updateState(mousePos, isClicked);
+		btnList[i]->update(mousePos, isClicked);
 		if (btnList[i]->getState() == 2)
 			selectedItemIndex = i;
 	}
 }
 
-bool Menu::onLoad()
+void Menu::setActiveBtn(unsigned int idx, bool isActive)
 {
-	return isActive;
+	btnList[idx]->isActive = isActive;
+	int counter = 0;
+	for(int i = 0;i<btnList.size();++i)
+		if (btnList[i]->isActive)
+		{
+			btnList[i]->setPosition(sf::Vector2f(position.x, position.y + buttonSpacing * counter));
+			counter++;
+		}
 }
 
-void Menu::setActive(bool isActive)
-{
-	this->isActive = isActive;
-	if (this->isActive)
-		for (Button* btn : btnList)
-			btn->setState(0);
-}
+//bool Menu::onLoad()
+//{
+//	return isActive;
+//}
+//
+//void Menu::setActive(bool isActive)
+//{
+//	this->isActive = isActive;
+//	if (this->isActive)
+//		for (Button* btn : btnList)
+//			btn->setState(0);
+//}
