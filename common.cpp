@@ -131,7 +131,7 @@ void common::runGame()
 						{
 						case 0:
 						{
-							if (g.isContinue()) g.continueGame();
+							g.continueGame();
 							//if(!g.isContinue()) mainMenu.setActive(false);
 							break;
 						}

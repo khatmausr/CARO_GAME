@@ -59,7 +59,7 @@ Button::Button(const Button& btn, sf::Vector2f position)
 	this->title.setPosition(position);
 
 	this->titleShadow = btn.titleShadow;
-	this->title.setPosition(position.x + 3, position.y);
+	this->titleShadow.setPosition(position.x + 3, position.y);
 
 	this->currentState = 0;
 }
@@ -119,6 +119,7 @@ void Button::setPosition(sf::Vector2f position)
 	defaultPlaceHolder.setPosition(position);
 	mouseOverPlaceHolder.setPosition(position);
 	title.setPosition(position);
+	this->titleShadow.setPosition(position.x + 3, position.y);
 }
 
 sf::Vector2f Button::getPosition()
