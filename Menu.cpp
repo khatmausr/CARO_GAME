@@ -34,19 +34,19 @@ void Menu::pushButton(unsigned int btnCode, std::string title)
 	switch (btnCode)
 	{
 	case 0:
-		btnTemp = new Button(&t_blueButton_default, &t_blueButton_mouseOver, &t_blueButton_pressed, &s_optionSound, title, absPosition);
+		btnTemp = new Button(&t_blueButton_default, &t_blueButton_mouseOver, &s_optionSound, title, absPosition);
 		break;
 	case 1:
-		btnTemp = new Button(&t_brownButton_default, &t_brownButton_mouseOver, &t_brownButton_pressed, &s_optionSound, title, absPosition);
+		btnTemp = new Button(&t_brownButton_default, &t_brownButton_mouseOver, &s_optionSound, title, absPosition);
 		break;
 	case 2:
-		btnTemp = new Button(&t_greenButton_default, &t_greenButton_mouseOver, &t_greenButton_pressed, &s_optionSound, title, absPosition);
+		btnTemp = new Button(&t_greenButton_default, &t_greenButton_mouseOver, &s_optionSound, title, absPosition);
 		break;
 	case 3:
-		btnTemp = new Button(&t_redButton_default, &t_redButton_mouseOver, &t_redButton_pressed, &s_optionSound, title, absPosition);
+		btnTemp = new Button(&t_redButton_default, &t_redButton_mouseOver, &s_optionSound, title, absPosition);
 		break;
 	case 4:
-		btnTemp = new Button(&t_yellowButton_default, &t_yellowButton_mouseOver, &t_yellowButton_pressed, &s_optionSound, title, absPosition);
+		btnTemp = new Button(&t_yellowButton_default, &t_yellowButton_mouseOver, &s_optionSound, title, absPosition);
 		break;
 	}
 	btnList.push_back(btnTemp);

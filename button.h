@@ -9,16 +9,17 @@ private:
 
 	sf::Sprite defaultPlaceHolder;
 	sf::Sprite mouseOverPlaceHolder;
-	sf::Sprite pressedPlaceHolder;
+
 	sf::Text title;
 	sf::Text titleShadow;
+
 	sf::Sprite* currentSprite;
 public:
 	unsigned int currentState; // 0 : default | 1 : mouse over OR selected | 2 : pressed
 public:
 	// Constructors of Button
 	//Button();
-	Button(sf::Texture* defaultTexture,sf::Texture* mouseOverTexture,sf::Texture* pressedTexture,sf::SoundBuffer* soundBuffer, std::string title, sf::Vector2f position);
+	Button(sf::Texture* defaultTexture,sf::Texture* mouseOverTexture,sf::SoundBuffer* soundBuffer, std::string title, sf::Vector2f position);
 	Button(const Button& btn, sf::Vector2f position);
 	// Destructor
 	~Button();

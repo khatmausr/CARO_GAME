@@ -6,7 +6,7 @@
 //	currentSprite = NULL;
 //	currentState = 0;
 //}
-Button::Button(sf::Texture* defaultTexture, sf::Texture* mouseOverTexture, sf::Texture* pressedTexture, sf::SoundBuffer* soundBuffer, std::string title, sf::Vector2f position)
+Button::Button(sf::Texture* defaultTexture, sf::Texture* mouseOverTexture, sf::SoundBuffer* soundBuffer, std::string title, sf::Vector2f position)
 {
 	currentState = 0;
 
@@ -19,10 +19,6 @@ Button::Button(sf::Texture* defaultTexture, sf::Texture* mouseOverTexture, sf::T
 	mouseOverPlaceHolder.setTexture(*mouseOverTexture);
 	mouseOverPlaceHolder.setOrigin(mouseOverTexture->getSize().x / 2.0f, mouseOverTexture->getSize().y / 2.0f);
 	mouseOverPlaceHolder.setPosition(position);
-
-	pressedPlaceHolder.setTexture(*pressedTexture);
-	pressedPlaceHolder.setOrigin(pressedTexture->getSize().x / 2.0f, pressedTexture->getSize().y / 2.0f);
-	pressedPlaceHolder.setPosition(position);
 
 	currentSprite = &defaultPlaceHolder; // Default placeHolder (no cursor on this button)
 
@@ -52,9 +48,6 @@ Button::Button(const Button& btn, sf::Vector2f position)
 
 	this->mouseOverPlaceHolder = btn.defaultPlaceHolder;
 	this->mouseOverPlaceHolder.setPosition(position);
-
-	this->pressedPlaceHolder = btn.defaultPlaceHolder;
-	this->pressedPlaceHolder.setPosition(position);
 
 	this->currentSprite = &this->defaultPlaceHolder;
 
@@ -112,8 +105,6 @@ void Button::setState(unsigned int state)
 		currentSprite = &defaultPlaceHolder;
 	else if (currentState == 1)
 		currentSprite = &mouseOverPlaceHolder;
-	else if (currentState == 2)
-		currentSprite = &pressedPlaceHolder;
 }
 
 unsigned int Button::getState()
@@ -125,7 +116,6 @@ void Button::setPosition(sf::Vector2f position)
 {
 	defaultPlaceHolder.setPosition(position);
 	mouseOverPlaceHolder.setPosition(position);
-	pressedPlaceHolder.setPosition(position);
 	title.setPosition(position);
 }
 

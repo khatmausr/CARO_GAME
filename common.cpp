@@ -35,15 +35,11 @@ void common::initGame()
 		std::cout << "Can not load texture!\n";
 	if (!t_blueButton_mouseOver.loadFromFile("image/Button/Blue/Button-mouseOver.png"))
 		std::cout << "Can not load texture!\n";
-	if (!t_blueButton_pressed.loadFromFile("image/Button/Blue/Button-pressed.png"))
-		std::cout << "Can not load texture!\n";
 
 	// Brown
 	if (!t_brownButton_default.loadFromFile("image/Button/Brown/Button-default.png"))
 		std::cout << "Can not load texture!\n";
 	if (!t_brownButton_mouseOver.loadFromFile("image/Button/Brown/Button-mouseOver.png"))
-		std::cout << "Can not load texture!\n";
-	if (!t_brownButton_pressed.loadFromFile("image/Button/Brown/Button-pressed.png"))
 		std::cout << "Can not load texture!\n";
 
 	// Green
@@ -51,23 +47,17 @@ void common::initGame()
 		std::cout << "Can not load texture!\n";
 	if (!t_greenButton_mouseOver.loadFromFile("image/Button/Green/Button-mouseOver.png"))
 		std::cout << "Can not load texture!\n";
-	if (!t_greenButton_pressed.loadFromFile("image/Button/Green/Button-pressed.png"))
-		std::cout << "Can not load texture!\n";
 
 	// Red
 	if (!t_redButton_default.loadFromFile("image/Button/Red/Button-default.png"))
 		std::cout << "Can not load texture!\n";
 	if (!t_redButton_mouseOver.loadFromFile("image/Button/Red/Button-mouseOver.png"))
 		std::cout << "Can not load texture!\n";
-	if (!t_redButton_pressed.loadFromFile("image/Button/Red/Button-pressed.png"))
-		std::cout << "Can not load texture!\n";
 
 	// Yellow
 	if (!t_yellowButton_default.loadFromFile("image/Button/Yellow/Button-default.png"))
 		std::cout << "Can not load texture!\n";
 	if (!t_yellowButton_mouseOver.loadFromFile("image/Button/Yellow/Button-mouseOver.png"))
-		std::cout << "Can not load texture!\n";
-	if (!t_yellowButton_pressed.loadFromFile("image/Button/Yellow/Button-pressed.png"))
 		std::cout << "Can not load texture!\n";
 
 }
