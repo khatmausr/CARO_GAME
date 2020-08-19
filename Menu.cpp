@@ -13,7 +13,7 @@ Menu::Menu(sf::Texture* backGroundTexture, sf::Vector2f position, float buttonSp
 	background.setTexture(*backGroundTexture);
 	selectedItemIndex = -1;
 	this->buttonSpacing = buttonSpacing;
-	this->isActive = false;
+	this->isActive = false;;
 	this->position = position;
 }
 
@@ -74,7 +74,7 @@ void Menu::setActiveBtn(unsigned int idx, bool isActive)
 {
 	btnList[idx]->isActive = isActive;
 	int counter = 0;
-	for(int i = 0;i<btnList.size();++i)
+	for(unsigned int i = 0;i < btnList.size();++i)
 		if (btnList[i]->isActive)
 		{
 			btnList[i]->setPosition(sf::Vector2f(position.x, position.y + buttonSpacing * counter));
