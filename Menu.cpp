@@ -13,7 +13,7 @@ Menu::Menu(sf::Texture* backGroundTexture, sf::Vector2f position, float buttonSp
 	background.setTexture(*backGroundTexture);
 	selectedItemIndex = -1;
 	this->buttonSpacing = buttonSpacing;
-	this->isActive = false;;
+	this->isActive = false;
 	this->position = position;
 }
 
