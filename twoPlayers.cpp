@@ -4,7 +4,7 @@ twoPlayers::twoPlayers()
 {
     x = BOARD_SIZE / 2 - 1; y = BOARD_SIZE / 2 - 1;
     scoreX = scoreO = 0;
-    turn = 0;
+    isExit = 0; turn = 0;
 }
 
 bool twoPlayers::isContinue()
@@ -16,7 +16,7 @@ void twoPlayers::resetData()
 {
     b.resetBoard();
     x = BOARD_SIZE / 2 - 1; y = BOARD_SIZE / 2 - 1;
-    turn = 0;
+    isExit = 0; turn = 0;
 }
 
 void twoPlayers::newGame()
@@ -29,6 +29,7 @@ void twoPlayers::newGame()
 
 void twoPlayers::continueGame()
 {
+    isExit = 0;
     runGame();
 }
 
@@ -36,94 +37,24 @@ void twoPlayers::runGame()
 {
     // Managing musics
     menuMusic.stop();
-
-    Music gameMusic;
-    gameMusic.openFromFile("sound/game_music.ogg");
-    gameMusic.setLoop(true); gameMusic.play();
-
-    // Loading cursor - objects
-    Texture t1, t2;
-    t1.loadFromFile("image/x_cursor.png"); t1.setSmooth(true);
-    t2.loadFromFile("image/o_cursor.png"); t2.setSmooth(true);
-    Sprite cursor_X(t1), cursor_O(t2);
-
-    Texture t_x_big, t_o_big;
-    t_x_big.loadFromFile("image/x_big.png"); t_x_big.setSmooth(true);
-    t_o_big.loadFromFile("image/o_big.png"); t_o_big.setSmooth(true);
-    Sprite x_big(t_x_big), o_big(t_o_big);
-    x_big.setPosition(Vector2f(42.f, 263.f));
-    o_big.setPosition(Vector2f(958.f, 263.f));
-
-    // Loading statistic variables
-    Text txt_countX, txt_countO, txt_scoreX, txt_scoreO;
-
-    txt_scoreX.setFont(font_arial);
-    txt_scoreX.setFillColor(Color::White);
-    txt_scoreX.setCharacterSize(100);
-    txt_scoreX.setPosition(Vector2f(100.f, 50.f));
-
-    txt_scoreO.setFont(font_arial);
-    txt_scoreO.setFillColor(Color::White);
-    txt_scoreO.setCharacterSize(100);
-    txt_scoreO.setPosition(Vector2f(1000.f, 50.f));
-
-    txt_countX.setFont(font_arial);
-    txt_countX.setFillColor(Color::White);
-    txt_countX.setCharacterSize(30);
-    txt_countX.setPosition(Vector2f(20.f, 600.f));
-
-    txt_countO.setFont(font_arial);
-    txt_countO.setFillColor(Color::White);
-    txt_countO.setCharacterSize(30);
-    txt_countO.setPosition(Vector2f(950.f, 600.f));
+    gameMusic.play();
 
     // Game Window
-    bool isexit = false;
-    while (!isexit)
+    while (!isExit)
     {
         // Event
         Event e;
 
         while (window.pollEvent(e))
         {
-            if (e.type == Event::Closed)
-            {
-                turn = 0;
-                isexit = true;
-                window.close();
-            }
+            if (e.type == Event::Closed) exitGame();
 
             if (e.type == Event::KeyPressed)
-                processKeyPressed(e.key.code, isexit);
+                processKeyPressed(e.key.code);
         }
 
         // Display
-        window.clear(Color::White);
-        window.draw(gameBackground);
-
-        b.displayBoard();
-        
-        txt_scoreX.setString(std::to_string(scoreX)); window.draw(txt_scoreX);
-        txt_scoreO.setString(std::to_string(scoreO)); window.draw(txt_scoreO);
-
-        txt_countX.setString("Number of ticking:\n" + std::to_string(b.getCountX())); window.draw(txt_countX);
-        txt_countO.setString("Number of ticking:\n" + std::to_string(b.getCountO())); window.draw(txt_countO);
-
-        if (turn == 1)
-        {
-            x_big.setColor(Color(255, 255, 255, 255)); o_big.setColor(Color(255, 255, 255, 100));
-            cursor_X.setPosition(Vector2f(BOARD_LEFT + y * 30, BOARD_TOP + x * 30));
-            window.draw(cursor_X);
-        }
-        else if (turn == -1)
-        {
-            x_big.setColor(Color(255, 255, 255, 100)); o_big.setColor(Color(255, 255, 255, 255));
-            cursor_O.setPosition(Vector2f(BOARD_LEFT + y * 30, BOARD_TOP + x * 30));
-            window.draw(cursor_O);
-        }
-        
-        window.draw(x_big); window.draw(o_big);
-
+        displayGameScreen();
         window.display();
     }
 
@@ -132,9 +63,308 @@ void twoPlayers::runGame()
     if (window.isOpen()) menuMusic.play();
 }
 
-void twoPlayers::processKeyPressed(int keyCode, bool& isexit)
+void twoPlayers::exitGame()
+{
+    turn = 0;
+    isExit = true;
+    gameMusic.stop(); menuMusic.stop();
+    window.close();
+}
+
+// Save - Load Game Data Struct - Using for storing data by binary format file
+struct saveGameData
+{
+    int _board[BOARD_SIZE * BOARD_SIZE + 2];
+    int _turn;
+    int _x, _y;
+    int _scoreX, _scoreO;
+    bool _isExit;
+};
+
+void twoPlayers::askForSave()
+{
+    // Declaire some objects
+    RectangleShape tint(Vector2f((float)WINDOW_WIDTH, (float)WINDOW_HEIGHT));
+
+    Text txt_title, txt_filename, txt_describe;
+
+    txt_title.setFont(font_arial);
+    txt_title.setFillColor(Color::White);
+    txt_title.setCharacterSize(100);
+    txt_title.setStyle(Text::Bold);
+    txt_title.setPosition(Vector2f(150.f, 200.f));
+    txt_title.setString("Directly Save Game");
+
+    txt_filename.setFont(font_arial);
+    txt_filename.setFillColor(Color::White);
+    txt_filename.setCharacterSize(40);
+    txt_filename.setPosition(Vector2f(150.f, 400.f));
+    txt_filename.setString(".SGO");
+
+    txt_describe.setFont(font_arial);
+    txt_describe.setFillColor(Color::White);
+    txt_describe.setCharacterSize(30);
+    txt_describe.setStyle(Text::Bold);
+    txt_describe.setPosition(Vector2f(20.f, 650.f));
+    txt_describe.setString("When you're done, Press 'ENTER' to save. Or Press 'ESC' to return to the game...");
+
+    // Dimming
+    for (int i = 0; i <= 40; i++)
+    {
+        displayGameScreen();
+        tint.setFillColor(Color(0, 0, 0, i * 5)); window.draw(tint);
+        window.display();
+    }
+
+    // Refresh event
+    Event temp; window.pollEvent(temp);
+
+    // Entering
+    bool isDone = 0;
+    std::string filename = "";
+    while (!isDone)
+    {
+        Event e;
+
+        while (window.pollEvent(e))
+        {
+            if (e.type == Event::Closed)
+            {
+                exitGame();
+                isDone = true;
+            }
+
+            if (e.type == Event::TextEntered)
+            {
+                switch (e.text.unicode)
+                {
+                case ASCII_BACKSPACE:
+                {
+                    if (filename.length() > 0)
+                    {
+                        filename.pop_back();
+                        txt_filename.setString(filename + ".SGO");
+                    }
+                    break;
+                }
+                case ASCII_ENTER:
+                {
+                    saveGame(filename);
+
+                    Text txt_status;
+                    txt_status.setFont(font_arial);
+                    txt_status.setCharacterSize(25);
+                    txt_status.setStyle(Text::Italic);
+                    txt_status.setString("Done!");
+
+                    for (int i = 0; i <= 25; i++)
+                    {
+                        txt_status.setFillColor(Color(0, 255, 0, i * 10));
+                        txt_status.setPosition(Vector2f(150.f, 400.f + 2.f * i));
+
+                        displayGameScreen(); window.draw(tint);
+                        window.draw(txt_title); window.draw(txt_filename); window.draw(txt_status); window.draw(txt_describe);
+                        window.display();
+                    }
+
+                    sleep(milliseconds(1000));
+
+                    isDone = true;
+                    break;
+                }
+                case ASCII_ESC:
+                {
+                    isDone = true;
+                    break;
+                }
+                default:
+                {
+                    if ((('a' <= e.text.unicode) && (e.text.unicode <= 'z')) || (('A' <= e.text.unicode) && (e.text.unicode <= 'Z')) ||
+                        (('0' <= e.text.unicode) && (e.text.unicode <= '9')) || (e.text.unicode == '_') || (e.text.unicode == '-'))
+                    {
+                        filename += e.text.unicode;
+                        txt_filename.setString(filename + ".SGO");
+                    }
+                }
+                }
+            }
+        }
+
+        displayGameScreen(); window.draw(tint);
+        window.draw(txt_title); window.draw(txt_filename); window.draw(txt_describe);
+        window.display();
+    }
+
+    // Dimming
+    for (int i = 40; i >= 0; i--)
+    {
+        displayGameScreen();
+        tint.setFillColor(Color(0, 0, 0, i * 5)); window.draw(tint);
+        window.display();
+    }
+}
+
+void twoPlayers::saveGame(std::string filename)
+{
+    std::vector <int> dataBoard = b.exportBoard();
+
+    saveGameData data;
+    for (int i = 0; i < BOARD_SIZE * BOARD_SIZE + 2; i++) data._board[i] = dataBoard[i];
+    data._turn = turn;
+    data._x = x; data._y = y;
+    data._scoreX = scoreX; data._scoreO = scoreO;
+    data._isExit = isExit;
+
+    std::fstream fout("savegame/" + filename + ".SGO", std::ios::out | std::ios::binary);
+    fout.write((char*)&data, sizeof(saveGameData));
+    fout.close();
+}
+
+void twoPlayers::askForLoad()
+{
+    // Declaire some objects
+    RectangleShape tint(Vector2f((float)WINDOW_WIDTH, (float)WINDOW_HEIGHT));
+
+    Text txt_title, txt_filename, txt_describe;
+
+    txt_title.setFont(font_arial);
+    txt_title.setFillColor(Color::White);
+    txt_title.setCharacterSize(100);
+    txt_title.setStyle(Text::Bold);
+    txt_title.setPosition(Vector2f(150.f, 200.f));
+    txt_title.setString("Directly Load Game");
+
+    txt_filename.setFont(font_arial);
+    txt_filename.setFillColor(Color::White);
+    txt_filename.setCharacterSize(40);
+    txt_filename.setPosition(Vector2f(150.f, 400.f));
+    txt_filename.setString(".SGO");
+
+    txt_describe.setFont(font_arial);
+    txt_describe.setFillColor(Color::White);
+    txt_describe.setCharacterSize(30);
+    txt_describe.setStyle(Text::Bold);
+    txt_describe.setPosition(Vector2f(20.f, 650.f));
+    txt_describe.setString("When you're done, Press 'ENTER' to load. Or Press 'ESC' to return to the game...");
+
+    // Dimming
+    for (int i = 0; i <= 40; i++)
+    {
+        displayGameScreen();
+        tint.setFillColor(Color(0, 0, 0, i * 5)); window.draw(tint);
+        window.display();
+    }
+
+    // Refresh event
+    Event temp; window.pollEvent(temp);
+
+    // Entering
+    bool isDone = 0;
+    std::string filename = "";
+    while (!isDone)
+    {
+        Event e;
+
+        while (window.pollEvent(e))
+        {
+            if (e.type == Event::Closed)
+            {
+                exitGame();
+                isDone = true;
+            }
+
+            if (e.type == Event::TextEntered)
+            {
+                switch (e.text.unicode)
+                {
+                case ASCII_BACKSPACE:
+                {
+                    if (filename.length() > 0)
+                    {
+                        filename.pop_back();
+                        txt_filename.setString(filename + ".SGO");
+                    }
+                    break;
+                }
+                case ASCII_ENTER:
+                {
+                    loadGame(filename);
+
+                    Text txt_status;
+                    txt_status.setFont(font_arial);
+                    txt_status.setCharacterSize(25);
+                    txt_status.setStyle(Text::Italic);
+                    txt_status.setString("Done!");
+
+                    for (int i = 0; i <= 25; i++)
+                    {
+                        txt_status.setFillColor(Color(0, 255, 0, i * 10));
+                        txt_status.setPosition(Vector2f(150.f, 400.f + 2.f * i));
+
+                        displayGameScreen(); window.draw(tint);
+                        window.draw(txt_title); window.draw(txt_filename); window.draw(txt_status); window.draw(txt_describe);
+                        window.display();
+                    }
+
+                    sleep(milliseconds(1000));
+
+                    isDone = true;
+                    break;
+                }
+                case ASCII_ESC:
+                {
+                    isDone = true;
+                    break;
+                }
+                default:
+                {
+                    if ((('a' <= e.text.unicode) && (e.text.unicode <= 'z')) || (('A' <= e.text.unicode) && (e.text.unicode <= 'Z')) ||
+                        (('0' <= e.text.unicode) && (e.text.unicode <= '9')) || (e.text.unicode == '_') || (e.text.unicode == '-'))
+                    {
+                        filename += e.text.unicode;
+                        txt_filename.setString(filename + ".SGO");
+                    }
+                }
+                }
+            }
+        }
+
+        displayGameScreen(); window.draw(tint);
+        window.draw(txt_title); window.draw(txt_filename); window.draw(txt_describe);
+        window.display();
+    }
+
+    // Dimming
+    for (int i = 40; i >= 0; i--)
+    {
+        displayGameScreen();
+        tint.setFillColor(Color(0, 0, 0, i * 5)); window.draw(tint);
+        window.display();
+    }
+}
+
+void twoPlayers::loadGame(std::string filename)
+{
+    saveGameData data;
+
+    std::fstream fin("savegame/" + filename + ".SGO", std::ios::in | std::ios::binary);
+    fin.read((char*)&data, sizeof(saveGameData));
+    fin.close();
+
+    std::vector <int> dataBoard;
+    for (int i = 0; i < BOARD_SIZE * BOARD_SIZE + 2; i++) dataBoard.push_back(data._board[i]);
+    b.importBoard(dataBoard);
+
+    turn = data._turn;
+    x = data._x; y = data._y;
+    scoreX = data._scoreX; scoreO = data._scoreO;
+    isExit = data._isExit;
+}
+
+void twoPlayers::processKeyPressed(int keyCode)
 {
     int x_begin = 0, y_begin = 0, direction = 0;
+
     if (turn == 1) // X - player could control the game with AWSD and Space buttons
     {
         switch (keyCode)
@@ -164,9 +394,9 @@ void twoPlayers::processKeyPressed(int keyCode, bool& isexit)
             if (b.markCell(x, y, turn))
             {
                 if (direction = b.checkBoard(x, y, x_begin, y_begin))
-                    isexit = displayWinners(x_begin, y_begin, direction, turn);
+                    isExit = displayWinners(x_begin, y_begin, direction, turn);
                 else if (b.getCountX() + b.getCountO() == BOARD_SIZE * BOARD_SIZE)
-                    isexit = displayWinners(0, 0, 0, 0);
+                    isExit = displayWinners(0, 0, 0, 0);
                 else changeTurn();
             }
             break;
@@ -202,9 +432,9 @@ void twoPlayers::processKeyPressed(int keyCode, bool& isexit)
             if (b.markCell(x, y, turn))
             {
                 if (direction = b.checkBoard(x, y, x_begin, y_begin))
-                    isexit = displayWinners(x_begin, y_begin, direction, turn);
+                    isExit = displayWinners(x_begin, y_begin, direction, turn);
                 else if (b.getCountX() + b.getCountO() == BOARD_SIZE * BOARD_SIZE)
-                    isexit = displayWinners(0, 0, 0, 0);
+                    isExit = displayWinners(0, 0, 0, 0);
                 else changeTurn();
             }
             break;
@@ -212,7 +442,10 @@ void twoPlayers::processKeyPressed(int keyCode, bool& isexit)
         }
     }
 
-    if (keyCode == Keyboard::Escape) isexit = true;
+    if (keyCode == Keyboard::L) askForSave();
+    if (keyCode == Keyboard::T) askForLoad();
+
+    if (keyCode == Keyboard::Escape) isExit = true;
 }
 
 void twoPlayers::changeTurn()
@@ -220,8 +453,60 @@ void twoPlayers::changeTurn()
     if (turn == 1) turn = -1; else turn = 1;
 }
 
+void twoPlayers::displayGameScreen()
+{
+    // Loading some statistics
+    Text txt_countX, txt_countO, txt_scoreX, txt_scoreO;
+
+    txt_countX.setFont(font_arial);
+    txt_countX.setFillColor(Color::White);
+    txt_countX.setCharacterSize(30);
+    txt_countX.setPosition(Vector2f(20.f, 600.f));
+
+    txt_countO.setFont(font_arial);
+    txt_countO.setFillColor(Color::White);
+    txt_countO.setCharacterSize(30);
+    txt_countO.setPosition(Vector2f(950.f, 600.f));
+
+    txt_scoreX.setFont(font_arial);
+    txt_scoreX.setFillColor(Color::White);
+    txt_scoreX.setCharacterSize(100);
+    txt_scoreX.setPosition(Vector2f(100.f, 50.f));
+
+    txt_scoreO.setFont(font_arial);
+    txt_scoreO.setFillColor(Color::White);
+    txt_scoreO.setCharacterSize(100);
+    txt_scoreO.setPosition(Vector2f(1000.f, 50.f));
+    
+    window.clear(Color::White);
+    window.draw(gameBackground);
+
+    b.displayBoard();
+
+    txt_scoreX.setString(std::to_string(scoreX)); window.draw(txt_scoreX);
+    txt_scoreO.setString(std::to_string(scoreO)); window.draw(txt_scoreO);
+
+    txt_countX.setString("Number of ticking:\n" + std::to_string(b.getCountX())); window.draw(txt_countX);
+    txt_countO.setString("Number of ticking:\n" + std::to_string(b.getCountO())); window.draw(txt_countO);
+
+    if (turn == 1)
+    {
+        x_big.setColor(Color(255, 255, 255, 255)); o_big.setColor(Color(255, 255, 255, 100));
+        cursor_X.setPosition(Vector2f(BOARD_LEFT + y * 30, BOARD_TOP + x * 30));
+        window.draw(cursor_X);
+    }
+    else if (turn == -1)
+    {
+        x_big.setColor(Color(255, 255, 255, 100)); o_big.setColor(Color(255, 255, 255, 255));
+        cursor_O.setPosition(Vector2f(BOARD_LEFT + y * 30, BOARD_TOP + x * 30));
+        window.draw(cursor_O);
+    }
+
+    window.draw(x_big); window.draw(o_big);
+}
+
 bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int whoWin)
-// Return a value to show whether the players want to exit instead of play another game.
+// Return a value to let us know that whether the players want to exit instead of playing another game.
 // True: Stop; False: Play another game
 {
     // Draw a line first
@@ -264,14 +549,8 @@ bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int who
 
         for (int i = 0; i < length; i += 5)
         {
-            window.clear(Color::Black);
-
-            window.draw(gameBackground);
-            b.displayBoard();
-
-            line.setSize(Vector2f((float)i, 5.f));
-            window.draw(line);
-
+            displayGameScreen();
+            line.setSize(Vector2f((float)i, 5.f)); window.draw(line);
             window.display();
         }
     }
@@ -296,6 +575,7 @@ bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int who
         break;
     }
     }
+
     t.setFont(font_arial);
     t.setFillColor(Color::White);
     t.setCharacterSize(30);
@@ -303,8 +583,8 @@ bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int who
     if (whoWin == 1) scoreX++; 
     else if (whoWin == -1) scoreO++;
 
-    bool isexit = false;
-    while (!isexit)
+    bool isDone = false;
+    while (!isDone)
     {
         // Event
         Event e;
@@ -313,9 +593,8 @@ bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int who
         {
             if (e.type == Event::Closed)
             {
-                turn = 0;
-                isexit = true;
-                window.close();
+                exitGame();
+                isDone = true;
             }
 
             if (e.type == Event::KeyPressed)
@@ -324,16 +603,17 @@ bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int who
                 {
                 case Keyboard::Escape:
                 {
-                    isexit = true;
                     resetData();
+
+                    isDone = true;
                     return true;
                     break;
                 }
                 case Keyboard::Enter:
                 {
-                    isexit = true;
-                    resetData();
-                    turn = 1;
+                    resetData(); turn = 1;
+
+                    isDone = true;
                     return false;
                     break;
                 }
@@ -342,11 +622,8 @@ bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int who
         }
 
         // Display
-        window.clear(Color::White);
-        
-        window.draw(gameBackground); 
-        b.displayBoard();
-        
+        displayGameScreen();
+       
         if (whoWin) window.draw(line);
         window.draw(t);
 

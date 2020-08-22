@@ -20,12 +20,27 @@ void common::initGame()
 	t_button_O.loadFromFile("image/O.png");
 	button_O.setTexture(t_button_O);
 
+	t_cursor_X.loadFromFile("image/x_cursor.png"); t_cursor_X.setSmooth(true);
+	cursor_X.setTexture(t_cursor_X);
+
+	t_cursor_O.loadFromFile("image/o_cursor.png"); t_cursor_O.setSmooth(true);
+	cursor_O.setTexture(t_cursor_O);
+
+	t_x_big.loadFromFile("image/x_big.png"); t_x_big.setSmooth(true);
+	x_big.setTexture(t_x_big); x_big.setPosition(Vector2f(42.f, 343.f));
+	
+	t_o_big.loadFromFile("image/o_big.png"); t_o_big.setSmooth(true);
+	o_big.setTexture(t_o_big); o_big.setPosition(Vector2f(958.f, 343.f));
+
 	font_arial.loadFromFile("font/arial.ttf");
 	font_courierNew.loadFromFile("font/courierNew.ttf");
 	font_bebasNeueBold.loadFromFile("font/BebasNeue-Bold.ttf");
 
 	menuMusic.openFromFile("sound/menu_music.ogg");
 	menuMusic.setLoop(true);
+
+	gameMusic.openFromFile("sound/game_music.ogg");
+	gameMusic.setLoop(true);
 
 	s_optionSound.loadFromFile("sound/optionSound.ogg");
 	optionSound.setBuffer(s_optionSound);
@@ -171,6 +186,8 @@ void common::runGame()
 				else if (e.type == sf::Event::MouseMoved)
 					mainMenu.update(sf::Vector2f((float) e.mouseMove.x, (float) e.mouseMove.y), false);
 			}
+
+			if (!window.isOpen()) mainMenu.isActive = false;
 		}
 		while (newGameMenu.isActive)
 		{

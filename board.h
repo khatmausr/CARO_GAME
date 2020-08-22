@@ -11,6 +11,9 @@ public:
 	board();
 	~board();
 
+	std::vector <int> exportBoard();
+	bool importBoard(std::vector <int> dataBoard);
+
 	void resetBoard();
 	void displayBoard();
 	bool markCell(int x, int y, int val);

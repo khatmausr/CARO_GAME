@@ -18,6 +18,31 @@ board::~board()
 	countX = countO = 0;
 }
 
+std::vector <int> board::exportBoard()
+{
+	std::vector <int> ans;
+
+	ans.push_back(countX); ans.push_back(countO);
+	for (int i = 0; i < BOARD_SIZE; i++)
+		for (int j = 0; j < BOARD_SIZE; j++)
+			ans.push_back(arr[i][j]);
+
+	return ans;
+}
+
+bool board::importBoard(std::vector <int> dataBoard)
+{
+	if (dataBoard.size() == BOARD_SIZE * BOARD_SIZE + 2)
+	{
+		countX = dataBoard[0]; countO = dataBoard[1];
+		for (int i = 0; i < BOARD_SIZE; i++)
+			for (int j = 0; j < BOARD_SIZE; j++)
+				arr[i][j] = dataBoard[i * BOARD_SIZE + j + 2];
+		return true;
+	}
+	return false;
+}
+
 void board::resetBoard()
 {
 	for (int i = 0; i < BOARD_SIZE; i++)
