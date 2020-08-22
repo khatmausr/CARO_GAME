@@ -160,7 +160,6 @@
     <ClCompile Include="mainMenu.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="onePlayer.cpp" />
-    <ClCompile Include="subMenu.cpp" />
     <ClCompile Include="twoPlayers.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,7 +170,6 @@
     <ClInclude Include="mainMenu.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="onePlayer.h" />
-    <ClInclude Include="subMenu.h" />
     <ClInclude Include="twoPlayers.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

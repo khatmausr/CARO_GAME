@@ -13,7 +13,6 @@
 #include "mainMenu.h"
 #include "Menu.h"
 #include "onePlayer.h"
-#include "subMenu.h"
 #include "twoPlayers.h"
 #include "game.h"
 #include "button.h"
@@ -50,11 +49,18 @@ extern Sprite logo;
 extern Texture t_button_X, t_button_O;
 extern Sprite button_X, button_O;
 
+extern Texture t_cursor_X, t_cursor_O;
+extern Sprite cursor_X, cursor_O;
+
+extern Texture t_x_big, t_o_big;
+extern Sprite x_big, o_big;
+
 extern Font font_arial;
 extern Font font_courierNew;
 extern Font font_bebasNeueBold;
 
 extern Music menuMusic;
+extern Music gameMusic;
 extern SoundBuffer s_optionSound;
 extern Sound optionSound;
 

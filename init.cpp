@@ -18,6 +18,12 @@ Sprite logo;
 Texture t_button_X, t_button_O;
 Sprite button_X, button_O;
 
+Texture t_cursor_X, t_cursor_O;
+Sprite cursor_X, cursor_O;
+
+Texture t_x_big, t_o_big;
+Sprite x_big, o_big;
+
 // Font
 Font font_arial;
 Font font_courierNew;
@@ -25,6 +31,7 @@ Font font_bebasNeueBold;
 
 // Menu musics and sounds
 Music menuMusic;
+Music gameMusic;
 
 SoundBuffer s_optionSound;
 Sound optionSound;

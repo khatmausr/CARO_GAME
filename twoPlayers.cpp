@@ -29,6 +29,7 @@ void twoPlayers::newGame()
 
 void twoPlayers::continueGame()
 {
+    isExit = 0;
     runGame();
 }
 
@@ -36,29 +37,20 @@ void twoPlayers::runGame()
 {
     // Managing musics
     menuMusic.stop();
-
-    Music gameMusic;
-    gameMusic.openFromFile("sound/game_music.ogg");
-    gameMusic.setLoop(true); gameMusic.play();
+    gameMusic.play();
 
     // Game Window
-    bool isexit = false;
-    while (!isexit)
+    while (!isExit)
     {
         // Event
         Event e;
 
         while (window.pollEvent(e))
         {
-            if (e.type == Event::Closed)
-            {
-                turn = 0;
-                isexit = true;
-                window.close();
-            }
+            if (e.type == Event::Closed) exitGame();
 
             if (e.type == Event::KeyPressed)
-                processKeyPressed(e.key.code, isexit);
+                processKeyPressed(e.key.code);
         }
 
         // Display
@@ -71,8 +63,15 @@ void twoPlayers::runGame()
     if (window.isOpen()) menuMusic.play();
 }
 
+void twoPlayers::exitGame()
+{
+    turn = 0;
+    isExit = true;
+    gameMusic.stop(); menuMusic.stop();
+    window.close();
+}
 
-// Save - Load Game
+// Save - Load Game Data Struct - Using for storing data by binary format file
 struct saveGameData
 {
     int _board[BOARD_SIZE * BOARD_SIZE + 2];
@@ -120,7 +119,7 @@ void twoPlayers::askForSave()
     // Entering
     bool isDone = 0;
     std::string filename = "";
-    do
+    while (!isDone)
     {
         Event e;
 
@@ -128,9 +127,8 @@ void twoPlayers::askForSave()
         {
             if (e.type == Event::Closed)
             {
-                turn = 0;
-                isExit = true;
-                window.close();
+                exitGame();
+                isDone = true;
             }
 
             if (e.type == Event::KeyPressed)
@@ -197,7 +195,7 @@ void twoPlayers::askForSave()
         displayGameScreen(); window.draw(tint);
         window.draw(txt_title); window.draw(txt_filename); window.draw(txt_describe);
         window.display();
-    } while (!isDone);
+    }
 
     // Dimming
     for (int i = 40; i >= 0; i--)
@@ -262,7 +260,7 @@ void twoPlayers::askForLoad()
     // Entering
     bool isDone = 0;
     std::string filename = "";
-    do
+    while (!isDone)
     {
         Event e;
 
@@ -270,9 +268,8 @@ void twoPlayers::askForLoad()
         {
             if (e.type == Event::Closed)
             {
-                turn = 0;
-                isExit = true;
-                window.close();
+                exitGame();
+                isDone = true;
             }
 
             if (e.type == Event::KeyPressed)
@@ -339,7 +336,7 @@ void twoPlayers::askForLoad()
         displayGameScreen(); window.draw(tint);
         window.draw(txt_title); window.draw(txt_filename); window.draw(txt_describe);
         window.display();
-    } while (!isDone);
+    }
 
     // Dimming
     for (int i = 40; i >= 0; i--)
@@ -368,9 +365,10 @@ void twoPlayers::loadGame(std::string filename)
     isExit = data._isExit;
 }
 
-void twoPlayers::processKeyPressed(int keyCode, bool& isexit)
+void twoPlayers::processKeyPressed(int keyCode)
 {
     int x_begin = 0, y_begin = 0, direction = 0;
+
     if (turn == 1) // X - player could control the game with AWSD and Space buttons
     {
         switch (keyCode)
@@ -400,9 +398,9 @@ void twoPlayers::processKeyPressed(int keyCode, bool& isexit)
             if (b.markCell(x, y, turn))
             {
                 if (direction = b.checkBoard(x, y, x_begin, y_begin))
-                    isexit = displayWinners(x_begin, y_begin, direction, turn);
+                    isExit = displayWinners(x_begin, y_begin, direction, turn);
                 else if (b.getCountX() + b.getCountO() == BOARD_SIZE * BOARD_SIZE)
-                    isexit = displayWinners(0, 0, 0, 0);
+                    isExit = displayWinners(0, 0, 0, 0);
                 else changeTurn();
             }
             break;
@@ -438,9 +436,9 @@ void twoPlayers::processKeyPressed(int keyCode, bool& isexit)
             if (b.markCell(x, y, turn))
             {
                 if (direction = b.checkBoard(x, y, x_begin, y_begin))
-                    isexit = displayWinners(x_begin, y_begin, direction, turn);
+                    isExit = displayWinners(x_begin, y_begin, direction, turn);
                 else if (b.getCountX() + b.getCountO() == BOARD_SIZE * BOARD_SIZE)
-                    isexit = displayWinners(0, 0, 0, 0);
+                    isExit = displayWinners(0, 0, 0, 0);
                 else changeTurn();
             }
             break;
@@ -450,7 +448,8 @@ void twoPlayers::processKeyPressed(int keyCode, bool& isexit)
 
     if (keyCode == Keyboard::L) askForSave();
     if (keyCode == Keyboard::T) askForLoad();
-    if (keyCode == Keyboard::Escape) isexit = true;
+
+    if (keyCode == Keyboard::Escape) isExit = true;
 }
 
 void twoPlayers::changeTurn()
@@ -460,30 +459,8 @@ void twoPlayers::changeTurn()
 
 void twoPlayers::displayGameScreen()
 {
-    // Loading cursor - objects
-    Texture t1, t2;
-    t1.loadFromFile("image/x_cursor.png"); t1.setSmooth(true);
-    t2.loadFromFile("image/o_cursor.png"); t2.setSmooth(true);
-    Sprite cursor_X(t1), cursor_O(t2);
-
-    Texture t_x_big, t_o_big;
-    t_x_big.loadFromFile("image/x_big.png"); t_x_big.setSmooth(true);
-    t_o_big.loadFromFile("image/o_big.png"); t_o_big.setSmooth(true);
-    Sprite x_big(t_x_big), o_big(t_o_big);
-    x_big.setPosition(Vector2f(42.f, 343.f));
-    o_big.setPosition(Vector2f(958.f, 343.f));
-
+    // Loading some statistics
     Text txt_countX, txt_countO, txt_scoreX, txt_scoreO;
-
-    txt_scoreX.setFont(font_arial);
-    txt_scoreX.setFillColor(Color::White);
-    txt_scoreX.setCharacterSize(100);
-    txt_scoreX.setPosition(Vector2f(100.f, 50.f));
-
-    txt_scoreO.setFont(font_arial);
-    txt_scoreO.setFillColor(Color::White);
-    txt_scoreO.setCharacterSize(100);
-    txt_scoreO.setPosition(Vector2f(1000.f, 50.f));
 
     txt_countX.setFont(font_arial);
     txt_countX.setFillColor(Color::White);
@@ -494,6 +471,16 @@ void twoPlayers::displayGameScreen()
     txt_countO.setFillColor(Color::White);
     txt_countO.setCharacterSize(30);
     txt_countO.setPosition(Vector2f(950.f, 600.f));
+
+    txt_scoreX.setFont(font_arial);
+    txt_scoreX.setFillColor(Color::White);
+    txt_scoreX.setCharacterSize(100);
+    txt_scoreX.setPosition(Vector2f(100.f, 50.f));
+
+    txt_scoreO.setFont(font_arial);
+    txt_scoreO.setFillColor(Color::White);
+    txt_scoreO.setCharacterSize(100);
+    txt_scoreO.setPosition(Vector2f(1000.f, 50.f));
     
     window.clear(Color::White);
     window.draw(gameBackground);
@@ -523,7 +510,7 @@ void twoPlayers::displayGameScreen()
 }
 
 bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int whoWin)
-// Return a value to show whether the players want to exit instead of play another game.
+// Return a value to let us know that whether the players want to exit instead of playing another game.
 // True: Stop; False: Play another game
 {
     // Draw a line first
@@ -566,14 +553,8 @@ bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int who
 
         for (int i = 0; i < length; i += 5)
         {
-            window.clear(Color::Black);
-
-            window.draw(gameBackground);
-            b.displayBoard();
-
-            line.setSize(Vector2f((float)i, 5.f));
-            window.draw(line);
-
+            displayGameScreen();
+            line.setSize(Vector2f((float)i, 5.f)); window.draw(line);
             window.display();
         }
     }
@@ -598,6 +579,7 @@ bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int who
         break;
     }
     }
+
     t.setFont(font_arial);
     t.setFillColor(Color::White);
     t.setCharacterSize(30);
@@ -605,8 +587,8 @@ bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int who
     if (whoWin == 1) scoreX++; 
     else if (whoWin == -1) scoreO++;
 
-    bool isexit = false;
-    while (!isexit)
+    bool isDone = false;
+    while (!isDone)
     {
         // Event
         Event e;
@@ -615,9 +597,8 @@ bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int who
         {
             if (e.type == Event::Closed)
             {
-                turn = 0;
-                isexit = true;
-                window.close();
+                exitGame();
+                isDone = true;
             }
 
             if (e.type == Event::KeyPressed)
@@ -626,16 +607,17 @@ bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int who
                 {
                 case Keyboard::Escape:
                 {
-                    isexit = true;
                     resetData();
+
+                    isDone = true;
                     return true;
                     break;
                 }
                 case Keyboard::Enter:
                 {
-                    isexit = true;
-                    resetData();
-                    turn = 1;
+                    resetData(); turn = 1;
+
+                    isDone = true;
                     return false;
                     break;
                 }
@@ -644,11 +626,8 @@ bool twoPlayers::displayWinners(int x_begin, int y_begin, int direction, int who
         }
 
         // Display
-        window.clear(Color::White);
-        
-        window.draw(gameBackground); 
-        b.displayBoard();
-        
+        displayGameScreen();
+       
         if (whoWin) window.draw(line);
         window.draw(t);
 
