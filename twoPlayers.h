@@ -8,6 +8,7 @@ private:
 	int turn;
 	int x, y;
 	int scoreX, scoreO;
+	bool isExit;
 
 public:
 	twoPlayers();
@@ -19,7 +20,13 @@ public:
 	void continueGame();
 	void runGame();
 
+	void askForSave();
+	void saveGame(std::string filename);	
+	void askForLoad();
+	void loadGame(std::string filename);
+
 	void processKeyPressed(int keyCode, bool& isExit);
 	void changeTurn();
+	void displayGameScreen();
 	bool displayWinners(int x_begin, int y_begin, int direction, int whoWin);
 };

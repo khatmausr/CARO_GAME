@@ -4,6 +4,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
+#include <fstream>
+#include <ctime>
 #include <string>
 
 // Headers
