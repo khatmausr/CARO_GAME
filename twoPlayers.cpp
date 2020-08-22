@@ -116,6 +116,9 @@ void twoPlayers::askForSave()
         window.display();
     }
 
+    // Refresh event
+    Event temp; window.pollEvent(temp);
+
     // Entering
     bool isDone = 0;
     std::string filename = "";
@@ -131,10 +134,11 @@ void twoPlayers::askForSave()
                 isDone = true;
             }
 
-            if (e.type == Event::KeyPressed)
-                switch (e.key.code)
+            if (e.type == Event::TextEntered)
+            {
+                switch (e.text.unicode)
                 {
-                case Keyboard::BackSpace:
+                case ASCII_BACKSPACE:
                 {
                     if (filename.length() > 0)
                     {
@@ -143,7 +147,7 @@ void twoPlayers::askForSave()
                     }
                     break;
                 }
-                case Keyboard::Enter:
+                case ASCII_ENTER:
                 {
                     saveGame(filename);
 
@@ -168,28 +172,22 @@ void twoPlayers::askForSave()
                     isDone = true;
                     break;
                 }
-                case Keyboard::Escape:
+                case ASCII_ESC:
                 {
                     isDone = true;
                     break;
                 }
                 default:
                 {
-                    if ((Keyboard::A <= e.key.code) && (e.key.code <= Keyboard::Z) && (filename.length() < 20))
+                    if ((('a' <= e.text.unicode) && (e.text.unicode <= 'z')) || (('A' <= e.text.unicode) && (e.text.unicode <= 'Z')) ||
+                        (('0' <= e.text.unicode) && (e.text.unicode <= '9')) || (e.text.unicode == '_') || (e.text.unicode == '-'))
                     {
-                        char ch = (int)e.key.code + 65;
-                        filename = filename + ch;
-                        txt_filename.setString(filename + ".SGO");
-                    }
-
-                    if ((Keyboard::Num0 <= e.key.code) && (e.key.code <= Keyboard::Num9) && (filename.length() < 20))
-                    {
-                        char ch = (int)e.key.code + 22;
-                        filename = filename + ch;
+                        filename += e.text.unicode;
                         txt_filename.setString(filename + ".SGO");
                     }
                 }
                 }
+            }
         }
 
         displayGameScreen(); window.draw(tint);
@@ -257,6 +255,9 @@ void twoPlayers::askForLoad()
         window.display();
     }
 
+    // Refresh event
+    Event temp; window.pollEvent(temp);
+
     // Entering
     bool isDone = 0;
     std::string filename = "";
@@ -272,10 +273,11 @@ void twoPlayers::askForLoad()
                 isDone = true;
             }
 
-            if (e.type == Event::KeyPressed)
-                switch (e.key.code)
+            if (e.type == Event::TextEntered)
+            {
+                switch (e.text.unicode)
                 {
-                case Keyboard::BackSpace:
+                case ASCII_BACKSPACE:
                 {
                     if (filename.length() > 0)
                     {
@@ -284,7 +286,7 @@ void twoPlayers::askForLoad()
                     }
                     break;
                 }
-                case Keyboard::Enter:
+                case ASCII_ENTER:
                 {
                     loadGame(filename);
 
@@ -309,28 +311,22 @@ void twoPlayers::askForLoad()
                     isDone = true;
                     break;
                 }
-                case Keyboard::Escape:
+                case ASCII_ESC:
                 {
                     isDone = true;
                     break;
                 }
                 default:
                 {
-                    if ((Keyboard::A <= e.key.code) && (e.key.code <= Keyboard::Z) && (filename.length() < 20))
+                    if ((('a' <= e.text.unicode) && (e.text.unicode <= 'z')) || (('A' <= e.text.unicode) && (e.text.unicode <= 'Z')) ||
+                        (('0' <= e.text.unicode) && (e.text.unicode <= '9')) || (e.text.unicode == '_') || (e.text.unicode == '-'))
                     {
-                        char ch = (int)e.key.code + 65;
-                        filename = filename + ch;
-                        txt_filename.setString(filename + ".SGO");
-                    }
-
-                    if ((Keyboard::Num0 <= e.key.code) && (e.key.code <= Keyboard::Num9) && (filename.length() < 20))
-                    {
-                        char ch = (int)e.key.code + 22;
-                        filename = filename + ch;
+                        filename += e.text.unicode;
                         txt_filename.setString(filename + ".SGO");
                     }
                 }
                 }
+            }
         }
 
         displayGameScreen(); window.draw(tint);

@@ -31,6 +31,10 @@
 
 #define THEME_MAX 3
 
+#define ASCII_BACKSPACE 8
+#define ASCII_ENTER     13
+#define ASCII_ESC       27
+
 // Namespace
 using namespace sf;
 
