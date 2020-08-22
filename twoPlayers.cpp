@@ -51,8 +51,8 @@ void twoPlayers::runGame()
     t_x_big.loadFromFile("image/x_big.png"); t_x_big.setSmooth(true);
     t_o_big.loadFromFile("image/o_big.png"); t_o_big.setSmooth(true);
     Sprite x_big(t_x_big), o_big(t_o_big);
-    x_big.setPosition(Vector2f(42.f, 343.f));
-    o_big.setPosition(Vector2f(958.f, 343.f));
+    x_big.setPosition(Vector2f(42.f, 263.f));
+    o_big.setPosition(Vector2f(958.f, 263.f));
 
     // Loading statistic variables
     Text txt_countX, txt_countO, txt_scoreX, txt_scoreO;
