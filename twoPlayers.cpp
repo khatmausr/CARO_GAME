@@ -4,7 +4,7 @@ twoPlayers::twoPlayers()
 {
     x = BOARD_SIZE / 2 - 1; y = BOARD_SIZE / 2 - 1;
     scoreX = scoreO = 0;
-    isExit = 0; turn = 0;
+    turn = 0; isExit = false;
 }
 
 bool twoPlayers::isContinue()
@@ -16,20 +16,20 @@ void twoPlayers::resetData()
 {
     b.resetBoard();
     x = BOARD_SIZE / 2 - 1; y = BOARD_SIZE / 2 - 1;
-    isExit = 0; turn = 0;
+    turn = 0; isExit = false;
 }
 
 void twoPlayers::newGame()
 {
     scoreX = scoreO = 0;
-    resetData();
-    turn = 1;
+    resetData(); turn = 1;
+    isExit = false;
     runGame();
 }
 
 void twoPlayers::continueGame()
 {
-    isExit = 0;
+    isExit = false;
     runGame();
 }
 
@@ -65,8 +65,7 @@ void twoPlayers::runGame()
 
 void twoPlayers::exitGame()
 {
-    turn = 0;
-    isExit = true;
+    turn = 0; isExit = true;
     gameMusic.stop(); menuMusic.stop();
     window.close();
 }
@@ -120,7 +119,7 @@ void twoPlayers::askForSave()
     Event temp; window.pollEvent(temp);
 
     // Entering
-    bool isDone = 0;
+    bool isDone = false;
     std::string filename = "";
     while (!isDone)
     {
@@ -149,7 +148,7 @@ void twoPlayers::askForSave()
                 }
                 case ASCII_ENTER:
                 {
-                    saveGame(filename);
+                    saveGame("savegame/" + filename + ".SGO");
 
                     Text txt_status;
                     txt_status.setFont(font_arial);
@@ -215,7 +214,7 @@ void twoPlayers::saveGame(std::string filename)
     data._scoreX = scoreX; data._scoreO = scoreO;
     data._isExit = isExit;
 
-    std::fstream fout("savegame/" + filename + ".SGO", std::ios::out | std::ios::binary);
+    std::fstream fout(filename, std::ios::out | std::ios::binary);
     fout.write((char*)&data, sizeof(saveGameData));
     fout.close();
 }
@@ -259,7 +258,7 @@ void twoPlayers::askForLoad()
     Event temp; window.pollEvent(temp);
 
     // Entering
-    bool isDone = 0;
+    bool isDone = false;
     std::string filename = "";
     while (!isDone)
     {
@@ -288,7 +287,7 @@ void twoPlayers::askForLoad()
                 }
                 case ASCII_ENTER:
                 {
-                    loadGame(filename);
+                    loadGame("savegame/" + filename + ".SGO");
 
                     Text txt_status;
                     txt_status.setFont(font_arial);
@@ -347,7 +346,7 @@ void twoPlayers::loadGame(std::string filename)
 {
     saveGameData data;
 
-    std::fstream fin("savegame/" + filename + ".SGO", std::ios::in | std::ios::binary);
+    std::fstream fin(filename, std::ios::in | std::ios::binary);
     fin.read((char*)&data, sizeof(saveGameData));
     fin.close();
 
