@@ -231,10 +231,10 @@ void twoPlayers::askForSave()
     txt_describe.setString("When you're done, Press 'ENTER' to save. Or Press 'ESC' to return to the game...");
 
     // Dimming
-    for (int i = 0; i <= 40; i++)
+    for (int i = 0; i <= 20; i++)
     {
         displayGameScreen();
-        tint.setFillColor(Color(0, 0, 0, i * 5)); window.draw(tint);
+        tint.setFillColor(Color(0, 0, 0, i * 10)); window.draw(tint);
         window.display();
     }
 
@@ -318,10 +318,10 @@ void twoPlayers::askForSave()
     }
 
     // Dimming
-    for (int i = 40; i >= 0; i--)
+    for (int i = 20; i >= 0; i--)
     {
         displayGameScreen();
-        tint.setFillColor(Color(0, 0, 0, i * 5)); window.draw(tint);
+        tint.setFillColor(Color(0, 0, 0, i * 10)); window.draw(tint);
         window.display();
     }
 }
@@ -370,10 +370,10 @@ void twoPlayers::askForLoad()
     txt_describe.setString("When you're done, Press 'ENTER' to load. Or Press 'ESC' to return to the game...");
 
     // Dimming
-    for (int i = 0; i <= 40; i++)
+    for (int i = 0; i <= 20; i++)
     {
         displayGameScreen();
-        tint.setFillColor(Color(0, 0, 0, i * 5)); window.draw(tint);
+        tint.setFillColor(Color(0, 0, 0, i * 10)); window.draw(tint);
         window.display();
     }
 
@@ -457,10 +457,10 @@ void twoPlayers::askForLoad()
     }
 
     // Dimming
-    for (int i = 40; i >= 0; i--)
+    for (int i = 20; i >= 0; i--)
     {
         displayGameScreen();
-        tint.setFillColor(Color(0, 0, 0, i * 5)); window.draw(tint);
+        tint.setFillColor(Color(0, 0, 0, i * 10)); window.draw(tint);
         window.display();
     }
 }
