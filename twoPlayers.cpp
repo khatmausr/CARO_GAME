@@ -617,8 +617,8 @@ void twoPlayers::displayGameScreen()
     txt_scoreX.setString(std::to_string(scoreX)); window.draw(txt_scoreX);
     txt_scoreO.setString(std::to_string(scoreO)); window.draw(txt_scoreO);
 
-    txt_countX.setString("Number of ticking:\n" + std::to_string(b.getCountX())); window.draw(txt_countX);
-    txt_countO.setString("Number of ticking:\n" + std::to_string(b.getCountO())); window.draw(txt_countO);
+    txt_countX.setString(std::to_string(b.getCountX())); window.draw(txt_countX);
+    txt_countO.setString(std::to_string(b.getCountO())); window.draw(txt_countO);
 
     window.draw(txt_playerName[0]); window.draw(txt_playerName[1]);
 
