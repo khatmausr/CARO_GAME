@@ -9,6 +9,7 @@ private:
 	int x, y;
 	int scoreX, scoreO;
 	bool isExit;
+	std::string playerName[2];
 
 public:
 	twoPlayers();
@@ -21,6 +22,7 @@ public:
 	void runGame();
 	void exitGame();
 
+	void askForName();
 	void askForSave();
 	void saveGame(std::string filename);	
 	void askForLoad();

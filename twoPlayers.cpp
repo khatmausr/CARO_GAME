@@ -3,7 +3,7 @@
 twoPlayers::twoPlayers()
 {
     x = BOARD_SIZE / 2 - 1; y = BOARD_SIZE / 2 - 1;
-    scoreX = scoreO = 0;
+    scoreX = scoreO = 0; playerName[0] = ""; playerName[1] = "";
     turn = 0; isExit = false;
 }
 
@@ -21,9 +21,9 @@ void twoPlayers::resetData()
 
 void twoPlayers::newGame()
 {
-    scoreX = scoreO = 0;
-    resetData(); turn = 1;
-    isExit = false;
+    scoreX = scoreO = 0; playerName[0] = ""; playerName[1] = "";
+    resetData(); turn = 1; isExit = false;
+    askForName();
     runGame();
 }
 
@@ -68,6 +68,129 @@ void twoPlayers::exitGame()
     turn = 0; isExit = true;
     gameMusic.stop(); menuMusic.stop();
     window.close();
+}
+
+void twoPlayers::askForName()
+{
+    menuMusic.stop();
+
+    // Declaire some objects
+    RectangleShape tint(Vector2f((float)WINDOW_WIDTH, (float)WINDOW_HEIGHT));
+    tint.setFillColor(Color(0, 0, 0, 50));
+    RectangleShape blackRec(Vector2f((float)WINDOW_WIDTH, (float)WINDOW_HEIGHT));
+    blackRec.setFillColor(Color(0, 0, 0, 255));
+
+    Text txt_title, txt_playerName[2], txt_describe[2];
+
+    txt_title.setFont(font_arial);
+    txt_title.setFillColor(Color::White);
+    txt_title.setCharacterSize(80);
+    txt_title.setStyle(Text::Bold);
+    txt_title.setPosition(Vector2f(50.f, 100.f));
+    txt_title.setString("Enter Players' Name");
+
+    for (int i = 0; i <= 1; i++)
+    {
+        txt_playerName[i].setFont(font_arial);
+        txt_playerName[i].setCharacterSize(40);
+        txt_playerName[i].setString("");
+
+        txt_describe[i].setFont(font_arial);
+        txt_describe[i].setCharacterSize(30);
+        txt_describe[i].setStyle(Text::Bold);
+    }
+
+    txt_playerName[0].setFillColor(Color(255, 255, 255, 255)); txt_playerName[0].setPosition(Vector2f(50.f, 500.f));
+    txt_playerName[1].setFillColor(Color(255, 255, 255, 105)); txt_playerName[1].setPosition(Vector2f(50.f, 650.f));
+
+    txt_describe[0].setString("Player 1: "); 
+    txt_describe[0].setFillColor(Color(255, 255, 255, 255)); txt_describe[0].setPosition(Vector2f(50.f, 450.f));
+    txt_describe[1].setString("Player 2: ");
+    txt_describe[1].setFillColor(Color(255, 255, 255, 105)); txt_describe[1].setPosition(Vector2f(50.f, 600.f));
+
+    // Dimming
+    for (int i = 0; i <= 30; i++)
+    {
+        window.draw(tint);
+        window.display();
+    }
+
+    // Entering
+    int i = 0;
+    while (i < 2)
+    {
+        Event e;
+
+        while (window.pollEvent(e))
+        {
+            if (e.type == Event::Closed)
+            {
+                i = 2; // Exit Entering-Loop
+                exitGame();
+            }
+
+            if (e.type == Event::TextEntered)
+            {
+                switch (e.text.unicode)
+                {
+                case ASCII_BACKSPACE:
+                {
+                    if (playerName[i].length() > 0)
+                    {
+                        playerName[i].pop_back();
+                        txt_playerName[i].setString(playerName[i]);
+                    }
+                    break;
+                }
+                case ASCII_ENTER:
+                {
+                    if (i == 0)
+                        for (int frame = 0; frame < 15; frame++)
+                        {
+                            for (int j = 0; j <= 1; j++)
+                            {
+                                txt_playerName[j].setFillColor(Color(255, 255, 255, txt_playerName[j].getFillColor().a + ((j == 1) ? 10 : -10)));
+                                txt_playerName[j].setPosition(Vector2f(txt_playerName[j].getPosition().x, txt_playerName[j].getPosition().y - 10.f));
+                                txt_describe[j].setFillColor(Color(255, 255, 255, txt_describe[j].getFillColor().a + ((j == 1) ? 10 : -10)));
+                                txt_describe[j].setPosition(Vector2f(txt_describe[j].getPosition().x, txt_describe[j].getPosition().y - 10.f));
+                            }
+                            window.draw(blackRec);
+                            window.draw(txt_title);
+                            window.draw(txt_playerName[0]); window.draw(txt_playerName[1]);
+                            window.draw(txt_describe[0]); window.draw(txt_describe[1]);
+                            window.display();
+                        }
+                    
+                    i++;
+                    break;
+                }
+                default:
+                {
+                    if ((('a' <= e.text.unicode) && (e.text.unicode <= 'z')) || (('A' <= e.text.unicode) && (e.text.unicode <= 'Z')) ||
+                        (('0' <= e.text.unicode) && (e.text.unicode <= '9')))
+                    {
+                        playerName[i] += e.text.unicode;
+                        txt_playerName[i].setString(playerName[i]);
+                    }
+                }
+                }
+            }
+        }
+
+        window.draw(blackRec);
+        window.draw(txt_title);
+        window.draw(txt_playerName[0]); window.draw(txt_playerName[1]);
+        window.draw(txt_describe[0]); window.draw(txt_describe[1]);
+        window.display();
+    }
+
+    // Dimming
+    for (int i = 15; i >= 0; i--)
+    {
+        displayGameScreen();
+        blackRec.setFillColor(Color(0, 0, 0, i * 16)); window.draw(blackRec);
+        window.display();
+    }
 }
 
 // Save - Load Game Data Struct - Using for storing data by binary format file
@@ -455,7 +578,7 @@ void twoPlayers::changeTurn()
 void twoPlayers::displayGameScreen()
 {
     // Loading some statistics
-    Text txt_countX, txt_countO, txt_scoreX, txt_scoreO;
+    Text txt_countX, txt_countO, txt_scoreX, txt_scoreO, txt_playerName[2];
 
     txt_countX.setFont(font_arial);
     txt_countX.setFillColor(Color::White);
@@ -477,6 +600,15 @@ void twoPlayers::displayGameScreen()
     txt_scoreO.setCharacterSize(100);
     txt_scoreO.setPosition(Vector2f(1000.f, 50.f));
     
+    for (int i = 0; i <= 1; i++)
+    {
+        txt_playerName[i].setFont(font_arial);
+        txt_playerName[i].setFillColor(Color::White);
+        txt_playerName[i].setCharacterSize(30);
+        txt_playerName[i].setString(playerName[i]);
+    }
+    txt_playerName[0].setPosition(Vector2f(50.f, 0.f)); txt_playerName[1].setPosition(Vector2f(1000.f, 0.f));
+
     window.clear(Color::White);
     window.draw(gameBackground);
 
@@ -487,6 +619,8 @@ void twoPlayers::displayGameScreen()
 
     txt_countX.setString("Number of ticking:\n" + std::to_string(b.getCountX())); window.draw(txt_countX);
     txt_countO.setString("Number of ticking:\n" + std::to_string(b.getCountO())); window.draw(txt_countO);
+
+    window.draw(txt_playerName[0]); window.draw(txt_playerName[1]);
 
     if (turn == 1)
     {
