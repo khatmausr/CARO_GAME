@@ -10,9 +10,10 @@ private:
 	int scoreX, scoreO;
 	bool isExit;
 	std::string playerName[2];
+	sf::Sprite background;
 
 public:
-	twoPlayers();
+	twoPlayers(sf::Texture* backgroundTexture);
 
 	bool isContinue();
 

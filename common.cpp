@@ -75,12 +75,22 @@ void common::initGame()
 	if (!t_yellowButton_mouseOver.loadFromFile("image/Button/Yellow/Button-mouseOver.png"))
 		std::cout << "Can not load texture!\n";
 
+	// Name Input
+	if (!t_dialogBox.loadFromFile("image/dialogBox.png"))
+		std::cout << "Can not load texture!\n";
+	if (!t_textPlaceholder.loadFromFile("image/textPlaceholder.png"))
+		std::cout << "Can not load texture!\n";
+	if (!t_navBack.loadFromFile("image/Button/Navigation/back.png"))
+		std::cout << "Can not load texture!\n";
+	if (!t_navOk.loadFromFile("image/Button/Navigation/ok.png"))
+		std::cout << "Can not load texture!\n";
+
 }
 
 void common::runGame()
 {
 	// Initializing
-	game g;
+	twoPlayers g2(&t_gameBackground);
 	mainMenu m;
 	Menu mainMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
 	Menu newGameMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
@@ -146,7 +156,7 @@ void common::runGame()
 						{
 						case 0:
 						{
-							g.continueGame();
+							if (g2.isContinue()) g2.continueGame();
 							//if(!g.isContinue()) mainMenu.setActive(false);
 							break;
 						}
@@ -213,8 +223,9 @@ void common::runGame()
 							newGameMenu.isActive = false;
 							break;
 						case 1:
-							g.startTwoPlayers();
-							if (g.isContinue()) mainMenu.setActiveBtn(0, true);
+							g2.resetData();
+							g2.newGame();
+							if (g2.isContinue()) mainMenu.setActiveBtn(0, true);
 							else mainMenu.setActiveBtn(0, false);
 							mainMenu.isActive = true;
 							newGameMenu.isActive = false;

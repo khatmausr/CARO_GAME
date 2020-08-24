@@ -52,4 +52,11 @@ Texture t_brownButton_mouseOver;
 Texture t_redButton_mouseOver;
 Texture t_yellowButton_mouseOver;
 
+// Name Input
+
+Texture t_dialogBox;
+Texture t_textPlaceholder;
+Texture t_navBack;
+Texture t_navOk;
+
 

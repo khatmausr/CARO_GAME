@@ -14,7 +14,6 @@
 #include "Menu.h"
 #include "onePlayer.h"
 #include "twoPlayers.h"
-#include "game.h"
 #include "button.h"
 
 // Define constants
@@ -86,6 +85,11 @@ extern Texture t_redButton_mouseOver;
 extern Texture t_yellowButton_default;
 extern Texture t_yellowButton_mouseOver;
 
+// Name Input
+extern Texture t_dialogBox;
+extern Texture t_textPlaceholder;
+extern Texture t_navBack;
+extern Texture t_navOk;
 
 // Common methods
 class common
