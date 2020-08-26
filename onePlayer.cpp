@@ -120,10 +120,11 @@ void onePlayer::askForName()
 	}
 }
 
-void onePlayer::drawLine(int x_begin, int y_begin, int direction)
+bool onePlayer::displayResult(int x_begin, int y_begin, int direction, int whoWin)
 {
+	// Draw a line first
 	RectangleShape line;
-	line.setFillColor(Color::White);
+	line.setFillColor(Color::Black);
 	int length = 0;
 
 	switch (direction)
@@ -156,7 +157,7 @@ void onePlayer::drawLine(int x_begin, int y_begin, int direction)
 		break;
 	}
 	}
-	
+
 	for (int i = 0; i < length; i += 5)
 	{
 		displayGame();
@@ -164,10 +165,7 @@ void onePlayer::drawLine(int x_begin, int y_begin, int direction)
 		window.display();
 	}
 
-}
-
-bool onePlayer::displayResult(int whoWin)
-{
+	// Display the result and ask for continue
 	Text t;
 	switch (whoWin)
 	{
@@ -188,7 +186,7 @@ bool onePlayer::displayResult(int whoWin)
 	}
 	}
 	t.setFont(font_arial);
-	t.setFillColor(Color::White);
+	t.setFillColor(Color::Black);
 	t.setCharacterSize(30);
 
 	if (whoWin == 1) scoreX++;
@@ -234,6 +232,8 @@ bool onePlayer::displayResult(int whoWin)
 
 		// Display
 		displayGame();
+		window.draw(t);
+		if (whoWin) window.draw(line);
 		window.display();
 	}
 
@@ -272,35 +272,26 @@ void onePlayer::processKeyPressed(int keyCode)
 		if (b.markCell(cursorP.x, cursorP.y, 1))
 		{
 			if (direction = b.checkBoard(cursorP.x, cursorP.y, x_begin, y_begin))
-			{
-				drawLine(x_begin, y_begin, direction);
-				isExit = displayResult(1);
-			}
+				isExit = displayResult(x_begin, y_begin, direction, 1);
 			else if (b.getCountX() + b.getCountO() == BOARD_SIZE * BOARD_SIZE)
+				isExit = displayResult(0, 0, 0, 0);
+			else // Player doesn't win, so it is machine's turn
 			{
-				isExit = displayResult(0);
+				// The BOT is thinking
+				displayGame(); window.display();
+				//sleep(milliseconds(rand() % 501 + 500);
+
+				// Bot's Turn
+				Vector2u botMoving = botMove();
+				if (b.markCell(botMoving.x, botMoving.y, -1))
+				{
+					if (direction = b.checkBoard(botMoving.x, botMoving.y, x_begin, y_begin))
+						isExit = displayResult(x_begin, y_begin, direction, -1);
+					else if (b.getCountX() + b.getCountO() == BOARD_SIZE * BOARD_SIZE)
+						isExit = displayResult(0, 0, 0, 0);
+				}
 			}
 		}
-
-		// The BOT is thinking
-		displayGame(); window.display();
-		sleep(milliseconds(rand() % 1001 + 500));
-
-		// Bot's Turn
-		Vector2u botMoving = botMove();
-		if (b.markCell(botMoving.x, botMoving.y, -1))
-		{
-			if (direction = b.checkBoard(botMoving.x, botMoving.y, x_begin, y_begin))
-			{
-				drawLine(x_begin, y_begin, direction);
-				isExit = displayResult(-1);
-			}
-			else if (b.getCountX() + b.getCountO() == BOARD_SIZE * BOARD_SIZE)
-			{
-				isExit = displayResult(0);
-			}
-		}
-
 		break;
 	}
 	case Keyboard::Escape:
