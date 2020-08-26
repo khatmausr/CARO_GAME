@@ -149,7 +149,7 @@ int board::checkBoard(int x, int y, int& x_begin, int& y_begin)
 	return 0;
 }
 
-int board::getCell(int x, int y)
+bool board::isMarked(int x, int y)
 {
 	return arr[x][y];
 }

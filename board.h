@@ -20,7 +20,7 @@ public:
 	void redoMarkCell(int x, int y);
 	int  checkBoard(int x, int y, int& x_begin, int& y_begin);
 
-	int getCell(int x, int y);
-	int getCountX();
-	int getCountO();
+	bool isMarked(int x, int y);
+	int  getCountX();
+	int  getCountO();
 };

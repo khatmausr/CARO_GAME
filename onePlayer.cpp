@@ -12,7 +12,7 @@ onePlayer::~onePlayer()
 
 void onePlayer::askForName()
 {
-		menuMusic.stop();
+	menuMusic.stop();
 
 	// Dialog Box
 	sf::Sprite dialogBox(t_dialogBox);
@@ -324,20 +324,27 @@ Vector2u onePlayer::botMove()
 	return hardBotMove();
 }
 
-Vector2u onePlayer::easyBotMove()
+Vector2u onePlayer::easyBotMove() // Random somewhere is near the player's cell
 {
-	Vector2u ans(-1, -1);
+	std::vector <Vector2u> ans;
+	
+	Vector2u bestMove(-1, -1);
 
 	for (int i = 0; i < BOARD_SIZE; i++)
 		for (int j = 0; j < BOARD_SIZE; j++)
-			if (b.getCell(i, j) == 0) // Not marked yet
+			if (!b.isMarked(i, j)) // Not marked yet
 			{
-				Vector2u temp(i, j);
-				if (distance(temp, cursorP) < distance(ans, cursorP))
-					ans = temp;
+				Vector2u tempMove(i, j);
+				
+				if (distance(tempMove, cursorP) < distance(bestMove, cursorP))
+				{
+					bestMove = tempMove;
+					ans.clear(); ans.push_back(bestMove);
+				}
+				else if (distance(tempMove, cursorP) == distance(bestMove, cursorP)) ans.push_back(tempMove);
 			}
 
-	return ans;
+	return ans[rand() % ans.size()];
 }
 
 Vector2u onePlayer::medBotMove()
@@ -346,7 +353,7 @@ Vector2u onePlayer::medBotMove()
 
 	for (int i = 0; i < BOARD_SIZE; i++)
 		for (int j = 0; j < BOARD_SIZE; j++)
-			if (b.getCell(i, j) == 0) // Not marked yet
+			if (!b.isMarked(i, j)) // Not marked yet
 			{
 				// Try to mark
 				b.markCell(i, j, -1);

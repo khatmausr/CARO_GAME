@@ -7,6 +7,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <string>
+#include <vector>
 #include <ctime>
 
 // Headers
