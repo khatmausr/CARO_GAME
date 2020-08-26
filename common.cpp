@@ -279,7 +279,7 @@ void common::runGame()
 							mainMenu.isActive = true;
 							botMenu.isActive = false;
 							break;
-						case 3:
+						case 2:
 							delete g2;
 							g2 = new onePlayer(&t_gameBackground, 3);
 							g2->newGame();

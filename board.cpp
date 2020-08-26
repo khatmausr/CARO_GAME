@@ -81,7 +81,7 @@ bool board::markCell(int x, int y, int val)
 
 void board::redoMarkCell(int x, int y)
 {
-	arr[x] = 0; arr[y] = 0;
+	arr[x][y] = 0;
 }
 
 int board::checkBoard(int x, int y, int& x_begin, int& y_begin) 
