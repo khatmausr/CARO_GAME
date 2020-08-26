@@ -33,10 +33,14 @@ void common::initGame()
 	cursor_O.setTexture(t_cursor_O);
 
 	t_x_big.loadFromFile("image/x_big.png"); t_x_big.setSmooth(true);
-	x_big.setTexture(t_x_big); x_big.setPosition(Vector2f(42.f, 343.f));
+	x_big.setTexture(t_x_big); 
+	x_big.setOrigin(x_big.getLocalBounds().width / 2.0f, x_big.getLocalBounds().height / 2.0f);
+	x_big.setPosition(Vector2f(150.f, 365.f));
 	
 	t_o_big.loadFromFile("image/o_big.png"); t_o_big.setSmooth(true);
-	o_big.setTexture(t_o_big); o_big.setPosition(Vector2f(958.f, 343.f));
+	o_big.setTexture(t_o_big); 
+	o_big.setOrigin(o_big.getLocalBounds().width / 2.0f, o_big.getLocalBounds().height / 2.0f); 
+	o_big.setPosition(Vector2f(1060.f, 365.f));
 
 	font_arial.loadFromFile("font/arial.ttf");
 	font_courierNew.loadFromFile("font/courierNew.ttf");

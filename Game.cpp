@@ -368,45 +368,52 @@ void Game::displayGame()
 	// Loading some statistics
 	Text txt_countX, txt_countO, txt_scoreX, txt_scoreO, txt_playerName[2];
 
-	txt_countX.setFont(font_arial);
+	/*txt_countX.setFont(font_bebasNeueBold);
 	txt_countX.setFillColor(Color::White);
 	txt_countX.setCharacterSize(30);
 	txt_countX.setPosition(Vector2f(20.f, 600.f));
 
-	txt_countO.setFont(font_arial);
+	txt_countO.setFont(font_bebasNeueBold);
 	txt_countO.setFillColor(Color::White);
 	txt_countO.setCharacterSize(30);
-	txt_countO.setPosition(Vector2f(950.f, 600.f));
+	txt_countO.setPosition(Vector2f(950.f, 600.f));*/
 
-	txt_scoreX.setFont(font_arial);
+	txt_scoreX.setFont(font_bebasNeueBold);
 	txt_scoreX.setFillColor(Color::White);
 	txt_scoreX.setCharacterSize(100);
-	txt_scoreX.setPosition(Vector2f(100.f, 50.f));
 
-	txt_scoreO.setFont(font_arial);
+	txt_scoreO.setFont(font_bebasNeueBold);
 	txt_scoreO.setFillColor(Color::White);
 	txt_scoreO.setCharacterSize(100);
-	txt_scoreO.setPosition(Vector2f(1000.f, 50.f));
+	
 
 	for (int i = 0; i <= 1; i++)
 	{
-		txt_playerName[i].setFont(font_arial);
-		txt_playerName[i].setFillColor(Color::White);
+		txt_playerName[i].setFont(font_bebasNeueBold);
+		txt_playerName[i].setFillColor(Color::Black);
 		txt_playerName[i].setCharacterSize(30);
 		txt_playerName[i].setString(playerName[i]);
+		txt_playerName[i].setOrigin(txt_playerName[i].getLocalBounds().width / 2.0f, txt_playerName[i].getLocalBounds().height / 2 + 10.0f);
 	}
-	txt_playerName[0].setPosition(Vector2f(50.f, 0.f)); txt_playerName[1].setPosition(Vector2f(1000.f, 0.f));
+	txt_playerName[0].setPosition(Vector2f(150.f, 70.f)); txt_playerName[1].setPosition(Vector2f(1060.f, 70.f));
 
 	window.clear(Color::White);
 	window.draw(background);
 
 	b.displayBoard();
 
-	txt_scoreX.setString(std::to_string(scoreX)); window.draw(txt_scoreX);
-	txt_scoreO.setString(std::to_string(scoreO)); window.draw(txt_scoreO);
+	txt_scoreX.setString(std::to_string(scoreX)); 
+	txt_scoreX.setOrigin(txt_scoreX.getLocalBounds().width / 2.0, txt_scoreX.getLocalBounds().height / 2.0f + 10.0f);
+	txt_scoreX.setPosition(Vector2f(150.f, 630.f));
+	window.draw(txt_scoreX);
+	
+	txt_scoreO.setString(std::to_string(scoreO));
+	txt_scoreO.setOrigin(txt_scoreO.getLocalBounds().width / 2.0, txt_scoreO.getLocalBounds().height / 2.0f + 10.0f);
+	txt_scoreO.setPosition(Vector2f(1060.f, 630.f)); 
+	window.draw(txt_scoreO);
 
-	txt_countX.setString(std::to_string(b.getCountX())); window.draw(txt_countX);
-	txt_countO.setString(std::to_string(b.getCountO())); window.draw(txt_countO);
+	/*txt_countX.setString(std::to_string(b.getCountX())); window.draw(txt_countX);
+	txt_countO.setString(std::to_string(b.getCountO())); window.draw(txt_countO);*/
 
 	window.draw(txt_playerName[0]); window.draw(txt_playerName[1]);
 
