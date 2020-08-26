@@ -79,6 +79,11 @@ bool board::markCell(int x, int y, int val)
 	return false;
 }
 
+void board::redoMarkCell(int x, int y)
+{
+	arr[x] = 0; arr[y] = 0;
+}
+
 int board::checkBoard(int x, int y, int& x_begin, int& y_begin) 
 // Return direction of winning cells: 0 - Nothing, 1 - Vertical, 2 - Horizon, 3 - Diagonal, 4 - Anti Diagonal
 {
@@ -142,6 +147,11 @@ int board::checkBoard(int x, int y, int& x_begin, int& y_begin)
 	}
 	// Not any case? => return 0
 	return 0;
+}
+
+int board::getCell(int x, int y)
+{
+	return arr[x][y];
 }
 
 int board::getCountX()

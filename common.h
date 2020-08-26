@@ -5,8 +5,9 @@
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include <fstream>
-#include <ctime>
+#include <cstdlib>
 #include <string>
+#include <ctime>
 
 // Headers
 

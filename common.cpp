@@ -6,6 +6,8 @@
 #include "button.h"
 void common::initGame()
 {
+	srand((unsigned int) time(NULL));
+
 	window.create(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "CARO GAME");
 	window.setFramerateLimit(60);
 

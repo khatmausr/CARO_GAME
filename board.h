@@ -17,8 +17,10 @@ public:
 	void resetBoard();
 	void displayBoard();
 	bool markCell(int x, int y, int val);
+	void redoMarkCell(int x, int y);
 	int  checkBoard(int x, int y, int& x_begin, int& y_begin);
 
+	int getCell(int x, int y);
 	int getCountX();
 	int getCountO();
 };
