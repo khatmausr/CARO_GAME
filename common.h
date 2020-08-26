@@ -9,12 +9,8 @@
 #include <string>
 
 // Headers
-#include "board.h"
-#include "mainMenu.h"
-#include "Menu.h"
-#include "onePlayer.h"
-#include "twoPlayers.h"
-#include "button.h"
+
+
 
 // Define constants
 #define WINDOW_WIDTH  1200
@@ -22,8 +18,6 @@
 
 #define MENU_TOP 250.0f
 #define MENU_BUTTON_SPACING 75.0f
-
-#define BOARD_SIZE 20
 
 #define BOARD_LEFT 300.f
 #define BOARD_TOP  50.f

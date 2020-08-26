@@ -1,5 +1,5 @@
+#include "mainMenu.h"
 #include "common.h"
-
 void mainMenu::displayOpeningScreen()
 {
 	Texture t_icon; t_icon.loadFromFile("image/group02_logo.png");

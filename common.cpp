@@ -1,5 +1,9 @@
 #include "common.h"
-
+#include "mainMenu.h"
+#include "Menu.h"
+#include "onePlayer.h"
+#include "twoPlayers.h"
+#include "button.h"
 void common::initGame()
 {
 	window.create(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "CARO GAME");
@@ -90,7 +94,7 @@ void common::initGame()
 void common::runGame()
 {
 	// Initializing
-	twoPlayers g2(&t_gameBackground);
+	Game* g2 = new twoPlayers(&t_gameBackground);
 	mainMenu m;
 	Menu mainMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
 	Menu newGameMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
@@ -156,7 +160,7 @@ void common::runGame()
 						{
 						case 0:
 						{
-							if (g2.isContinue()) g2.continueGame();
+							if (g2->isContinue()) g2->continueGame();
 							//if(!g.isContinue()) mainMenu.setActive(false);
 							break;
 						}
@@ -168,8 +172,7 @@ void common::runGame()
 						}
 						case 2:
 						{
-							//sm.loadGameMenu(g);
-							//mainMenu.setActive(false);
+							
 							break;
 						}
 						case 3:
@@ -223,9 +226,10 @@ void common::runGame()
 							newGameMenu.isActive = false;
 							break;
 						case 1:
-							g2.resetData();
-							g2.newGame();
-							if (g2.isContinue()) mainMenu.setActiveBtn(0, true);
+							delete g2;
+							g2 = new twoPlayers(&t_gameBackground);
+							g2->newGame();
+							if (g2->isContinue()) mainMenu.setActiveBtn(0, true);
 							else mainMenu.setActiveBtn(0, false);
 							mainMenu.isActive = true;
 							newGameMenu.isActive = false;
@@ -271,5 +275,5 @@ void common::runGame()
 		}
 
 	}
-
+	delete g2;
 }
