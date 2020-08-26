@@ -370,14 +370,14 @@ Vector2u onePlayer::medBotMove()
 				b.redoMarkCell(i, j);
 			}
 
-	std::vector <Vector2u> ans;
-
 	for (int i = 0; i < BOARD_SIZE; i++)
 		for (int j = 0; j < BOARD_SIZE; j++)
 			if (b.getCell(i, j))
 			{
-				for (int k = 4; k >= 3; k--)
+				for (int k = 4; k >= 2; k--)
 				{
+					std::vector <Vector2u> ans;
+
 					int i_begin = 0, j_begin = 0;
 					int direction = b.checkBoard(i, j, i_begin, j_begin, k);
 
@@ -387,25 +387,25 @@ Vector2u onePlayer::medBotMove()
 					case 1:
 					{
 						temp1.x = i_begin - 1; temp1.y = j_begin; 
-						temp2.x = i_begin + 3; temp2.y = j_begin;
+						temp2.x = i_begin + k; temp2.y = j_begin;
 						break;
 					}
 					case 2:
 					{
 						temp1.x = i_begin; temp1.y = j_begin - 1;
-						temp2.x = i_begin; temp2.y = j_begin + 3;
+						temp2.x = i_begin; temp2.y = j_begin + k;
 						break;
 					}
 					case 3:
 					{
 						temp1.x = i_begin - 1; temp1.y = j_begin - 1;
-						temp2.x = i_begin + 3; temp2.y = j_begin + 3;
+						temp2.x = i_begin + k; temp2.y = j_begin + k;
 						break;
 					}
 					case 4:
 					{
 						temp1.x = i_begin - 1; temp1.y = j_begin + 1;
-						temp2.x = i_begin + 3; temp2.y = j_begin - 3;
+						temp2.x = i_begin + k; temp2.y = j_begin - k;
 						break;
 					}
 					}
@@ -414,9 +414,10 @@ Vector2u onePlayer::medBotMove()
 						ans.push_back(temp1);
 					if ((0 <= temp2.x) && (temp2.x < BOARD_SIZE) && (0 <= temp2.y) && (temp2.y < BOARD_SIZE) && (!b.getCell(temp2.x, temp2.y)))
 						ans.push_back(temp2);
-				}
+				
+					if (!ans.empty()) return ans[rand() % ans.size()];
 
-				if (!ans.empty()) return ans[rand() % ans.size()];
+				}
 			}
 
 	return easyBotMove();
