@@ -376,7 +376,7 @@ Vector2u onePlayer::medBotMove()
 		for (int j = 0; j < BOARD_SIZE; j++)
 			if (b.getCell(i, j))
 			{
-				for (int k = 3; k <= 4; k++)
+				for (int k = 4; k >= 3; k--)
 				{
 					int i_begin = 0, j_begin = 0;
 					int direction = b.checkBoard(i, j, i_begin, j_begin, k);
@@ -415,9 +415,10 @@ Vector2u onePlayer::medBotMove()
 					if ((0 <= temp2.x) && (temp2.x < BOARD_SIZE) && (0 <= temp2.y) && (temp2.y < BOARD_SIZE) && (!b.getCell(temp2.x, temp2.y)))
 						ans.push_back(temp2);
 				}
+
+				if (!ans.empty()) return ans[rand() % ans.size()];
 			}
 
-	if (!ans.empty()) return ans[rand() % ans.size()];
 	return easyBotMove();
 }
 
