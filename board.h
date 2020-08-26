@@ -18,9 +18,9 @@ public:
 	void displayBoard();
 	bool markCell(int x, int y, int val);
 	void redoMarkCell(int x, int y);
-	int  checkBoard(int x, int y, int& x_begin, int& y_begin);
+	int  checkBoard(int x, int y, int& x_begin, int& y_begin, int k = 5);
 
-	bool isMarked(int x, int y);
+	bool getCell(int x, int y);
 	int  getCountX();
 	int  getCountO();
 };

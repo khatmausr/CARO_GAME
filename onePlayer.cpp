@@ -324,7 +324,7 @@ Vector2u onePlayer::botMove()
 	return hardBotMove();
 }
 
-Vector2u onePlayer::easyBotMove() // Random somewhere is near the player's cell
+Vector2u onePlayer::easyBotMove() // Random somewhere nearly player's cell
 {
 	std::vector <Vector2u> ans;
 	
@@ -332,7 +332,7 @@ Vector2u onePlayer::easyBotMove() // Random somewhere is near the player's cell
 
 	for (int i = 0; i < BOARD_SIZE; i++)
 		for (int j = 0; j < BOARD_SIZE; j++)
-			if (!b.isMarked(i, j)) // Not marked yet
+			if (!b.getCell(i, j)) // Not marked yet
 			{
 				Vector2u tempMove(i, j);
 				
@@ -349,29 +349,80 @@ Vector2u onePlayer::easyBotMove() // Random somewhere is near the player's cell
 
 Vector2u onePlayer::medBotMove()
 {
-	Vector2u ans(-1, -1);
-
+	// If BOT can win in this turn, return that move
 	for (int i = 0; i < BOARD_SIZE; i++)
 		for (int j = 0; j < BOARD_SIZE; j++)
-			if (!b.isMarked(i, j)) // Not marked yet
+			if (!b.getCell(i, j)) // Not marked yet
 			{
 				// Try to mark
 				b.markCell(i, j, -1);
 				
 				// Checking
-				int dummy_i = 0, dummy_j = 0;
-				if (b.checkBoard(i, j, dummy_i, dummy_j)) Vector2u ans(i, j);
+				int i_begin = 0, j_begin = 0;
+				if (b.checkBoard(i, j, i_begin, j_begin))
+				{
+					b.redoMarkCell(i, j);
+					Vector2u temp(i, j);
+					return temp;
+				}
 
 				// Redo marking
 				b.redoMarkCell(i, j);
 			}
 
-	if (ans.x == -1) return easyBotMove(); // Finded notthing
-	return ans;
+	std::vector <Vector2u> ans;
+
+	for (int i = 0; i < BOARD_SIZE; i++)
+		for (int j = 0; j < BOARD_SIZE; j++)
+			if (b.getCell(i, j))
+			{
+				for (int k = 3; k <= 4; k++)
+				{
+					int i_begin = 0, j_begin = 0;
+					int direction = b.checkBoard(i, j, i_begin, j_begin, k);
+
+					Vector2u temp1(-1, -1), temp2(-1, -1);
+					switch (direction)
+					{
+					case 1:
+					{
+						temp1.x = i_begin - 1; temp1.y = j_begin; 
+						temp2.x = i_begin + 3; temp2.y = j_begin;
+						break;
+					}
+					case 2:
+					{
+						temp1.x = i_begin; temp1.y = j_begin - 1;
+						temp2.x = i_begin; temp2.y = j_begin + 3;
+						break;
+					}
+					case 3:
+					{
+						temp1.x = i_begin - 1; temp1.y = j_begin - 1;
+						temp2.x = i_begin + 3; temp2.y = j_begin + 3;
+						break;
+					}
+					case 4:
+					{
+						temp1.x = i_begin - 1; temp1.y = j_begin + 1;
+						temp2.x = i_begin + 3; temp2.y = j_begin - 3;
+						break;
+					}
+					}
+
+					if ((0 <= temp1.x) && (temp1.x < BOARD_SIZE) && (0 <= temp1.y) && (temp1.y < BOARD_SIZE) && (!b.getCell(temp1.x, temp1.y)))
+						ans.push_back(temp1);
+					if ((0 <= temp2.x) && (temp2.x < BOARD_SIZE) && (0 <= temp2.y) && (temp2.y < BOARD_SIZE) && (!b.getCell(temp2.x, temp2.y)))
+						ans.push_back(temp2);
+				}
+			}
+
+	if (!ans.empty()) return ans[rand() % ans.size()];
+	return easyBotMove();
 }
 
 Vector2u onePlayer::hardBotMove()
 {
 	// I'm thinking....
-	return easyBotMove();
+	return medBotMove();
 }

@@ -84,8 +84,9 @@ void board::redoMarkCell(int x, int y)
 	arr[x][y] = 0;
 }
 
-int board::checkBoard(int x, int y, int& x_begin, int& y_begin) 
+int board::checkBoard(int x, int y, int& x_begin, int& y_begin, int k) 
 // Return direction of winning cells: 0 - Nothing, 1 - Vertical, 2 - Horizon, 3 - Diagonal, 4 - Anti Diagonal
+// k is default assigned with 5
 {
 	x_begin = 0; y_begin = 0;
 	if (arr[x][y] == 0) return 0;
@@ -101,7 +102,7 @@ int board::checkBoard(int x, int y, int& x_begin, int& y_begin)
 	if (i_above == 0) block_above = 1; else block_above = arr[i_above - 1][y];
 	if (i_below == BOARD_SIZE - 1) block_below = 1; else block_below = arr[i_below + 1][y];
 
-	if ((i_below - i_above + 1 == 5) && (!block_above || !block_below))
+	if ((i_below - i_above + 1 == k) && (!block_above || !block_below))
 	{
 		x_begin = i_above; y_begin = y;
 		return 1;
@@ -114,7 +115,7 @@ int board::checkBoard(int x, int y, int& x_begin, int& y_begin)
 	if (j_left == 0) block_left = 1; else block_left = arr[x][j_left - 1];
 	if (j_right == BOARD_SIZE - 1) block_right = 1; else block_right = arr[x][j_right + 1];
 
-	if ((j_right - j_left + 1 == 5) && (!block_left || !block_right))
+	if ((j_right - j_left + 1 == k) && (!block_left || !block_right))
 	{
 		x_begin = x; y_begin = j_left;
 		return 2;
@@ -127,7 +128,7 @@ int board::checkBoard(int x, int y, int& x_begin, int& y_begin)
 	if ((i_above == 0) || (j_left == 0)) block_above = 1; else block_above = arr[i_above - 1][j_left - 1];
 	if ((i_below == BOARD_SIZE - 1) || (j_right == BOARD_SIZE - 1)) block_below = 1; else block_below = arr[i_below + 1][j_right + 1];
 
-	if ((i_below - i_above + 1 == 5) && (!block_above || !block_below))
+	if ((i_below - i_above + 1 == k) && (!block_above || !block_below))
 	{
 		x_begin = i_above; y_begin = j_left;
 		return 3;
@@ -140,7 +141,7 @@ int board::checkBoard(int x, int y, int& x_begin, int& y_begin)
 	if ((i_above == 0) || (j_right == BOARD_SIZE - 1)) block_above = 1; else block_above = arr[i_above - 1][j_right + 1];
 	if ((i_below == BOARD_SIZE - 1) || (j_left == 0)) block_below = 1; else block_below = arr[i_below + 1][j_left - 1];
 
-	if ((i_below - i_above + 1 == 5) && (!block_above || !block_below))
+	if ((i_below - i_above + 1 == k) && (!block_above || !block_below))
 	{
 		x_begin = i_above; y_begin = j_right;
 		return 4;
@@ -149,7 +150,7 @@ int board::checkBoard(int x, int y, int& x_begin, int& y_begin)
 	return 0;
 }
 
-bool board::isMarked(int x, int y)
+bool board::getCell(int x, int y)
 {
 	return arr[x][y];
 }
