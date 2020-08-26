@@ -370,55 +370,55 @@ Vector2u onePlayer::medBotMove()
 				b.redoMarkCell(i, j);
 			}
 
-	for (int i = 0; i < BOARD_SIZE; i++)
-		for (int j = 0; j < BOARD_SIZE; j++)
-			if (b.getCell(i, j))
-			{
-				for (int k = 4; k >= 2; k--)
-				{
-					std::vector <Vector2u> ans;
+	for (int k = 4; k >= 2; k--)
+	{
+		std::vector <Vector2u> ans;
 
+		for (int i = 0; i < BOARD_SIZE; i++)
+			for (int j = 0; j < BOARD_SIZE; j++)
+				if (b.getCell(i, j))
+				{
 					int i_begin = 0, j_begin = 0;
 					int direction = b.checkBoard(i, j, i_begin, j_begin, k);
 
-					Vector2u temp1(-1, -1), temp2(-1, -1);
+					Vector2u head(-1, -1), tail(-1, -1);
 					switch (direction)
 					{
 					case 1:
 					{
-						temp1.x = i_begin - 1; temp1.y = j_begin; 
-						temp2.x = i_begin + k; temp2.y = j_begin;
+						head.x = i_begin - 1; head.y = j_begin;
+						tail.x = i_begin + k; tail.y = j_begin;
 						break;
 					}
 					case 2:
 					{
-						temp1.x = i_begin; temp1.y = j_begin - 1;
-						temp2.x = i_begin; temp2.y = j_begin + k;
+						head.x = i_begin; head.y = j_begin - 1;
+						tail.x = i_begin; tail.y = j_begin + k;
 						break;
 					}
 					case 3:
 					{
-						temp1.x = i_begin - 1; temp1.y = j_begin - 1;
-						temp2.x = i_begin + k; temp2.y = j_begin + k;
+						head.x = i_begin - 1; head.y = j_begin - 1;
+						tail.x = i_begin + k; tail.y = j_begin + k;
 						break;
 					}
 					case 4:
 					{
-						temp1.x = i_begin - 1; temp1.y = j_begin + 1;
-						temp2.x = i_begin + k; temp2.y = j_begin - k;
+						head.x = i_begin - 1; head.y = j_begin + 1;
+						tail.x = i_begin + k; tail.y = j_begin - k;
 						break;
 					}
 					}
 
-					if ((0 <= temp1.x) && (temp1.x < BOARD_SIZE) && (0 <= temp1.y) && (temp1.y < BOARD_SIZE) && (!b.getCell(temp1.x, temp1.y)))
-						ans.push_back(temp1);
-					if ((0 <= temp2.x) && (temp2.x < BOARD_SIZE) && (0 <= temp2.y) && (temp2.y < BOARD_SIZE) && (!b.getCell(temp2.x, temp2.y)))
-						ans.push_back(temp2);
-				
-					if (!ans.empty()) return ans[rand() % ans.size()];
+					if ((0 <= head.x) && (head.x < BOARD_SIZE) && (0 <= head.y) && (head.y < BOARD_SIZE) && (!b.getCell(head.x, head.y)))
+						ans.push_back(head);
 
+					if ((0 <= tail.x) && (tail.x < BOARD_SIZE) && (0 <= tail.y) && (tail.y < BOARD_SIZE) && (!b.getCell(tail.x, tail.y)))
+						ans.push_back(tail);
 				}
-			}
+
+		if (!ans.empty()) return ans[rand() % ans.size()];
+	}
 
 	return easyBotMove();
 }
