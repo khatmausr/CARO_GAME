@@ -163,7 +163,6 @@ void common::runGame()
 						case 0:
 						{
 							if (g2->isContinue()) g2->continueGame();
-							//if(!g.isContinue()) mainMenu.setActive(false);
 							break;
 						}
 						case 1:
@@ -263,10 +262,31 @@ void common::runGame()
 						switch (botMenu.selectedItemIndex)
 						{
 						case 0:
+							delete g2;
+							g2 = new onePlayer(&t_gameBackground, 1);
+							g2->newGame();
+							if (g2->isContinue()) mainMenu.setActiveBtn(0, true);
+							else mainMenu.setActiveBtn(0, false);
+							mainMenu.isActive = true;
+							botMenu.isActive = false;
 							break;
 						case 1:
+							delete g2;
+							g2 = new onePlayer(&t_gameBackground, 2);
+							g2->newGame();
+							if (g2->isContinue()) mainMenu.setActiveBtn(0, true);
+							else mainMenu.setActiveBtn(0, false);
+							mainMenu.isActive = true;
+							botMenu.isActive = false;
 							break;
 						case 3:
+							delete g2;
+							g2 = new onePlayer(&t_gameBackground, 3);
+							g2->newGame();
+							if (g2->isContinue()) mainMenu.setActiveBtn(0, true);
+							else mainMenu.setActiveBtn(0, false);
+							mainMenu.isActive = true;
+							botMenu.isActive = false;
 							break;
 						}
 					}

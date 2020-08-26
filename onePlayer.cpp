@@ -183,7 +183,7 @@ bool onePlayer::displayResult(int whoWin)
 	}
 	case 1:
 	{
-		t.setString("YOU WUN!\n Press Esc to Exit or Enter to play another game...");
+		t.setString("YOU WON!\n Press Esc to Exit or Enter to play another game...");
 		break;
 	}
 	}
