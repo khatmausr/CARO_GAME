@@ -403,12 +403,12 @@ void Game::displayGame()
 	b.displayBoard();
 
 	txt_scoreX.setString(std::to_string(scoreX)); 
-	txt_scoreX.setOrigin(txt_scoreX.getLocalBounds().width / 2.0, txt_scoreX.getLocalBounds().height / 2.0f + 10.0f);
+	txt_scoreX.setOrigin(float(txt_scoreX.getLocalBounds().width / 2.0), float(txt_scoreX.getLocalBounds().height / 2.0f + 10.0f));
 	txt_scoreX.setPosition(Vector2f(150.f, 630.f));
 	window.draw(txt_scoreX);
 	
 	txt_scoreO.setString(std::to_string(scoreO));
-	txt_scoreO.setOrigin(txt_scoreO.getLocalBounds().width / 2.0, txt_scoreO.getLocalBounds().height / 2.0f + 10.0f);
+	txt_scoreO.setOrigin(float(txt_scoreO.getLocalBounds().width / 2.0), float(txt_scoreO.getLocalBounds().height / 2.0f + 10.0f));
 	txt_scoreO.setPosition(Vector2f(1060.f, 630.f)); 
 	window.draw(txt_scoreO);
 

@@ -13,8 +13,6 @@ twoPlayers::~twoPlayers()
 
 void twoPlayers::askForName()
 {
-	menuMusic.stop();
-
 	// Dialog Box
 	sf::Sprite dialogBox(t_dialogBox);
 	dialogBox.setOrigin(dialogBox.getLocalBounds().width / 2.0f, dialogBox.getLocalBounds().height / 2.0f);

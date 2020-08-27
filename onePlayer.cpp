@@ -12,8 +12,6 @@ onePlayer::~onePlayer()
 
 void onePlayer::askForName()
 {
-	menuMusic.stop();
-
 	// Dialog Box
 	sf::Sprite dialogBox(t_dialogBox);
 	dialogBox.setOrigin(dialogBox.getLocalBounds().width / 2.0f, dialogBox.getLocalBounds().height / 2.0f);
@@ -349,27 +347,6 @@ Vector2u onePlayer::easyBotMove() // Random somewhere nearly player's cell
 
 Vector2u onePlayer::medBotMove()
 {
-	// If BOT can win in this turn, return that move
-	for (int i = 0; i < BOARD_SIZE; i++)
-		for (int j = 0; j < BOARD_SIZE; j++)
-			if (!b.getCell(i, j)) // Not marked yet
-			{
-				// Try to mark
-				b.markCell(i, j, -1);
-				
-				// Checking
-				int i_begin = 0, j_begin = 0;
-				if (b.checkBoard(i, j, i_begin, j_begin))
-				{
-					b.redoMarkCell(i, j);
-					Vector2u temp(i, j);
-					return temp;
-				}
-
-				// Redo marking
-				b.redoMarkCell(i, j);
-			}
-
 	for (int k = 4; k >= 2; k--)
 	{
 		std::vector <Vector2u> ans;
@@ -410,11 +387,21 @@ Vector2u onePlayer::medBotMove()
 					}
 					}
 
+					int count_push = 0;
 					if ((0 <= head.x) && (head.x < BOARD_SIZE) && (0 <= head.y) && (head.y < BOARD_SIZE) && (!b.getCell(head.x, head.y)))
+					{
 						ans.push_back(head);
+						count_push++;
+					}
 
 					if ((0 <= tail.x) && (tail.x < BOARD_SIZE) && (0 <= tail.y) && (tail.y < BOARD_SIZE) && (!b.getCell(tail.x, tail.y)))
+					{
 						ans.push_back(tail);
+						count_push++;
+					}
+
+					if (count_push == 2) // There's two point to push, so it's dangerous, must hit them fisrt
+						return ((rand() % 2) ? head : tail); // Head or Tail is the same, so randomly return
 				}
 
 		if (!ans.empty()) return ans[rand() % ans.size()];
