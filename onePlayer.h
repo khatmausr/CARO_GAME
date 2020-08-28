@@ -13,6 +13,7 @@ private:
 	Vector2u easyBotMove();
 	Vector2u medBotMove();
 	Vector2u hardBotMove();
+	Vector3i alphaBetaPrunning(bool isMaximize, int depth, int maxDepth);
 
 public:
 	onePlayer(Texture* bgTexture, int level);

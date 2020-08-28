@@ -317,7 +317,7 @@ void common::aboutMenu()
 	window.clear();
 	window.draw(bg);
 	window.draw(contentBg);
-	for (int i = 0; i < textList.size(); ++i)
+	for (unsigned int i = 0; i < textList.size(); ++i)
 	{
 		textList[i].setFillColor(sf::Color::White);
 		textList[i].setOrigin(textList[i].getLocalBounds().width / 2.0f + 10.0f, 0);
