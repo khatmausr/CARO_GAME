@@ -20,6 +20,7 @@
 
 #define MENU_TOP 250.0f
 #define MENU_BUTTON_SPACING 75.0f
+#define MENU_LINE_SPACING 40.0f
 
 #define BOARD_LEFT 300.f
 #define BOARD_TOP  50.f
@@ -57,6 +58,7 @@ extern Sprite x_big, o_big;
 extern Font font_arial;
 extern Font font_courierNew;
 extern Font font_bebasNeueBold;
+extern Font font_robotoMonoBold;
 
 extern Music menuMusic;
 extern Music gameMusic;
@@ -93,4 +95,5 @@ class common
 public:
 	static void initGame();
 	static void runGame();
+	static void aboutMenu();
 };

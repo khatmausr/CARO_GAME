@@ -28,6 +28,7 @@ Sprite x_big, o_big;
 Font font_arial;
 Font font_courierNew;
 Font font_bebasNeueBold;
+Font font_robotoMonoBold;
 
 // Menu musics and sounds
 Music menuMusic;

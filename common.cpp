@@ -1,4 +1,4 @@
-#include "common.h"
+﻿#include "common.h"
 #include "mainMenu.h"
 #include "Menu.h"
 #include "onePlayer.h"
@@ -6,7 +6,7 @@
 #include "button.h"
 void common::initGame()
 {
-	srand((unsigned int) time(NULL));
+	srand((unsigned int)time(NULL));
 
 	window.create(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "CARO GAME");
 	window.setFramerateLimit(60);
@@ -33,18 +33,19 @@ void common::initGame()
 	cursor_O.setTexture(t_cursor_O);
 
 	t_x_big.loadFromFile("image/x_big.png"); t_x_big.setSmooth(true);
-	x_big.setTexture(t_x_big); 
+	x_big.setTexture(t_x_big);
 	x_big.setOrigin(x_big.getLocalBounds().width / 2.0f, x_big.getLocalBounds().height / 2.0f);
 	x_big.setPosition(Vector2f(150.f, 365.f));
-	
+
 	t_o_big.loadFromFile("image/o_big.png"); t_o_big.setSmooth(true);
-	o_big.setTexture(t_o_big); 
-	o_big.setOrigin(o_big.getLocalBounds().width / 2.0f, o_big.getLocalBounds().height / 2.0f); 
+	o_big.setTexture(t_o_big);
+	o_big.setOrigin(o_big.getLocalBounds().width / 2.0f, o_big.getLocalBounds().height / 2.0f);
 	o_big.setPosition(Vector2f(1060.f, 365.f));
 
 	font_arial.loadFromFile("font/arial.ttf");
 	font_courierNew.loadFromFile("font/courierNew.ttf");
 	font_bebasNeueBold.loadFromFile("font/BebasNeue-Bold.ttf");
+	font_robotoMonoBold.loadFromFile("font/RobotoMono-Bold.ttf");
 
 	menuMusic.openFromFile("sound/menu_music.ogg");
 	menuMusic.setLoop(true);
@@ -56,44 +57,30 @@ void common::initGame()
 	optionSound.setBuffer(s_optionSound);
 
 	// Blue
-	if (!t_blueButton_default.loadFromFile("image/Button/Blue/Button-default.png"))
-		std::cout << "Can not load texture!\n";
-	if (!t_blueButton_mouseOver.loadFromFile("image/Button/Blue/Button-mouseOver.png"))
-		std::cout << "Can not load texture!\n";
+	t_blueButton_default.loadFromFile("image/Button/Blue/Button-default.png");
+	t_blueButton_mouseOver.loadFromFile("image/Button/Blue/Button-mouseOver.png");
 
 	// Brown
-	if (!t_brownButton_default.loadFromFile("image/Button/Brown/Button-default.png"))
-		std::cout << "Can not load texture!\n";
-	if (!t_brownButton_mouseOver.loadFromFile("image/Button/Brown/Button-mouseOver.png"))
-		std::cout << "Can not load texture!\n";
+	t_brownButton_default.loadFromFile("image/Button/Brown/Button-default.png");
+	t_brownButton_mouseOver.loadFromFile("image/Button/Brown/Button-mouseOver.png");
 
 	// Green
-	if (!t_greenButton_default.loadFromFile("image/Button/Green/Button-default.png"))
-		std::cout << "Can not load texture!\n";
-	if (!t_greenButton_mouseOver.loadFromFile("image/Button/Green/Button-mouseOver.png"))
-		std::cout << "Can not load texture!\n";
+	t_greenButton_default.loadFromFile("image/Button/Green/Button-default.png");
+	t_greenButton_mouseOver.loadFromFile("image/Button/Green/Button-mouseOver.png");
 
 	// Red
-	if (!t_redButton_default.loadFromFile("image/Button/Red/Button-default.png"))
-		std::cout << "Can not load texture!\n";
-	if (!t_redButton_mouseOver.loadFromFile("image/Button/Red/Button-mouseOver.png"))
-		std::cout << "Can not load texture!\n";
+	t_redButton_default.loadFromFile("image/Button/Red/Button-default.png");
+	t_redButton_mouseOver.loadFromFile("image/Button/Red/Button-mouseOver.png");
 
 	// Yellow
-	if (!t_yellowButton_default.loadFromFile("image/Button/Yellow/Button-default.png"))
-		std::cout << "Can not load texture!\n";
-	if (!t_yellowButton_mouseOver.loadFromFile("image/Button/Yellow/Button-mouseOver.png"))
-		std::cout << "Can not load texture!\n";
+	t_yellowButton_default.loadFromFile("image/Button/Yellow/Button-default.png");
+	t_yellowButton_mouseOver.loadFromFile("image/Button/Yellow/Button-mouseOver.png");
 
 	// Name Input
-	if (!t_dialogBox.loadFromFile("image/dialogBox.png"))
-		std::cout << "Can not load texture!\n";
-	if (!t_textPlaceholder.loadFromFile("image/textPlaceholder.png"))
-		std::cout << "Can not load texture!\n";
-	if (!t_navBack.loadFromFile("image/Button/Navigation/back.png"))
-		std::cout << "Can not load texture!\n";
-	if (!t_navOk.loadFromFile("image/Button/Navigation/ok.png"))
-		std::cout << "Can not load texture!\n";
+	t_dialogBox.loadFromFile("image/dialogBox.png");
+	t_textPlaceholder.loadFromFile("image/textPlaceholder.png");
+	t_navBack.loadFromFile("image/Button/Navigation/back.png");
+	t_navOk.loadFromFile("image/Button/Navigation/ok.png");
 
 }
 
@@ -159,7 +146,7 @@ void common::runGame()
 				}
 				if (e.type == sf::Event::MouseButtonPressed)
 				{
-					mainMenu.update(sf::Vector2f((float) e.mouseButton.x, (float) e.mouseButton.y), true);
+					mainMenu.update(sf::Vector2f((float)e.mouseButton.x, (float)e.mouseButton.y), true);
 					if (e.mouseButton.button == sf::Mouse::Left)
 					{
 						switch (mainMenu.selectedItemIndex)
@@ -177,7 +164,7 @@ void common::runGame()
 						}
 						case 2:
 						{
-							
+
 							break;
 						}
 						case 3:
@@ -188,7 +175,7 @@ void common::runGame()
 						}
 						case 4:
 						{
-							//sm.aboutMenu();
+							aboutMenu();
 							//mainMenu.setActive(false);
 							break;
 						}
@@ -202,7 +189,7 @@ void common::runGame()
 					}
 				}
 				else if (e.type == sf::Event::MouseMoved)
-					mainMenu.update(sf::Vector2f((float) e.mouseMove.x, (float) e.mouseMove.y), false);
+					mainMenu.update(sf::Vector2f((float)e.mouseMove.x, (float)e.mouseMove.y), false);
 			}
 
 			if (!window.isOpen()) mainMenu.isActive = false;
@@ -221,7 +208,7 @@ void common::runGame()
 				}
 				if (e.type == sf::Event::MouseButtonPressed)
 				{
-					newGameMenu.update(sf::Vector2f((float) e.mouseButton.x, (float) e.mouseButton.y), true);
+					newGameMenu.update(sf::Vector2f((float)e.mouseButton.x, (float)e.mouseButton.y), true);
 					if (e.mouseButton.button == sf::Mouse::Left)
 					{
 						switch (newGameMenu.selectedItemIndex)
@@ -243,7 +230,7 @@ void common::runGame()
 					}
 				}
 				else if (e.type == sf::Event::MouseMoved)
-					newGameMenu.update(sf::Vector2f((float) e.mouseMove.x, (float) e.mouseMove.y), false);
+					newGameMenu.update(sf::Vector2f((float)e.mouseMove.x, (float)e.mouseMove.y), false);
 			}
 		}
 		while (botMenu.isActive)
@@ -260,7 +247,7 @@ void common::runGame()
 				}
 				if (e.type == sf::Event::MouseButtonPressed)
 				{
-					botMenu.update(sf::Vector2f((float) e.mouseButton.x, (float) e.mouseButton.y), true);
+					botMenu.update(sf::Vector2f((float)e.mouseButton.x, (float)e.mouseButton.y), true);
 					if (e.mouseButton.button == sf::Mouse::Left)
 					{
 						switch (botMenu.selectedItemIndex)
@@ -296,10 +283,61 @@ void common::runGame()
 					}
 				}
 				else if (e.type == sf::Event::MouseMoved)
-					botMenu.update(sf::Vector2f((float) e.mouseMove.x, (float) e.mouseMove.y), false);
+					botMenu.update(sf::Vector2f((float)e.mouseMove.x, (float)e.mouseMove.y), false);
 			}
 		}
 
 	}
 	delete g2;
+}
+
+void common::aboutMenu()
+{
+	sf::Sprite bg(t_menuBackground);
+	sf::RectangleShape contentBg(sf::Vector2f(800.0f, 530.0f));
+	contentBg.setFillColor(sf::Color(0, 0, 0, 150));
+	contentBg.setOrigin(contentBg.getLocalBounds().width / 2.0f, 0);
+	contentBg.setPosition(WINDOW_WIDTH / 2.0f, 170.0f);
+	std::vector<sf::Text> textList;
+
+	textList.push_back(Text("Ho Chi Minh City University of Science", font_robotoMonoBold, 24));
+	textList.push_back(Text("Viet Nam National University, Ho Chi Minh City", font_robotoMonoBold, 24));
+	textList.push_back(Text("Project", font_robotoMonoBold, 24));
+	textList.push_back(Text("Object Oriented Programming", font_robotoMonoBold, 40));
+	textList.push_back(Text("Game CARO (Version 1.0)", font_robotoMonoBold, 30));
+	textList.push_back(Text("Ho Huu Vien                               18127251", font_robotoMonoBold, 24));
+	textList.push_back(Text("Pham Anh Tuan                             19127084", font_robotoMonoBold, 24));
+	textList.push_back(Text("Nguyen Thanh Tinh                         19127292", font_robotoMonoBold, 24));
+	textList.push_back(Text("Tran Xuan Son                             19127321", font_robotoMonoBold, 24));
+	textList.push_back(Text("Special thanks to", font_robotoMonoBold, 30));
+	textList.push_back(Text("M. Truong Toan Thinh      -        Theory Lecturer", font_robotoMonoBold, 24));
+	textList.push_back(Text("M. Nguyen Thanh An        -     Teaching Assistant", font_robotoMonoBold, 24));
+	textList.push_back(Text("M. Tran Ngoc Dat Thanh    -           LAB Lecturer", font_robotoMonoBold, 24));
+
+	window.clear();
+	window.draw(bg);
+	window.draw(contentBg);
+	for (int i = 0; i < textList.size(); ++i)
+	{
+		textList[i].setFillColor(sf::Color::White);
+		textList[i].setOrigin(textList[i].getLocalBounds().width / 2.0f + 10.0f, 0);
+		textList[i].setPosition(WINDOW_WIDTH / 2.0f, 170.0f + MENU_LINE_SPACING * i + 10.0f);
+		window.draw(textList[i]);
+	}
+	window.display();
+	bool isExit = false;
+	while (!isExit)
+	{
+		Event e;
+		while (window.pollEvent(e))
+		{
+			if (e.type == sf::Event::Closed)
+			{
+				isExit = true;
+				window.close();
+			}
+			if (e.type == sf::Event::KeyPressed)
+				return;
+		}
+	}
 }
