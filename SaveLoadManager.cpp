@@ -1,3 +1,4 @@
+#include "common.h"
 #include "SaveLoadManager.h"
 
 std::istream& operator >> (std::istream& in, tm*& ltm)
@@ -99,4 +100,99 @@ void SaveLoadManager::pushSaveGame(saveGameInfo& temp)
 	}
 
 	updateFileManager();
+}
+
+int SaveLoadManager::loadForGame(std::string& filename)
+{
+	updateSaveList();
+
+	// Declaire for some object
+	RectangleShape chooseBox(Vector2f(800.f, 50.f));
+	chooseBox.setFillColor(Color(0, 0, 0, 128));
+
+	std::vector <Text> option(saveList.size());
+	for (unsigned int i = 0; i < option.size(); i++)
+	{
+		option[i].setFont(font_arial);
+		option[i].setFillColor(Color::White);
+		option[i].setCharacterSize(30);
+		option[i].setPosition(Vector2f(0.f, 5.f + 50.f * i));
+		option[i].setString(saveList[i]._filename + " " + std::to_string(saveList[i]._typeGame) + " " + saveList[i]._s1 + " " + saveList[i]._s2);
+	}
+
+	// Choose a file to load
+	unsigned int choice = 0;
+	bool isDone = false;
+	while (!isDone)
+	{
+		// Event
+		Event e;
+
+		while (window.pollEvent(e))
+		{
+			if (e.type == Event::Closed)
+			{
+				isDone = true;
+				window.close();
+			}
+			
+			if (e.type == Event::KeyPressed)
+				switch (e.key.code)
+				{
+				case Keyboard::Escape:
+				{
+					isDone = true;
+					break;
+				}
+				case Keyboard::Up:
+				{
+					if (choice > 0) choice--;
+					break;
+				}
+				case Keyboard::Down:
+				{
+					if (choice < option.size() - 1) choice++;
+					break;
+				}
+				case Keyboard::Enter:
+				{
+					// Announce It's Done
+					Text txt_status;
+					txt_status.setFont(font_arial);
+					txt_status.setCharacterSize(50);
+					txt_status.setStyle(Text::Italic);
+					txt_status.setString("Done!");
+
+					for (int i = 0; i <= 25; i++)
+					{
+						txt_status.setFillColor(Color(0, 255, 0, i * 10));
+						txt_status.setPosition(Vector2f(1000.f, 200.f + 2.f * i));
+
+						window.clear(Color::White); window.draw(menuBackground);
+						chooseBox.setPosition(Vector2f(0.f, 50.f * choice)); window.draw(chooseBox);
+						for (unsigned int i = 0; i < option.size(); i++) window.draw(option[i]);
+						window.draw(txt_status);
+						window.display();
+					}
+
+					sleep(milliseconds(1000));
+
+					// Return the answer
+					isDone = true;
+					filename = saveList[choice]._filename;
+					return saveList[choice]._typeGame;
+					break;
+				}
+				}
+		}
+
+		// Display
+		window.clear(Color::White); window.draw(menuBackground);
+		chooseBox.setPosition(Vector2f(0.f, 50.f * choice)); window.draw(chooseBox);
+		for (unsigned int i = 0; i < option.size(); i++) window.draw(option[i]);
+		window.display();
+	}
+
+	filename = "";
+	return -1; //Exit with No file choosen
 }

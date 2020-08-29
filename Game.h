@@ -32,8 +32,6 @@ protected:
 	void runGame();
 	void resetData();
 	void exitGame();
-	void saveGame(std::string fileName);
-	void loadGame(std::string fileName);
 
 	void displayGame();
 
@@ -47,6 +45,8 @@ public:
 	void newGame();
 	void askForLoad();
 	void askForSave();
+	void saveGame(std::string fileName);
+	void loadGame(std::string fileName);
 	int getType();
 };
 

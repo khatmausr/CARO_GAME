@@ -4,6 +4,8 @@
 #include "onePlayer.h"
 #include "twoPlayers.h"
 #include "button.h"
+#include "SaveLoadManager.h"
+
 void common::initGame()
 {
 	srand((unsigned int)time(NULL));
@@ -92,6 +94,8 @@ void common::runGame()
 	Menu mainMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
 	Menu newGameMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
 	Menu botMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
+	SaveLoadManager LoadGameMenu;
+
 	//subMenu sm;
 	int choice = 1;
 	//Button btn(&t_blueButton_default, &t_blueButton_mouseOver, &t_blueButton_pressed, &s_optionSound, "NEW GAME", sf::Vector2f(500.0f, 50.0f));
@@ -164,7 +168,15 @@ void common::runGame()
 						}
 						case 2:
 						{
+							std::string filename = "";
+							int typeGame = LoadGameMenu.loadForGame(filename);
 
+							if (typeGame != -1)
+							{
+								// Da hinh cai game g dua theo typeGame
+								//g2->loadGame(filename);
+								//g2->continueGame();
+							}
 							break;
 						}
 						case 3:
