@@ -5,6 +5,7 @@
 #include "twoPlayers.h"
 #include "button.h"
 #include "SaveLoadManager.h"
+#include "HighScoreManager.h"
 
 void common::initGame()
 {
@@ -95,6 +96,7 @@ void common::runGame()
 	Menu newGameMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
 	Menu botMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
 	SaveLoadManager LoadGameMenu;
+	HighScoreManager HighScore;
 
 	//subMenu sm;
 	int choice = 1;
@@ -181,8 +183,7 @@ void common::runGame()
 						}
 						case 3:
 						{
-							//sm.highScoreMenu();
-							//mainMenu.setActive(false);
+							HighScore.showHighScore();
 							break;
 						}
 						case 4:

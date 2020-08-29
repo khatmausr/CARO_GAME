@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "SaveLoadManager.h"
+#include "HighScoreManager.h"
 
 void Game::continueGame()
 {
@@ -341,6 +342,22 @@ void Game::exitGame()
 {
 	turn = 0; isExit = true;
 	gameMusic.stop(); menuMusic.stop();
+
+	if (typeGame)
+	{
+		time_t now = time(0);
+		HighScoreInfo temp; temp._ltm = new tm;
+		temp._playerName = playerName[0];
+		temp._typeGame = typeGame;
+		temp._score = scoreX - scoreO;
+		temp._scoreX = scoreX;
+		temp._scoreO = scoreO;
+		localtime_s(temp._ltm, &now);
+
+		HighScoreManager HSM;
+		HSM.pushHighScore(temp);
+	}
+
 	window.close();
 }
 
