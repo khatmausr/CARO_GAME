@@ -1,4 +1,5 @@
 #include "board.h"
+#include "common.h"
 
 board::board()
 {

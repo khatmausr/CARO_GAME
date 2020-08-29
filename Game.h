@@ -1,12 +1,13 @@
 #pragma once
+#include "common.h"
 #include "board.h"
-using namespace sf;
+
 // Save - Load Game Data Struct - Using for storing data by binary format file
 struct saveGameData
 {
 	int _typeGame;
 	int _board[BOARD_SIZE * BOARD_SIZE + 2];
-	int _turn;
+	int _turn = 0;
 	Vector2u cursorP;
 	int _scoreX, _scoreO;
 	bool _isExit;

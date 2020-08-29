@@ -85,25 +85,6 @@ extern Texture t_textPlaceholder;
 extern Texture t_navBack;
 extern Texture t_navOk;
 
-
-// Input - Ouput DateAndTime
-extern std::istream& operator >> (std::istream& in, tm*& ltm);
-extern std::ostream& operator << (std::ostream& out, tm*& ltm);
-
-// Save Game Files Manager Struct
-struct saveGameManager
-{
-	std::string _filename;
-	int _typeGame;
-	std::string _s1, _s2; // 2P game: s1: player 1's name, s2: player 2's name
-						// 1P game: s1: player's name, s2: score
-	tm* _ltm;
-};
-
-extern std::istream& operator >> (std::istream& in, saveGameManager& temp);
-extern std::ostream& operator << (std::ostream& out, saveGameManager& temp);
-
-
 // Common methods
 class common
 {

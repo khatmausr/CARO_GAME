@@ -1,6 +1,7 @@
 #pragma once
-#include "common.h"
+#include <vector>
 #define BOARD_SIZE 20
+
 class board
 {
 private:

@@ -156,6 +156,7 @@
     <ClCompile Include="common.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="init.cpp" />
+    <ClCompile Include="SaveLoadManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainMenu.cpp" />
     <ClCompile Include="Menu.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="board.h" />
     <ClInclude Include="common.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="SaveLoadManager.h" />
     <ClInclude Include="mainMenu.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="onePlayer.h" />

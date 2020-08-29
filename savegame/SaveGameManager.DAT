@@ -1,11 +1,51 @@
+10
+savegame/Med1.SGO
 2
-savegame/test.SGO
+VC
+Medium Bot
+14 0 29 59 7 32 6 241 120
+savegame/Med2.SGO
+2
+VC
+Medium Bot
+14 0 29 59 7 39 6 241 120
+savegame/Ez1.SGO
+1
+VC
+Easy Bot
+15 0 29 0 7 2 6 241 120
+savegame/Ez2.SGO
+1
+VC
+Easy Bot
+15 0 29 0 7 10 6 241 120
+savegame/Ez3.SGO
+1
+VC
+Easy Bot
+15 0 29 0 7 15 6 241 120
+savegame/Hard1.SGO
 3
 VC
-1-4
-11 0 29 53 7 5 6 241 120
-savegame/hihi.SGO
-2
+Hard Bot
+15 0 29 0 7 34 6 241 120
+savegame/Hard2.SGO
+3
 VC
-0-0
-12 0 29 10 7 10 6 241 120
+Hard Bot
+15 0 29 0 7 39 6 241 120
+savegame/TinhSon1.SGO
+0
+TINH
+SON
+15 0 29 2 7 37 6 241 120
+savegame/TinhSon2.SGO
+0
+TINH
+SON
+15 0 29 2 7 45 6 241 120
+savegame/TinhSon3.SGO
+0
+TINH
+SON
+15 0 29 2 7 55 6 241 120

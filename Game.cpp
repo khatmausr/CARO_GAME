@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "SaveLoadManager.h"
 
 void Game::continueGame()
 {
@@ -47,21 +48,6 @@ void Game::askForLoad()
 	txt_isAvailable.setPosition(Vector2f(900.f, 420.f));
 	txt_isAvailable.setString("This file is unavailable!");
 
-	// Load SaveGameManager file
-	std::vector <saveGameManager> saveList;
-
-	std::ifstream finSGM("savegame/SaveGameManager.DAT");
-	int n; finSGM >> n; finSGM.ignore();
-
-	for (int i = 0; i < n; i++)
-	{
-		saveGameManager temp; temp._ltm = new tm;
-		finSGM >> temp;
-		saveList.push_back(temp);
-	}
-
-	finSGM.close();
-
 	// Dimming
 	for (int i = 0; i <= 20; i++)
 	{
@@ -74,6 +60,7 @@ void Game::askForLoad()
 	Event temp; window.pollEvent(temp);
 
 	// Entering
+	SaveLoadManager SLM;
 	bool isDone = false, isAvailable = false;
 	std::string filename = "";
 	while (!isDone)
@@ -96,15 +83,9 @@ void Game::askForLoad()
 				{
 					if (filename.length() > 0)
 					{
-						filename.pop_back();
-						
+						filename.pop_back(); 	
 						txt_filename.setString(filename + ".SGO");
-						
-						// Check for available
-						isAvailable = false;
-						for (unsigned int i = 0; i < saveList.size(); i++)
-							if (("savegame/" + filename + ".SGO" == saveList[i]._filename) && (bool(typeGame) == bool(saveList[i]._typeGame)))
-								isAvailable = true;
+						isAvailable = SLM.checkFile("savegame/" + filename + ".SGO", typeGame);
 					}
 					break;
 				}
@@ -148,12 +129,7 @@ void Game::askForLoad()
 					{
 						filename += e.text.unicode;
 						txt_filename.setString(filename + ".SGO");
-						
-						// Check for available
-						isAvailable = false;
-						for (unsigned int i = 0; i < saveList.size(); i++)
-							if (("savegame/" + filename + ".SGO" == saveList[i]._filename) && (bool(typeGame) == bool(saveList[i]._typeGame)))
-								isAvailable = true;
+						isAvailable = SLM.checkFile("savegame/" + filename + ".SGO", typeGame);
 					}
 				}
 				}
@@ -385,47 +361,17 @@ void Game::saveGame(std::string fileName)
 	fout.write((char*)&data, sizeof(saveGameData));
 	fout.close();
 
-	// Save to manager file
-	std::vector <saveGameManager> saveList;
-	
-	// Read first
-	std::ifstream finSGM("savegame/SaveGameManager.DAT");
-	int n; finSGM >> n; finSGM.ignore();
-
-	for (int i = 0; i < n; i++)
-	{
-		saveGameManager temp; temp._ltm = new tm;
-		finSGM >> temp;
-		saveList.push_back(temp);
-	}
-
-	finSGM.close();
-
-	// Push the latest save game into the list
+	// Push to manager file
 	time_t now = time(0);
-	saveGameManager temp; temp._ltm = new tm;
+	saveGameInfo temp; temp._ltm = new tm;
 	temp._filename = fileName;
 	temp._typeGame = typeGame;
 	temp._s1 = playerName[0];
-	temp._s2 = (typeGame == 0) ? playerName[1] : std::to_string(scoreX) + "-" + std::to_string(scoreO);
+	temp._s2 = playerName[1];
 	localtime_s(temp._ltm, &now);
 	
-	bool isExist = false;
-	for (unsigned int i = 0; i < saveList.size(); i++)
-		if (saveList[i]._filename == temp._filename)
-		{
-			saveList[i] = temp;
-			isExist = true;
-		}
-	if (!isExist) saveList.push_back(temp);
-	
-	// Write second
-	std::ofstream foutSGM("saveGame/SaveGameManager.DAT");
-	foutSGM << saveList.size() << std::endl;
-	for (unsigned int i = 0; i < saveList.size(); i++)
-		foutSGM << saveList[i];
-	foutSGM.close();
-
+	SaveLoadManager SLM;
+	SLM.pushSaveGame(temp);
 }
 
 void Game::loadGame(std::string fileName)
