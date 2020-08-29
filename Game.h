@@ -11,6 +11,7 @@ struct saveGameData
 	int _scoreX, _scoreO;
 	bool _isExit;
 };
+
 class Game
 {
 protected:
@@ -34,7 +35,6 @@ protected:
 	void loadGame(std::string fileName);
 
 	void displayGame();
-	void displayDraw();
 
 	void changeTurn();
 	

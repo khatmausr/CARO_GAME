@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <iostream>
 
 using namespace sf;
 
@@ -60,4 +61,47 @@ Texture t_textPlaceholder;
 Texture t_navBack;
 Texture t_navOk;
 
+// Input - Ouput DateAndTime
+std::istream& operator >> (std::istream& in, tm*& ltm)
+{
+	in >> ltm->tm_hour >> ltm->tm_isdst >> ltm->tm_mday >> ltm->tm_min;
+	in >> ltm->tm_mon >> ltm->tm_sec >> ltm->tm_wday >> ltm->tm_yday >> ltm->tm_year;
+	return in;
+}
 
+std::ostream& operator << (std::ostream& out, tm*& ltm)
+{
+	out << ltm->tm_hour << " " << ltm->tm_isdst << " " << ltm->tm_mday << " " << ltm->tm_min << " ";
+	out << ltm->tm_mon << " " << ltm->tm_sec << " " << ltm->tm_wday << " " << ltm->tm_yday << " " << ltm->tm_year;
+	return out;
+}
+
+// Save Game Files Manager Struct
+struct saveGameManager
+{
+	std::string _filename;
+	int _typeGame;
+	std::string _s1, _s2; // 2P game: s1: player 1's name, s2: player 2's name
+						// 1P game: s1: player's name, s2: score
+	tm* _ltm;
+};
+
+std::istream& operator >> (std::istream& in, saveGameManager& temp)
+{
+	std::getline(in, temp._filename);
+	in >> temp._typeGame; in.ignore();
+	std::getline(in, temp._s1);
+	std::getline(in, temp._s2);
+	in >> temp._ltm; in.ignore();
+	return in;
+}
+
+std::ostream& operator << (std::ostream& out, saveGameManager& temp)
+{
+	out << temp._filename << std::endl;
+	out << temp._typeGame << std::endl;
+	out << temp._s1 << std::endl;
+	out << temp._s2 << std::endl;
+	out << temp._ltm << std::endl;
+	return out;
+}

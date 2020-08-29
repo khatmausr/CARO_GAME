@@ -19,7 +19,7 @@ void Game::askForLoad()
 	// Declaire some objects
 	RectangleShape tint(Vector2f((float)WINDOW_WIDTH, (float)WINDOW_HEIGHT));
 
-	Text txt_title, txt_filename, txt_describe;
+	Text txt_title, txt_filename, txt_describe, txt_isAvailable;
 
 	txt_title.setFont(font_arial);
 	txt_title.setFillColor(Color::White);
@@ -41,6 +41,27 @@ void Game::askForLoad()
 	txt_describe.setPosition(Vector2f(20.f, 650.f));
 	txt_describe.setString("When you're done, Press 'ENTER' to load. Or Press 'ESC' to return to the game...");
 
+	txt_isAvailable.setFont(font_arial);
+	txt_isAvailable.setFillColor(Color::Red);
+	txt_isAvailable.setCharacterSize(20);
+	txt_isAvailable.setPosition(Vector2f(900.f, 420.f));
+	txt_isAvailable.setString("This file is unavailable!");
+
+	// Load SaveGameManager file
+	std::vector <saveGameManager> saveList;
+
+	std::ifstream finSGM("savegame/SaveGameManager.DAT");
+	int n; finSGM >> n; finSGM.ignore();
+
+	for (int i = 0; i < n; i++)
+	{
+		saveGameManager temp; temp._ltm = new tm;
+		finSGM >> temp;
+		saveList.push_back(temp);
+	}
+
+	finSGM.close();
+
 	// Dimming
 	for (int i = 0; i <= 20; i++)
 	{
@@ -53,7 +74,7 @@ void Game::askForLoad()
 	Event temp; window.pollEvent(temp);
 
 	// Entering
-	bool isDone = false;
+	bool isDone = false, isAvailable = false;
 	std::string filename = "";
 	while (!isDone)
 	{
@@ -76,33 +97,43 @@ void Game::askForLoad()
 					if (filename.length() > 0)
 					{
 						filename.pop_back();
+						
 						txt_filename.setString(filename + ".SGO");
+						
+						// Check for available
+						isAvailable = false;
+						for (unsigned int i = 0; i < saveList.size(); i++)
+							if (("savegame/" + filename + ".SGO" == saveList[i]._filename) && (bool(typeGame) == bool(saveList[i]._typeGame)))
+								isAvailable = true;
 					}
 					break;
 				}
 				case ASCII_ENTER:
 				{
-					loadGame("savegame/" + filename + ".SGO");
-
-					Text txt_status;
-					txt_status.setFont(font_arial);
-					txt_status.setCharacterSize(25);
-					txt_status.setStyle(Text::Italic);
-					txt_status.setString("Done!");
-
-					for (int i = 0; i <= 25; i++)
+					if (isAvailable)
 					{
-						txt_status.setFillColor(Color(0, 255, 0, i * 10));
-						txt_status.setPosition(Vector2f(150.f, 400.f + 2.f * i));
+						loadGame("savegame/" + filename + ".SGO");
 
-						displayGame(); window.draw(tint);
-						window.draw(txt_title); window.draw(txt_filename); window.draw(txt_status); window.draw(txt_describe);
-						window.display();
+						Text txt_status;
+						txt_status.setFont(font_arial);
+						txt_status.setCharacterSize(25);
+						txt_status.setStyle(Text::Italic);
+						txt_status.setString("Done!");
+
+						for (int i = 0; i <= 25; i++)
+						{
+							txt_status.setFillColor(Color(0, 255, 0, i * 10));
+							txt_status.setPosition(Vector2f(150.f, 400.f + 2.f * i));
+
+							displayGame(); window.draw(tint);
+							window.draw(txt_title); window.draw(txt_filename); window.draw(txt_status); window.draw(txt_describe);
+							window.display();
+						}
+
+						sleep(milliseconds(1000));
+
+						isDone = true;
 					}
-
-					sleep(milliseconds(1000));
-
-					isDone = true;
 					break;
 				}
 				case ASCII_ESC:
@@ -117,14 +148,23 @@ void Game::askForLoad()
 					{
 						filename += e.text.unicode;
 						txt_filename.setString(filename + ".SGO");
+						
+						// Check for available
+						isAvailable = false;
+						for (unsigned int i = 0; i < saveList.size(); i++)
+							if (("savegame/" + filename + ".SGO" == saveList[i]._filename) && (bool(typeGame) == bool(saveList[i]._typeGame)))
+								isAvailable = true;
 					}
 				}
 				}
 			}
 		}
 
+		txt_isAvailable.setString((isAvailable) ? "This file is unavailable" : "This file is available");
+		txt_isAvailable.setFillColor((isAvailable) ? Color::Green : Color::Red);
+
 		displayGame(); window.draw(tint);
-		window.draw(txt_title); window.draw(txt_filename); window.draw(txt_describe);
+		window.draw(txt_title); window.draw(txt_filename); window.draw(txt_describe); window.draw(txt_isAvailable);
 		window.display();
 	}
 
@@ -330,6 +370,7 @@ void Game::exitGame()
 
 void Game::saveGame(std::string fileName)
 {
+	// Save to origin file
 	std::vector <int> dataBoard = b.exportBoard();
 
 	saveGameData data;
@@ -343,6 +384,48 @@ void Game::saveGame(std::string fileName)
 	std::fstream fout(fileName, std::ios::out | std::ios::binary);
 	fout.write((char*)&data, sizeof(saveGameData));
 	fout.close();
+
+	// Save to manager file
+	std::vector <saveGameManager> saveList;
+	
+	// Read first
+	std::ifstream finSGM("savegame/SaveGameManager.DAT");
+	int n; finSGM >> n; finSGM.ignore();
+
+	for (int i = 0; i < n; i++)
+	{
+		saveGameManager temp; temp._ltm = new tm;
+		finSGM >> temp;
+		saveList.push_back(temp);
+	}
+
+	finSGM.close();
+
+	// Push the latest save game into the list
+	time_t now = time(0);
+	saveGameManager temp; temp._ltm = new tm;
+	temp._filename = fileName;
+	temp._typeGame = typeGame;
+	temp._s1 = playerName[0];
+	temp._s2 = (typeGame == 0) ? playerName[1] : std::to_string(scoreX) + "-" + std::to_string(scoreO);
+	localtime_s(temp._ltm, &now);
+	
+	bool isExist = false;
+	for (unsigned int i = 0; i < saveList.size(); i++)
+		if (saveList[i]._filename == temp._filename)
+		{
+			saveList[i] = temp;
+			isExist = true;
+		}
+	if (!isExist) saveList.push_back(temp);
+	
+	// Write second
+	std::ofstream foutSGM("saveGame/SaveGameManager.DAT");
+	foutSGM << saveList.size() << std::endl;
+	for (unsigned int i = 0; i < saveList.size(); i++)
+		foutSGM << saveList[i];
+	foutSGM.close();
+
 }
 
 void Game::loadGame(std::string fileName)

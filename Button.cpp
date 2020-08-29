@@ -1,6 +1,6 @@
 #include "button.h"
 #include "common.h"
-#include <iostream>
+
 //Button::Button()
 //{
 //	currentSprite = NULL;
