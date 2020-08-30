@@ -17,6 +17,8 @@ struct HighScoreInfo
 	tm* _ltm;
 };
 
+std::string typeGameConverter(unsigned int typeGame);
+
 class HighScoreManager
 {
 private:
@@ -24,7 +26,6 @@ private:
 	void updateHighScoreList();
 	void sortHighScoreList();
 	void updateFileManager();
-
 public:
 	void pushHighScore(HighScoreInfo& temp);
 	void showHighScore();

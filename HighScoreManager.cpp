@@ -102,11 +102,11 @@ void HighScoreManager::showHighScore()
 	std::vector <Text> stat(highScoreList.size());
 	for (unsigned int i = 0; i < stat.size(); i++)
 	{
-		stat[i].setFont(font_arial);
+		stat[i].setString(std::to_string(i + 1) + std::string(4, ' ') + highScoreList[i]._playerName + std::string(15 + (6-highScoreList[i]._playerName.length()) ,' ') + std::to_string(highScoreList[i]._score) + std::string(8,' ') + std::to_string(highScoreList[i]._ltm->tm_mday) + ":" + std::to_string(highScoreList[i]._ltm->tm_mon) + ":" + std::to_string(highScoreList[i]._ltm->tm_year) + " " + std::to_string(highScoreList[i]._ltm->tm_hour) + ":" + std::to_string(highScoreList[i]._ltm->tm_min)+ ":" + std::to_string(highScoreList[i]._ltm->tm_sec));
+		stat[i].setFont(font_robotoMonoBold);
 		stat[i].setFillColor(Color::White);
 		stat[i].setCharacterSize(30);
-		stat[i].setPosition(Vector2f(0.f, 5.f + 50.f * i));
-		stat[i].setString(highScoreList[i]._playerName + " " + std::to_string(highScoreList[i]._score) + " (" + std::to_string(highScoreList[i]._scoreX) + "-" + std::to_string(highScoreList[i]._scoreO) + ")");
+		stat[i].setPosition(Vector2f(140.0f, 210.f + 50.f * i));
 	}
 
 	// Show High Scores
@@ -129,9 +129,41 @@ void HighScoreManager::showHighScore()
 					isDone = true;
 		}
 
-		// Display
+		// Configure background
 		window.clear(Color::White); window.draw(menuBackground);
+
+		// Configure content background
+		RectangleShape contentBg(Vector2f(1000.0f, 530.0f));
+		contentBg.setFillColor(sf::Color(0, 0, 0, 150));
+		contentBg.setOrigin(contentBg.getLocalBounds().width / 2.0f, 0);
+		contentBg.setPosition(WINDOW_WIDTH / 2.0f, 170.0f);
+		window.draw(contentBg);
+
+
+		// Configure column title
+		Text title("ID" + std::string(3, ' ') + "Player name" + std::string(10, ' ') + "Diff" + std::string(5, ' ') + "Time played", font_robotoMonoBold, 30);
+		//title.setOrigin(title.getLocalBounds().width / 2.0f, 0);
+		title.setPosition(140.0f, 170.0f);
+		window.draw(title);
 		for (unsigned int i = 0; i < stat.size(); i++) window.draw(stat[i]);
 		window.display();
 	}
+}
+
+std::string typeGameConverter(unsigned int typeGame)
+{
+	std::string type;
+	switch (typeGame)
+	{
+	case 1:
+		type = "Easy";
+		break;
+	case 2:
+		type = "Medium";
+		break;
+	case 3:
+		type = "Hard";
+		break;
+	}
+	return type;
 }
