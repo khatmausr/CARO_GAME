@@ -11,7 +11,7 @@ void common::initGame()
 {
 	srand((unsigned int)time(NULL));
 
-	window.create(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "CARO GAME");
+	window.create(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "CARO GAME", sf::Style::Close);
 	window.setFramerateLimit(60);
 
 	t_menuBackground.loadFromFile("image/menu_background.png");
@@ -129,9 +129,6 @@ void common::runGame()
 
 	// Init fundamental
 
-	// Choosing theme
-	//m.chooseTheme();
-
 	// Play mainMenu music
 	menuMusic.play();
 
@@ -139,8 +136,7 @@ void common::runGame()
 	while (window.isOpen())
 	{
 		Event e;
-		/*while (window.pollEvent(e))
-			if (e.type == sf::Event::Closed) window.close();*/
+
 		while (mainMenu.isActive)
 		{
 			window.clear();
