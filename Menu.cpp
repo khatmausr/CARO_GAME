@@ -55,6 +55,7 @@ void Menu::pushButton(unsigned int btnCode, std::string title)
 void Menu::draw()
 {
 	window.draw(background);
+	window.draw(logo);
 	for (unsigned int i = 0; i < btnList.size(); ++i)
 		btnList[i]->draw();
 }

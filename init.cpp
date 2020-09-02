@@ -15,6 +15,7 @@ Sprite gameBackground;
 
 Texture t_logo;
 Sprite logo;
+Image icon;
 
 Texture t_button_X, t_button_O;
 Sprite button_X, button_O;
@@ -37,9 +38,6 @@ Music gameMusic;
 
 SoundBuffer s_optionSound;
 Sound optionSound;
-
-// Theme
-int theme;
 
 // Button
 Texture t_greenButton_default;

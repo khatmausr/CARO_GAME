@@ -21,7 +21,11 @@ void common::initGame()
 	gameBackground.setTexture(t_gameBackground);
 
 	t_logo.loadFromFile("image/menu_logo.png");
-	logo.setTexture(t_logo); logo.setPosition(Vector2f(450.f, 50.f));
+	logo.setTexture(t_logo); 
+	logo.setOrigin(logo.getLocalBounds().width / 2.0f, logo.getLocalBounds().height / 2.0f);
+	logo.setPosition(WINDOW_WIDTH/2.0f,110.0f);
+	icon.loadFromFile("image/logo.png");
+	window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
 	t_button_X.loadFromFile("image/X.png");
 	button_X.setTexture(t_button_X);

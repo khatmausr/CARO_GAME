@@ -41,6 +41,7 @@ extern Sprite gameBackground;
 
 extern Texture t_logo;
 extern Sprite logo;
+extern Image icon;
 
 extern Texture t_button_X, t_button_O;
 extern Sprite button_X, button_O;
@@ -60,8 +61,6 @@ extern Music menuMusic;
 extern Music gameMusic;
 extern SoundBuffer s_optionSound;
 extern Sound optionSound;
-
-extern int theme;
 
 // Button
 extern Texture t_blueButton_default;
