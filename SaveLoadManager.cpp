@@ -40,7 +40,7 @@ void SaveLoadManager::updateSaveList()
 	saveList.clear();
 
 	std::ifstream fin("savegame/SaveGameManager.DAT");
-	
+
 	int n; fin >> n; fin.ignore();
 	for (int i = 0; i < n; i++)
 	{
@@ -77,7 +77,7 @@ bool SaveLoadManager::checkFile(std::string filename, int typeGame)
 void SaveLoadManager::pushSaveGame(saveGameInfo& temp)
 {
 	updateSaveList();
-	
+
 	bool isExist = false;
 	for (unsigned int i = 0; i < saveList.size(); i++)
 		if (saveList[i]._filename == temp._filename)
@@ -107,22 +107,53 @@ int SaveLoadManager::loadForGame(std::string& filename)
 	updateSaveList();
 
 	// Configure content background
-	RectangleShape contentBg(Vector2f(800.0f, 600.0f));
-	contentBg.setFillColor(sf::Color(0, 0, 0, 200));
-	contentBg.setPosition(200.0f, 50.0f);
+	Sprite contentBg;
+	contentBg.setTexture(t_board);
+	contentBg.setOrigin(contentBg.getLocalBounds().width / 2.0f, contentBg.getLocalBounds().height / 2.0f);
+	contentBg.setPosition(WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f);
+
+	// Configure column title
+	std::vector<Text> title;
+	for (int i = 0; i < 5; ++i)
+	{
+		Text t("", font_bebasNeueBold, 35);
+		t.setFillColor(Color::White);
+		title.push_back(t);
+	}
+	title[0].setString("ID"); title[0].setPosition(190.0f, 140.0f);
+	title[1].setString("FILENAME"); title[1].setPosition(240.0f, 140.0f);
+	title[2].setString("P1"); title[2].setPosition(470.0f, 140.0f);
+	title[3].setString("P2"); title[3].setPosition(660.0f, 140.0f);
+	title[4].setString("Date played"); title[4].setPosition(840.0f, 140.0f);
 
 	// Declaire for some object
-	RectangleShape chooseBox(Vector2f(800.f, 50.f));
-	chooseBox.setFillColor(Color(0, 0, 0, 128));
+	RectangleShape chooseBox(Vector2f(850.f, 40.f));
+	chooseBox.setFillColor(Color(0, 0, 0, 100));
 
-	std::vector <Text> option(saveList.size());
-	for (unsigned int i = 0; i < option.size(); i++)
+	std::vector <std::vector<Text>> option(saveList.size());
+	for(int i = option.size() - 1; i >= 0; --i)
 	{
-		option[i].setFont(font_arial);
-		option[i].setFillColor(Color::White);
-		option[i].setCharacterSize(30);
-		option[i].setPosition(Vector2f(0.f, 5.f + 50.f * i));
-		option[i].setString(saveList[i]._filename + " " + std::to_string(saveList[i]._typeGame) + " " + saveList[i]._s1 + " " + saveList[i]._s2);
+		for (unsigned int j = 0; j < 5; ++j)
+		{
+			Text t("", font_bebasNeueBold, 26);
+			t.setFillColor(Color::White);
+
+			option[i].push_back(t);
+		}
+		std::string filename = saveList[i]._filename;
+		filename.erase(0, 9);
+		option[i][0].setString(std::to_string(i + 1)); option[i][0].setPosition(190.0f, 190.0f + i * 40.0f);
+		option[i][1].setString(filename); option[i][1].setPosition(240.0f, 190.0f + i * 40.0f);
+		option[i][2].setString(saveList[i]._s1); option[i][2].setPosition(470.0f, 190.0f + i * 40.0f);
+		option[i][3].setString(saveList[i]._s2); option[i][3].setPosition(660.0f, 190.0f + i * 40.0f);
+		option[i][4].setString(
+			std::to_string(saveList[i]._ltm->tm_mday) + ":" +
+			std::to_string(saveList[i]._ltm->tm_mon) + ":" +
+			std::to_string(saveList[i]._ltm->tm_year + 1900) + " " +
+			std::to_string(saveList[i]._ltm->tm_hour) + ":" +
+			std::to_string(saveList[i]._ltm->tm_min) + ":" +
+			std::to_string(saveList[i]._ltm->tm_sec));
+		option[i][4].setPosition(840.0f, 190.0f + i * 40.0f);
 	}
 
 	// Choose a file to load
@@ -140,7 +171,7 @@ int SaveLoadManager::loadForGame(std::string& filename)
 				isDone = true;
 				window.close();
 			}
-			
+
 			if (e.type == Event::KeyPressed)
 				switch (e.key.code)
 				{
@@ -173,9 +204,12 @@ int SaveLoadManager::loadForGame(std::string& filename)
 						txt_status.setFillColor(Color(0, 255, 0, i * 10));
 						txt_status.setPosition(Vector2f(1000.f, 200.f + 2.f * i));
 
-						window.clear(Color::White); window.draw(menuBackground);
-						chooseBox.setPosition(Vector2f(0.f, 50.f * choice)); window.draw(chooseBox);
-						for (unsigned int i = 0; i < option.size(); i++) window.draw(option[i]);
+						window.clear(Color::White); window.draw(menuBackground); window.draw(contentBg);
+						for (unsigned int i = 0; i < 5; ++i) window.draw(title[i]);
+						chooseBox.setPosition(Vector2f(175.f, 186.0f + 40.f * choice)); window.draw(chooseBox);
+						for (unsigned int i = 0; i < option.size(); ++i)
+							for (unsigned int j = 0; j < 5; ++j)
+								window.draw(option[i][j]);
 						window.draw(txt_status);
 						window.display();
 					}
@@ -190,11 +224,13 @@ int SaveLoadManager::loadForGame(std::string& filename)
 				}
 				}
 		}
-
 		// Display
-		window.clear(Color::White); window.draw(menuBackground);
-		chooseBox.setPosition(Vector2f(0.f, 50.f * choice)); window.draw(chooseBox);
-		for (unsigned int i = 0; i < option.size(); i++) window.draw(option[i]);
+		window.clear(Color::White); window.draw(menuBackground); window.draw(contentBg);
+		for (unsigned int i = 0; i < 5; ++i) window.draw(title[i]);
+		chooseBox.setPosition(Vector2f(175.f, 186.0f + 40.f * choice)); window.draw(chooseBox);
+		for (unsigned int i = 0; i < option.size(); ++i) 
+			for(unsigned int j = 0;j<5;++j)
+				window.draw(option[i][j]);
 		window.display();
 	}
 

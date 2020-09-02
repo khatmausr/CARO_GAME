@@ -178,9 +178,32 @@ void common::runGame()
 
 							if (typeGame != -1)
 							{
-								// Da hinh cai game g dua theo typeGame
-								//g2->loadGame(filename);
-								//g2->continueGame();
+								if (typeGame != g2->getType())
+									delete g2;
+								switch (typeGame)
+								{
+								case 0:
+									g2 = new twoPlayers(&t_gameBackground);
+									g2->loadGame(filename);
+									g2->continueGame();
+									break;
+								case 1:
+									g2 = new onePlayer(&t_gameBackground, 1);
+									g2->loadGame(filename);
+									g2->continueGame();
+									break;
+								case 2:
+									g2 = new onePlayer(&t_gameBackground, 2);
+									g2->loadGame(filename);
+									g2->continueGame();
+									break;
+								case 3:
+									g2 = new onePlayer(&t_gameBackground, 3);
+									g2->loadGame(filename);
+									g2->continueGame();
+									break;
+
+								}
 							}
 							break;
 						}
@@ -222,7 +245,12 @@ void common::runGame()
 					window.close();
 					newGameMenu.isActive = false;
 				}
-				if (e.type == sf::Event::MouseButtonPressed)
+				else if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Escape)
+				{
+					newGameMenu.isActive = false;
+					mainMenu.isActive = true;
+				}
+				else if (e.type == sf::Event::MouseButtonPressed)
 				{
 					newGameMenu.update(sf::Vector2f((float)e.mouseButton.x, (float)e.mouseButton.y), true);
 					if (e.mouseButton.button == sf::Mouse::Left)
@@ -261,7 +289,12 @@ void common::runGame()
 					window.close();
 					botMenu.isActive = false;
 				}
-				if (e.type == sf::Event::MouseButtonPressed)
+				else if (e.type == sf::Event::KeyPressed && e.key.code == sf::Keyboard::Escape)
+				{
+					newGameMenu.isActive = true;
+					botMenu.isActive = false;
+				}
+				else if (e.type == sf::Event::MouseButtonPressed)
 				{
 					botMenu.update(sf::Vector2f((float)e.mouseButton.x, (float)e.mouseButton.y), true);
 					if (e.mouseButton.button == sf::Mouse::Left)

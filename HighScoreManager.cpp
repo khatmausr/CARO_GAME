@@ -103,10 +103,10 @@ void HighScoreManager::showHighScore()
 	Sprite contentBg;
 	contentBg.setTexture(t_board);
 	contentBg.setOrigin(contentBg.getLocalBounds().width / 2.0f, contentBg.getLocalBounds().height / 2.0f);
-	contentBg.setPosition(WINDOW_WIDTH/2.0f, WINDOW_HEIGHT/2.0f);
+	contentBg.setPosition(WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f);
 
 	// Configure reset button
-	Button resetBtn(&t_navReset, &t_navReset, &s_optionSound, "", Vector2f(950.0f, 133.0f));
+	Button resetBtn(&t_navReset, &t_navReset, &s_optionSound, "", Vector2f(970.0f, 162.0f));
 
 	// Configure column title
 	std::vector<Text> title;
@@ -116,12 +116,11 @@ void HighScoreManager::showHighScore()
 		t.setFillColor(Color::White);
 		title.push_back(t);
 	}
-	title[0].setString("ID"); title[0].setPosition(190.0f, 140.0f);
+	title[0].setString("RANK"); title[0].setPosition(190.0f, 140.0f);
 	title[1].setString("Player name"); title[1].setPosition(300.0f, 140.0f);
 	title[2].setString("Diff"); title[2].setPosition(555.0f, 140.0f);
 	title[3].setString("Date played"); title[3].setPosition(750.0f, 140.0f);
-	//Text title("ID" + std::string(3, ' ') + "Player name" + std::string(10, ' ') + "Diff" + std::string(5, ' ') + "Time played", font_robotoMonoBold, 30);
-	
+
 	// Declaire for some object
 	std::vector <std::vector<Text>> stat(highScoreList.size());
 	for (unsigned int i = 0; i < stat.size(); i++)
@@ -132,15 +131,16 @@ void HighScoreManager::showHighScore()
 			t.setFillColor(Color::White);
 			stat[i].push_back(t);
 		}
-		stat[i][0].setString(std::to_string(i+1)); stat[i][0].setPosition(190.0f, 190.0f + i * 40);
+		stat[i][0].setString(std::to_string(i + 1)); stat[i][0].setPosition(190.0f, 190.0f + i * 40);
 		stat[i][1].setString(highScoreList[i]._playerName); stat[i][1].setPosition(300.0f, 190.0f + i * 40);
 		stat[i][2].setString(std::to_string(highScoreList[i]._score)); stat[i][2].setPosition(555.0f, 190.0f + i * 40);
-		stat[i][3].setString(std::to_string(highScoreList[i]._ltm->tm_mday) 
-			+ ":" + std::to_string(highScoreList[i]._ltm->tm_mon) 
-			+ ":" + std::to_string(highScoreList[i]._ltm->tm_year) 
-			+ " " + std::to_string(highScoreList[i]._ltm->tm_hour) 
-			+ ":" + std::to_string(highScoreList[i]._ltm->tm_min) 
-			+ ":" + std::to_string(highScoreList[i]._ltm->tm_sec));
+		stat[i][3].setString(
+			std::to_string(highScoreList[i]._ltm->tm_mday)			+ ":" +
+			std::to_string(highScoreList[i]._ltm->tm_mon)			+ ":" +
+			std::to_string(highScoreList[i]._ltm->tm_year + 1900)	+ " " +
+			std::to_string(highScoreList[i]._ltm->tm_hour)			+ ":" +
+			std::to_string(highScoreList[i]._ltm->tm_min)			+ ":" +
+			std::to_string(highScoreList[i]._ltm->tm_sec));
 		stat[i][3].setPosition(750.0f, 190.0f + i * 40);
 	}
 
@@ -159,20 +159,19 @@ void HighScoreManager::showHighScore()
 				window.close();
 			}
 
-			if (e.type == Event::KeyPressed)
-				if (e.key.code == Keyboard::Escape)
-					isDone = true;
+			if (e.type == Event::KeyPressed && e.key.code == Keyboard::Escape)
+				isDone = true;
 		}
 
 		// Configure background
 		window.clear(); window.draw(menuBackground);
-		
+
 		window.draw(contentBg);
 
 		for (int i = 0; i < 4; ++i) window.draw(title[i]);
 
-		for (unsigned int i = 0; i < stat.size(); i++) 
-			for(unsigned int j = 0;j<4;++j)
+		for (unsigned int i = 0; i < stat.size(); i++)
+			for (unsigned int j = 0; j < 4; ++j)
 				window.draw(stat[i][j]);
 		resetBtn.draw();
 		window.display();
