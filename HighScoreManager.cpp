@@ -98,15 +98,45 @@ void HighScoreManager::showHighScore()
 {
 	updateHighScoreList();
 
+	// Configure content background
+	RectangleShape contentBg(Vector2f(800.0f, 600.0f));
+	contentBg.setFillColor(sf::Color(0, 0, 0, 200));
+	contentBg.setPosition(200.0f, 50.0f);
+
+	// Configure column title
+	std::vector<Text> title;
+	for (int i = 0; i < 4; ++i)
+	{
+		Text t("", font_bebasNeueBold, 30);
+		t.setFillColor(Color::White);
+		title.push_back(t);
+	}
+	title[0].setString("ID"); title[0].setPosition(220.0f, 72.0f);
+	title[1].setString("Player name"); title[1].setPosition(275.0f, 72.0f);
+	title[2].setString("Diff"); title[2].setPosition(540.0f, 72.0f);
+	title[3].setString("Date played"); title[3].setPosition(790.0f, 72.0f);
+	//Text title("ID" + std::string(3, ' ') + "Player name" + std::string(10, ' ') + "Diff" + std::string(5, ' ') + "Time played", font_robotoMonoBold, 30);
+	
 	// Declaire for some object
-	std::vector <Text> stat(highScoreList.size());
+	std::vector <std::vector<Text>> stat(highScoreList.size());
 	for (unsigned int i = 0; i < stat.size(); i++)
 	{
-		stat[i].setString(std::to_string(i + 1) + std::string(4, ' ') + highScoreList[i]._playerName + std::string(15 + (6-highScoreList[i]._playerName.length()) ,' ') + std::to_string(highScoreList[i]._score) + std::string(8,' ') + std::to_string(highScoreList[i]._ltm->tm_mday) + ":" + std::to_string(highScoreList[i]._ltm->tm_mon) + ":" + std::to_string(highScoreList[i]._ltm->tm_year) + " " + std::to_string(highScoreList[i]._ltm->tm_hour) + ":" + std::to_string(highScoreList[i]._ltm->tm_min)+ ":" + std::to_string(highScoreList[i]._ltm->tm_sec));
-		stat[i].setFont(font_robotoMonoBold);
-		stat[i].setFillColor(Color::White);
-		stat[i].setCharacterSize(30);
-		stat[i].setPosition(Vector2f(140.0f, 210.f + 50.f * i));
+		for (int j = 0; j < 4; ++j)
+		{
+			Text t("", font_bebasNeueBold, 26);
+			t.setFillColor(Color::White);
+			stat[i].push_back(t);
+		}
+		stat[i][0].setString(std::to_string(i+1)); stat[i][0].setPosition(220.0f, 110.0f + i * 30);
+		stat[i][1].setString(highScoreList[i]._playerName); stat[i][1].setPosition(275.0f, 110.0f + i * 30);
+		stat[i][2].setString(std::to_string(highScoreList[i]._score)); stat[i][2].setPosition(540.0f, 110.0f + i * 30);
+		stat[i][3].setString(std::to_string(highScoreList[i]._ltm->tm_mday) 
+			+ ":" + std::to_string(highScoreList[i]._ltm->tm_mon) 
+			+ ":" + std::to_string(highScoreList[i]._ltm->tm_year) 
+			+ " " + std::to_string(highScoreList[i]._ltm->tm_hour) 
+			+ ":" + std::to_string(highScoreList[i]._ltm->tm_min) 
+			+ ":" + std::to_string(highScoreList[i]._ltm->tm_sec));
+		stat[i][3].setPosition(790.0f, 110.0f + i * 30);
 	}
 
 	// Show High Scores
@@ -130,22 +160,15 @@ void HighScoreManager::showHighScore()
 		}
 
 		// Configure background
-		window.clear(Color::White); window.draw(menuBackground);
-
-		// Configure content background
-		RectangleShape contentBg(Vector2f(1000.0f, 530.0f));
-		contentBg.setFillColor(sf::Color(0, 0, 0, 150));
-		contentBg.setOrigin(contentBg.getLocalBounds().width / 2.0f, 0);
-		contentBg.setPosition(WINDOW_WIDTH / 2.0f, 170.0f);
+		window.clear(); window.draw(menuBackground);
+		
 		window.draw(contentBg);
 
+		for (int i = 0; i < 4; ++i) window.draw(title[i]);
 
-		// Configure column title
-		Text title("ID" + std::string(3, ' ') + "Player name" + std::string(10, ' ') + "Diff" + std::string(5, ' ') + "Time played", font_robotoMonoBold, 30);
-		//title.setOrigin(title.getLocalBounds().width / 2.0f, 0);
-		title.setPosition(140.0f, 170.0f);
-		window.draw(title);
-		for (unsigned int i = 0; i < stat.size(); i++) window.draw(stat[i]);
+		for (unsigned int i = 0; i < stat.size(); i++) 
+			for(unsigned int j = 0;j<4;++j)
+				window.draw(stat[i][j]);
 		window.display();
 	}
 }

@@ -15,8 +15,6 @@ Button::Button(sf::Texture* defaultTexture, sf::Texture* mouseOverTexture, sf::S
 	defaultPlaceHolder.setTexture(*defaultTexture);
 	defaultPlaceHolder.setOrigin(defaultPlaceHolder.getLocalBounds().width / 2.0f, defaultPlaceHolder.getLocalBounds().height / 2.0f);
 	defaultPlaceHolder.setPosition(position);
-	std::cout << defaultPlaceHolder.getPosition().x - defaultPlaceHolder.getLocalBounds().width / 2.0f << " " << defaultPlaceHolder.getPosition().y - defaultPlaceHolder.getLocalBounds().height / 2.0f << std::endl;
-	std::cout << defaultPlaceHolder.getPosition().x + defaultPlaceHolder.getLocalBounds().width / 2.0f << " " << defaultPlaceHolder.getPosition().y + defaultPlaceHolder.getLocalBounds().height / 2.0f << std::endl;
 
 	mouseOverPlaceHolder.setTexture(*mouseOverTexture);
 	mouseOverPlaceHolder.setOrigin(mouseOverTexture->getSize().x / 2.0f, mouseOverTexture->getSize().y / 2.0f);
