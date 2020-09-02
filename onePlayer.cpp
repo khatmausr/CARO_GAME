@@ -294,7 +294,7 @@ void onePlayer::processKeyPressed(int keyCode)
 	}
 	case Keyboard::Escape:
 	{
-		exitGame();
+		isExit = true;
 		break;
 	}
 	case Keyboard::L:
