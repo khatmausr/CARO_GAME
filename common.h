@@ -81,9 +81,11 @@ extern Texture t_yellowButton_mouseOver;
 
 // Name Input
 extern Texture t_dialogBox;
+extern Texture t_board;
 extern Texture t_textPlaceholder;
 extern Texture t_navBack;
 extern Texture t_navOk;
+extern Texture t_navReset;
 
 // Common methods
 class common

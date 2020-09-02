@@ -81,9 +81,12 @@ void common::initGame()
 
 	// Name Input
 	t_dialogBox.loadFromFile("image/dialogBox.png");
+	t_board.loadFromFile("image/board.png");
 	t_textPlaceholder.loadFromFile("image/textPlaceholder.png");
 	t_navBack.loadFromFile("image/Button/Navigation/back.png");
 	t_navOk.loadFromFile("image/Button/Navigation/ok.png");
+	t_navReset.loadFromFile("image/Button/Navigation/reset.png");
+	t_navReset.setSmooth(true);
 
 }
 

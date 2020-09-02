@@ -106,6 +106,11 @@ int SaveLoadManager::loadForGame(std::string& filename)
 {
 	updateSaveList();
 
+	// Configure content background
+	RectangleShape contentBg(Vector2f(800.0f, 600.0f));
+	contentBg.setFillColor(sf::Color(0, 0, 0, 200));
+	contentBg.setPosition(200.0f, 50.0f);
+
 	// Declaire for some object
 	RectangleShape chooseBox(Vector2f(800.f, 50.f));
 	chooseBox.setFillColor(Color(0, 0, 0, 128));
