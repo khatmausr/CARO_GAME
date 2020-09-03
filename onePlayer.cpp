@@ -153,10 +153,14 @@ void onePlayer::processKeyPressed(int keyCode)
 			if (direction = b.checkBoard(cursorP.x, cursorP.y, x_begin, y_begin))
 			{
 				markWin(x_begin, y_begin, direction);
-				isExit = displayLose();
+				sleep(milliseconds(1000));
+				isExit = displayWin();
 			}
 			else if (b.getCountX() + b.getCountO() == BOARD_SIZE * BOARD_SIZE)
+			{
+				sleep(milliseconds(1000));
 				isExit = displayWin(true); // DRAW
+			}
 			else // Player doesn't win, so it is machine's turn
 			{
 				// The BOT is thinking
