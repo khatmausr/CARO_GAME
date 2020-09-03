@@ -118,126 +118,6 @@ void onePlayer::askForName()
 	}
 }
 
-bool onePlayer::displayResult(int x_begin, int y_begin, int direction, int whoWin)
-{
-	// Draw a line first
-	RectangleShape line;
-	line.setFillColor(Color::Black);
-	int length = 0;
-
-	switch (direction)
-	{
-	case 1:
-	{
-		line.setPosition(Vector2f((float)BOARD_LEFT + y_begin * 30.f + 16.f, (float)BOARD_TOP + x_begin * 30.f));
-		length = 150;
-		line.rotate(90);
-		break;
-	}
-	case 2:
-	{
-		line.setPosition(Vector2f((float)BOARD_LEFT + y_begin * 30.f, (float)BOARD_TOP + x_begin * 30.f + 14.f));
-		length = 150;
-		break;
-	}
-	case 3:
-	{
-		line.setPosition(Vector2f((float)BOARD_LEFT + y_begin * 30.f + 3.f, (float)BOARD_TOP + x_begin * 30.f));
-		length = 210;
-		line.rotate(45);
-		break;
-	}
-	case 4:
-	{
-		line.setPosition(Vector2f((float)BOARD_LEFT + (y_begin + 1) * 30.f, (float)BOARD_TOP + x_begin * 30.f + 2.f));
-		length = 210;
-		line.rotate(135);
-		break;
-	}
-	}
-
-	for (int i = 0; i < length; i += 5)
-	{
-		displayGame();
-		line.setSize(Vector2f((float)i, 5.f)); window.draw(line);
-		window.display();
-	}
-
-	// Display the result and ask for continue
-	Text t;
-	switch (whoWin)
-	{
-	case -1:
-	{
-		t.setString("YOU LOSE!\n Press Esc to Exit or Enter to play another game...");
-		break;
-	}
-	case 0:
-	{
-		t.setString("DRAW!\n Press Esc to Exit or Enter to play another game...");
-		break;
-	}
-	case 1:
-	{
-		t.setString("YOU WON!\n Press Esc to Exit or Enter to play another game...");
-		break;
-	}
-	}
-	t.setFont(font_arial);
-	t.setFillColor(Color::Black);
-	t.setCharacterSize(30);
-
-	if (whoWin == 1) scoreX++;
-	else if (whoWin == -1) scoreO++;
-
-	bool isDone = false;
-	while (!isDone)
-	{
-		// Event
-		Event e;
-
-		while (window.pollEvent(e))
-		{
-			if (e.type == Event::Closed)
-			{
-				exitGame();
-				isDone = true;
-			}
-
-			if (e.type == Event::KeyPressed)
-			{
-				switch (e.key.code)
-				{
-				case Keyboard::Escape:
-				{
-					resetData();
-
-					isDone = true;
-					return true;
-					break;
-				}
-				case Keyboard::Enter:
-				{
-					resetData(); turn = 1;
-
-					isDone = true;
-					return false;
-					break;
-				}
-				}
-			}
-		}
-
-		// Display
-		displayGame();
-		window.draw(t);
-		if (whoWin) window.draw(line);
-		window.display();
-	}
-
-	return true;
-}
-
 void onePlayer::processKeyPressed(int keyCode)
 {
 	int x_begin = 0, y_begin = 0, direction = 0;
@@ -270,9 +150,9 @@ void onePlayer::processKeyPressed(int keyCode)
 		if (b.markCell(cursorP.x, cursorP.y, 1))
 		{
 			if (direction = b.checkBoard(cursorP.x, cursorP.y, x_begin, y_begin))
-				isExit = displayResult(x_begin, y_begin, direction, 1);
+				isExit = displayWin();
 			else if (b.getCountX() + b.getCountO() == BOARD_SIZE * BOARD_SIZE)
-				isExit = displayResult(0, 0, 0, 0);
+				isExit = true; // DRAW
 			else // Player doesn't win, so it is machine's turn
 			{
 				// The BOT is thinking
@@ -284,9 +164,9 @@ void onePlayer::processKeyPressed(int keyCode)
 				if (b.markCell(botMoving.x, botMoving.y, -1))
 				{
 					if (direction = b.checkBoard(botMoving.x, botMoving.y, x_begin, y_begin))
-						isExit = displayResult(x_begin, y_begin, direction, -1);
+						isExit = displayWin(); // LOSE HERE
 					else if (b.getCountX() + b.getCountO() == BOARD_SIZE * BOARD_SIZE)
-						isExit = displayResult(0, 0, 0, 0);
+						isExit = true; // DRAW
 				}
 			}
 		}

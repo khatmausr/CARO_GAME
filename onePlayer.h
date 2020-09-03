@@ -5,7 +5,6 @@ class onePlayer : public Game
 {
 private:
 	void askForName();
-	bool displayResult(int x_begin, int y_begin, int direction, int whoWin);
 	void processKeyPressed(int keyCode);
 
 	double   distance(Vector2u pA, Vector2u pB);

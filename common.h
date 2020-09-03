@@ -86,6 +86,14 @@ extern Texture t_navBack;
 extern Texture t_navOk;
 extern Texture t_navReset;
 
+// Animation
+extern Texture t_cloudLeft;
+extern Texture t_cloudRight;
+extern Texture t_star;
+extern Texture t_smallStar;
+extern Texture t_shine;
+extern Texture t_smallShine;
+
 // Common methods
 class common
 {

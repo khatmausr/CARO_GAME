@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "SaveLoadManager.h"
 #include "HighScoreManager.h"
-
+#include "button.h"
 void Game::continueGame()
 {
 	isExit = false;
@@ -84,7 +84,7 @@ void Game::askForLoad()
 				{
 					if (filename.length() > 0)
 					{
-						filename.pop_back(); 	
+						filename.pop_back();
 						txt_filename.setString(filename + ".SGO");
 						isAvailable = SLM.checkFile("savegame/" + filename + ".SGO", typeGame);
 					}
@@ -152,7 +152,7 @@ void Game::askForLoad()
 		tint.setFillColor(Color(0, 0, 0, i * 10)); window.draw(tint);
 		window.display();
 	}
-    //return; // Leave here, ill do it later
+	//return; // Leave here, ill do it later
 }
 
 void Game::askForSave()
@@ -276,20 +276,19 @@ void Game::askForSave()
 		tint.setFillColor(Color(0, 0, 0, i * 10)); window.draw(tint);
 		window.display();
 	}
-    //return; // Leave here, ill do it later
 }
 
 int Game::getType()
 {
-    return typeGame;
+	return typeGame;
 }
 
 Game::Game(sf::Texture* bgTexture)
 {
-    background.setTexture(*bgTexture);
-    cursorP = Vector2u(BOARD_SIZE / 2 - 1, BOARD_SIZE / 2 - 1);
-    scoreX = scoreO = 0; playerName[0] = ""; playerName[1] = "";
-    turn = 0; isExit = false;
+	background.setTexture(*bgTexture);
+	cursorP = Vector2u(BOARD_SIZE / 2 - 1, BOARD_SIZE / 2 - 1);
+	scoreX = scoreO = 0; playerName[0] = ""; playerName[1] = "";
+	turn = 0; isExit = false;
 }
 
 Game::~Game()
@@ -386,7 +385,7 @@ void Game::saveGame(std::string fileName)
 	temp._s1 = playerName[0];
 	temp._s2 = playerName[1];
 	localtime_s(temp._ltm, &now);
-	
+
 	SaveLoadManager SLM;
 	SLM.pushSaveGame(temp);
 }
@@ -431,7 +430,7 @@ void Game::displayGame()
 	txt_scoreO.setFont(font_bebasNeueBold);
 	txt_scoreO.setFillColor(Color::White);
 	txt_scoreO.setCharacterSize(100);
-	
+
 
 	for (int i = 0; i <= 1; i++)
 	{
@@ -448,14 +447,14 @@ void Game::displayGame()
 
 	b.displayBoard();
 
-	txt_scoreX.setString(std::to_string(scoreX)); 
+	txt_scoreX.setString(std::to_string(scoreX));
 	txt_scoreX.setOrigin(float(txt_scoreX.getLocalBounds().width / 2.0), float(txt_scoreX.getLocalBounds().height / 2.0f + 10.0f));
 	txt_scoreX.setPosition(Vector2f(150.f, 630.f));
 	window.draw(txt_scoreX);
-	
+
 	txt_scoreO.setString(std::to_string(scoreO));
 	txt_scoreO.setOrigin(float(txt_scoreO.getLocalBounds().width / 2.0), float(txt_scoreO.getLocalBounds().height / 2.0f + 10.0f));
-	txt_scoreO.setPosition(Vector2f(1060.f, 630.f)); 
+	txt_scoreO.setPosition(Vector2f(1060.f, 630.f));
 	window.draw(txt_scoreO);
 
 	/*txt_countX.setString(std::to_string(b.getCountX())); window.draw(txt_countX);
@@ -482,4 +481,170 @@ void Game::displayGame()
 void Game::changeTurn()
 {
 	if (turn == 1) turn = -1; else turn = 1;
+}
+
+void Game::markWin(int x_begin, int y_begin, int direction)
+{
+	// Draw a line first
+	RectangleShape line;
+	line.setFillColor(Color::Black);
+	int length = 0;
+
+	switch (direction)
+	{
+	case 1:
+	{
+		line.setPosition(Vector2f((float)BOARD_LEFT + y_begin * 30.f + 16.f, (float)BOARD_TOP + x_begin * 30.f));
+		length = 150;
+		line.rotate(90);
+		break;
+	}
+	case 2:
+	{
+		line.setPosition(Vector2f((float)BOARD_LEFT + y_begin * 30.f, (float)BOARD_TOP + x_begin * 30.f + 14.f));
+		length = 150;
+		break;
+	}
+	case 3:
+	{
+		line.setPosition(Vector2f((float)BOARD_LEFT + y_begin * 30.f + 3.f, (float)BOARD_TOP + x_begin * 30.f));
+		length = 210;
+		line.rotate(45);
+		break;
+	}
+	case 4:
+	{
+		line.setPosition(Vector2f((float)BOARD_LEFT + (y_begin + 1) * 30.f, (float)BOARD_TOP + x_begin * 30.f + 2.f));
+		length = 210;
+		line.rotate(135);
+		break;
+	}
+	}
+
+	for (int i = 0; i < length; i += 5)
+	{
+		displayGame();
+		line.setSize(Vector2f((float)i, 5.f)); window.draw(line);
+		window.display();
+	}
+}
+
+bool Game::displayWin(bool isDraw)
+{
+	// Process name winner
+	std::string winnerString;
+	if (isDraw) winnerString = "CONGRATULATION! BOTH OF YOU WON!";
+	else
+	{
+		switch (turn)
+		{
+		case -1:
+			winnerString = playerName[0];
+			break;
+		case 1:
+			winnerString = playerName[1];
+			break;
+		}
+		winnerString += " WON!!";
+	}
+
+	// Init
+	Sprite cloudL, cloudR, star, starL, starR, shine, shineL, shineR;
+	Sprite dialogBox;
+	Text winner(winnerString, font_bebasNeueBold, 50);
+	winner.setOrigin(winner.getLocalBounds().width / 2.0f, winner.getLocalBounds().height / 2.0f + 15.0f);
+	winner.setScale(0.0f, 0.0f);
+
+	Text winnerS(winner);
+	winner.setFillColor(Color::White); winnerS.setFillColor(Color(87, 151, 255));
+	winner.setPosition(WINDOW_WIDTH / 2.0f, 240.0f); winnerS.setPosition(WINDOW_WIDTH / 2.0f + 3.0f, 240.0f);
+
+	// Configure
+	cloudL.setTexture(t_cloudLeft);
+	cloudL.setOrigin(cloudL.getLocalBounds().width, 0.0f);
+
+	cloudR.setTexture(t_cloudRight);
+	cloudR.setPosition(WINDOW_WIDTH, 0.0f);
+
+	star.setTexture(t_star);
+	star.setOrigin(star.getLocalBounds().width / 2.0f, star.getLocalBounds().height / 2.0f);
+	star.setPosition(WINDOW_WIDTH / 2.0f, 120.0f);
+	star.setScale(0.0f, 0.0f);
+
+	starL.setTexture(t_smallStar);
+	starL.setOrigin(starL.getLocalBounds().width / 2.0f, starL.getLocalBounds().height / 2.0f);
+	starL.setPosition(WINDOW_WIDTH / 2.0f - 180.0f, 150.0f);
+	starL.setScale(0.0f, 0.0f);
+
+
+	starR.setTexture(t_smallStar);
+	starR.setOrigin(starR.getLocalBounds().width / 2.0f, starR.getLocalBounds().height / 2.0f);
+	starR.setPosition(WINDOW_WIDTH / 2.0f + 180.0f, 150.0f);
+	starR.setScale(0.0f, 0.0f);
+
+	shine.setTexture(t_shine);
+	shine.setOrigin(shine.getLocalBounds().width / 2.0f, shine.getLocalBounds().height / 2.0f);
+	shine.setPosition(WINDOW_WIDTH / 2.0f, 120.0f);
+	shine.setScale(0.0f, 0.0f);
+
+	shineL.setTexture(t_smallShine);
+	shineL.setOrigin(shineL.getLocalBounds().width / 2.0f, shineL.getLocalBounds().height / 2.0f);
+	shineL.setPosition(WINDOW_WIDTH / 2.0f - 180.0f, 150.0f);
+	shineL.setScale(0.0f, 0.0f);
+
+	shineR.setTexture(t_smallShine);
+	shineR.setOrigin(shineR.getLocalBounds().width / 2.0f, shineR.getLocalBounds().height / 2.0f);
+	shineR.setPosition(WINDOW_WIDTH / 2.0f + 180.0f, 150.0f);
+	shineR.setScale(0.0f, 0.0f);
+
+	dialogBox.setTexture(t_dialogBox);
+	dialogBox.setOrigin(dialogBox.getLocalBounds().width / 2.0f, dialogBox.getLocalBounds().height / 2.0f);
+	dialogBox.setPosition(WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f);
+	dialogBox.setScale(0.0f, 0.0f);
+
+	Event e;
+
+	while (window.isOpen())
+	{
+		while (window.pollEvent(e))
+		{
+			if (e.type == Event::Closed)
+				exitGame();
+		}
+		if (cloudR.getPosition().x > 600.0f)
+		{
+			cloudL.move(30.0f, 0.0f);
+			cloudR.move(-30.0f, 0.0f);
+			dialogBox.setScale(dialogBox.getScale().x + 0.05f, dialogBox.getScale().y + 0.05f);
+			winner.setScale(winner.getScale().x + 0.05f, winner.getScale().y + 0.05f);
+			winnerS.setScale(winnerS.getScale().x + 0.05f, winnerS.getScale().y + 0.05f);
+			shine.setScale(shine.getScale().x + 0.05f, shine.getScale().y + 0.05f);
+			star.setScale(star.getScale().x + 0.05f, star.getScale().y + 0.05f);
+			shineL.setScale(shineL.getScale().x + 0.05f, shineL.getScale().y + 0.05f);
+			starL.setScale(starL.getScale().x + 0.05f, starL.getScale().y + 0.05f);
+			shineR.setScale(shineR.getScale().x + 0.05f, shineR.getScale().y + 0.05f);
+			starR.setScale(starR.getScale().x + 0.05f, starR.getScale().y + 0.05f);
+		}
+
+		// Rotate shine
+		shine.rotate(1);
+		shineL.rotate(1);
+		shineR.rotate(1);
+
+		window.clear();
+		window.draw(menuBackground);
+		window.draw(cloudL);
+		window.draw(cloudR);
+		window.draw(dialogBox);
+		window.draw(winnerS);
+		window.draw(winner);
+		window.draw(shine);
+		window.draw(star);
+		window.draw(shineL);
+		window.draw(starL);
+		window.draw(shineR);
+		window.draw(starR);
+		window.display();
+	}
+	return true;
 }

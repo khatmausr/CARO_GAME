@@ -18,7 +18,7 @@ class Game
 protected:
 	int typeGame; // 0: 2P | 1,2,3: Easy, Med, Hard
 	board b;
-	int turn;
+	int turn;	// -1 : O | 0 : exit | 1 : X
 	Vector2u cursorP; // Cursor Position
 	int scoreX, scoreO;
 	bool isExit;
@@ -36,6 +36,10 @@ protected:
 	void displayGame();
 
 	void changeTurn();
+
+	void markWin(int x_begin, int y_begin, int direction);
+
+	bool displayWin(bool isDraw = false);
 	
 public:
 	Game(sf::Texture* bgTexture);

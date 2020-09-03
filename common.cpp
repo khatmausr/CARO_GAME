@@ -92,6 +92,21 @@ void common::initGame()
 	t_navReset.loadFromFile("image/Button/Navigation/reset.png");
 	t_navReset.setSmooth(true);
 
+
+	// Animation
+	t_cloudLeft.loadFromFile("image/asset/cloudLeft.png");
+	t_cloudLeft.setSmooth(true);
+	t_cloudRight.loadFromFile("image/asset/cloudRight.png");
+	t_cloudRight.setSmooth(true);
+	t_star.loadFromFile("image/asset/star.png");
+	t_star.setSmooth(true);
+	t_shine.loadFromFile("image/asset/shine.png");
+	t_shine.setSmooth(true);
+	t_smallStar.loadFromFile("image/asset/smallStar.png");
+	t_smallStar.setSmooth(true);
+	t_smallShine.loadFromFile("image/asset/smallShine.png");
+	t_smallShine.setSmooth(true);
+
 }
 
 void common::runGame()
@@ -109,7 +124,7 @@ void common::runGame()
 	int choice = 1;
 
 	// Opening
-	m.displayOpeningScreen();
+	//m.displayOpeningScreen();
 	window.setFramerateLimit(60);
 
 	// Init menu

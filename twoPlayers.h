@@ -10,5 +10,4 @@ private:
 public:
 	twoPlayers(sf::Texture* bgTexture);
 	virtual ~twoPlayers();
-	bool displayWinners(int x_begin, int y_begin, int direction, int whoWin);
 };

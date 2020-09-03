@@ -60,3 +60,11 @@ Texture t_textPlaceholder;
 Texture t_navBack;
 Texture t_navOk;
 Texture t_navReset;
+
+// Animation
+Texture t_cloudLeft;
+Texture t_cloudRight;
+Texture t_star;
+Texture t_smallStar;
+Texture t_shine;
+Texture t_smallShine;
