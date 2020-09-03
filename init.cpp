@@ -68,3 +68,4 @@ Texture t_star;
 Texture t_smallStar;
 Texture t_shine;
 Texture t_smallShine;
+Texture t_bad;

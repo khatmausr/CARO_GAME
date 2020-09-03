@@ -65,23 +65,33 @@ void common::initGame()
 
 	// Blue
 	t_blueButton_default.loadFromFile("image/Button/Blue/Button-default.png");
+	t_blueButton_default.setSmooth(true);
 	t_blueButton_mouseOver.loadFromFile("image/Button/Blue/Button-mouseOver.png");
+	t_blueButton_mouseOver.setSmooth(true);
 
 	// Brown
 	t_brownButton_default.loadFromFile("image/Button/Brown/Button-default.png");
+	t_brownButton_default.setSmooth(true);
 	t_brownButton_mouseOver.loadFromFile("image/Button/Brown/Button-mouseOver.png");
+	t_brownButton_mouseOver.setSmooth(true);
 
 	// Green
 	t_greenButton_default.loadFromFile("image/Button/Green/Button-default.png");
+	t_greenButton_default.setSmooth(true);
 	t_greenButton_mouseOver.loadFromFile("image/Button/Green/Button-mouseOver.png");
+	t_greenButton_mouseOver.setSmooth(true);
 
 	// Red
 	t_redButton_default.loadFromFile("image/Button/Red/Button-default.png");
+	t_redButton_default.setSmooth(true);
 	t_redButton_mouseOver.loadFromFile("image/Button/Red/Button-mouseOver.png");
+	t_redButton_mouseOver.setSmooth(true);
 
 	// Yellow
 	t_yellowButton_default.loadFromFile("image/Button/Yellow/Button-default.png");
+	t_yellowButton_default.setSmooth(true);
 	t_yellowButton_mouseOver.loadFromFile("image/Button/Yellow/Button-mouseOver.png");
+	t_yellowButton_mouseOver.setSmooth(true);
 
 	// Name Input
 	t_dialogBox.loadFromFile("image/dialogBox.png");
@@ -96,17 +106,24 @@ void common::initGame()
 	// Animation
 	t_cloudLeft.loadFromFile("image/asset/cloudLeft.png");
 	t_cloudLeft.setSmooth(true);
+
 	t_cloudRight.loadFromFile("image/asset/cloudRight.png");
 	t_cloudRight.setSmooth(true);
+
 	t_star.loadFromFile("image/asset/star.png");
 	t_star.setSmooth(true);
+
 	t_shine.loadFromFile("image/asset/shine.png");
 	t_shine.setSmooth(true);
+
 	t_smallStar.loadFromFile("image/asset/smallStar.png");
 	t_smallStar.setSmooth(true);
+
 	t_smallShine.loadFromFile("image/asset/smallShine.png");
 	t_smallShine.setSmooth(true);
 
+	t_bad.loadFromFile("image/asset/bad.png");
+	t_bad.setSmooth(true);
 }
 
 void common::runGame()
@@ -146,7 +163,8 @@ void common::runGame()
 	botMenu.pushButton(4, "MEDIUM");
 	botMenu.pushButton(3, "HARD");
 
-	// Init fundamental
+	// Init Event
+	Event e;
 
 	// Play mainMenu music
 	menuMusic.play();
@@ -154,8 +172,6 @@ void common::runGame()
 	// Opening Window
 	while (window.isOpen())
 	{
-		Event e;
-
 		while (mainMenu.isActive)
 		{
 			window.clear();
@@ -245,7 +261,9 @@ void common::runGame()
 				else if (e.type == sf::Event::MouseMoved)
 					mainMenu.update(sf::Vector2f((float)e.mouseMove.x, (float)e.mouseMove.y), false);
 			}
-
+			/// <summary>
+			/// DO NOT REMOVE THIS!!!
+			/// </summary>
 			if (!window.isOpen()) mainMenu.isActive = false;
 		}
 		while (newGameMenu.isActive)
@@ -390,16 +408,13 @@ void common::aboutMenu()
 	}
 	window.display();
 	bool isExit = false;
-	while (!isExit)
+	Event e;
+	while (window.isOpen())
 	{
-		Event e;
 		while (window.pollEvent(e))
 		{
 			if (e.type == sf::Event::Closed)
-			{
-				isExit = true;
 				window.close();
-			}
 			if (e.type == sf::Event::KeyPressed)
 				return;
 		}

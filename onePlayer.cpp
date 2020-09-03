@@ -1,5 +1,6 @@
 #include "common.h"
 #include "onePlayer.h"
+#include "button.h"
 
 onePlayer::onePlayer(Texture* bgTexture, int level) : Game(bgTexture)
 {
@@ -150,9 +151,12 @@ void onePlayer::processKeyPressed(int keyCode)
 		if (b.markCell(cursorP.x, cursorP.y, 1))
 		{
 			if (direction = b.checkBoard(cursorP.x, cursorP.y, x_begin, y_begin))
-				isExit = displayWin();
+			{
+				markWin(x_begin, y_begin, direction);
+				isExit = displayLose();
+			}
 			else if (b.getCountX() + b.getCountO() == BOARD_SIZE * BOARD_SIZE)
-				isExit = true; // DRAW
+				isExit = displayWin(true); // DRAW
 			else // Player doesn't win, so it is machine's turn
 			{
 				// The BOT is thinking
@@ -164,9 +168,16 @@ void onePlayer::processKeyPressed(int keyCode)
 				if (b.markCell(botMoving.x, botMoving.y, -1))
 				{
 					if (direction = b.checkBoard(botMoving.x, botMoving.y, x_begin, y_begin))
-						isExit = displayWin(); // LOSE HERE
+					{
+						markWin(x_begin, y_begin, direction);
+						sleep(milliseconds(1000));
+						isExit = displayLose(); // LOSE HERE
+					}
 					else if (b.getCountX() + b.getCountO() == BOARD_SIZE * BOARD_SIZE)
-						isExit = true; // DRAW
+					{
+						sleep(milliseconds(1000));
+						isExit = displayWin(true); // DRAW
+					}
 				}
 			}
 		}
@@ -359,4 +370,167 @@ Vector3i onePlayer::alphaBetaPrunning(bool isMaximize, int depth, int maxDepth)
 	}
 
 	return ans;
+}
+
+bool onePlayer::displayLose(bool isDraw)
+{
+	// Init
+	Sprite bad;
+	Sprite dialogBox;
+	RectangleShape cover(Vector2f(1200.0f,700.0f));
+	cover.setFillColor(Color(0, 31, 83));
+
+	Text loser("YOU LOSE", font_bebasNeueBold, 50);
+	loser.setOrigin(loser.getLocalBounds().width / 2.0f, loser.getLocalBounds().height / 2.0f + 15.0f);
+	loser.setScale(0.0f, 0.0f);
+
+	Text loserS(loser);
+	loser.setFillColor(Color::White); loserS.setFillColor(Color::Black);
+	loser.setPosition(WINDOW_WIDTH / 2.0f, 240.0f); loserS.setPosition(WINDOW_WIDTH / 2.0f + 3.0f, 240.0f);
+
+	Text title("STATISTICS", font_bebasNeueBold, 40);
+	title.setOrigin(title.getLocalBounds().width / 2.0f, title.getLocalBounds().height / 2.0f + 13.0f);
+	title.setScale(0.0f, 0.0f);
+
+	Text titleS(title);
+	title.setFillColor(Color::White); titleS.setFillColor(Color::Black);
+	title.setPosition(WINDOW_WIDTH / 2.0f, 310.0f);	titleS.setPosition(WINDOW_WIDTH / 2.0f + 3.0f, 310.0f);
+
+	std::vector<Text> statTitle;
+	for (int i = 0; i < 2; ++i)
+	{
+		Text tS("", font_bebasNeueBold, 35);
+		Text t(tS);
+		tS.setFillColor(Color::Black);
+		tS.setPosition(353.0f, 350.0f + 70.0f * i);
+		tS.setScale(0.0f, 0.0f);
+		t.setFillColor(Color::White);
+		t.setPosition(350.0f, 350.0f + 70.0f * i);
+		t.setScale(0.0f, 0.0f);
+		statTitle.push_back(tS);
+		statTitle.push_back(t);
+	}
+	statTitle[0].setString("SCORE"); statTitle[1].setString("SCORE");
+	statTitle[2].setString("TICKS"); statTitle[3].setString("TICKS");
+
+	std::vector<std::vector<Text>> stats(2);
+	for (unsigned int i = 0; i < 2; ++i)
+	{
+		for (unsigned int j = 0; j < 2; ++j)
+		{
+			Text tS("", font_bebasNeueBold, 35);
+			Text t(tS);
+			tS.setFillColor(Color::Black);
+			tS.setPosition(473.0f + j * 220.0f, 350.0f + i * 70);
+			tS.setScale(0.0f, 0.0f);
+			t.setFillColor(Color::White);
+			t.setPosition(470.0f + j * 220.0f, 350.0f + i * 70);
+			t.setScale(0.0f, 0.0f);
+			stats[i].push_back(tS);
+			stats[i].push_back(t);
+		}
+	}
+	stats[0][0].setString(std::to_string(scoreX)); stats[0][1].setString(std::to_string(scoreX));
+	stats[0][2].setString(std::to_string(scoreO)); stats[0][3].setString(std::to_string(scoreO));
+	stats[1][0].setString(std::to_string(b.getCountX())); stats[1][1].setString(std::to_string(b.getCountX()));
+	stats[1][2].setString(std::to_string(b.getCountO())); stats[1][3].setString(std::to_string(b.getCountO()));
+
+	Button replayBtn(&t_blueButton_default, &t_blueButton_mouseOver, &s_optionSound, "[ENTER] REPLAY", Vector2f(WINDOW_WIDTH / 2.0f + 180.0f, 580.0f));
+	replayBtn.setScale(0.0f, 0.0f);
+
+	Button backMenuBtn(&t_yellowButton_default, &t_yellowButton_mouseOver, &s_optionSound, "[ESC] MENU", Vector2f(WINDOW_WIDTH / 2.0f - 180.0f, 580.0f));
+	backMenuBtn.setScale(0.0f, 0.0f);
+
+	// Configure
+	bad.setTexture(t_bad);
+	bad.setOrigin(0.0f, bad.getLocalBounds().height);
+	
+	dialogBox.setTexture(t_dialogBox);
+	dialogBox.setOrigin(dialogBox.getLocalBounds().width / 2.0f, dialogBox.getLocalBounds().height / 2.0f);
+	dialogBox.setPosition(WINDOW_WIDTH / 2.0f, WINDOW_HEIGHT / 2.0f);
+	dialogBox.setScale(0.0f, 0.0f);
+
+	Event e;
+	bool flag = true;
+
+	while (window.isOpen() && flag)
+	{
+		while (window.pollEvent(e))
+		{
+			if (e.type == Event::Closed)
+				exitGame();
+			else if (e.type == Event::KeyPressed)
+			{
+				switch (e.key.code)
+				{
+				case Keyboard::Escape:
+					resetData();
+					return true;
+					break;
+				case Keyboard::Enter:
+					resetData();
+					turn = 1;
+					return false;
+					break;
+				}
+			}
+			else if (e.type == Event::MouseMoved)
+			{
+				backMenuBtn.update(sf::Vector2f((float)e.mouseMove.x, (float)e.mouseMove.y), false);
+				replayBtn.update(sf::Vector2f((float)e.mouseMove.x, (float)e.mouseMove.y), false);
+			}
+			else if (e.type == Event::MouseButtonPressed)
+			{
+				backMenuBtn.update(sf::Vector2f((float)e.mouseButton.x, (float)e.mouseButton.y), true);
+				if (backMenuBtn.getState() == 2)
+				{
+					resetData();
+					return true;
+				}
+				replayBtn.update(sf::Vector2f((float)e.mouseButton.x, (float)e.mouseButton.y), true);
+				if (replayBtn.getState() == 2)
+				{
+					resetData();
+					turn = 1;
+					return false;
+				}
+			}
+		}
+		if (bad.getPosition().y < 190.0f)
+		{
+			bad.move(0.0f, 7.6f);
+			dialogBox.setScale(dialogBox.getScale().x + 0.04f, dialogBox.getScale().y + 0.04f);
+			titleS.setScale(titleS.getScale().x + 0.04f, titleS.getScale().y + 0.04f);
+			title.setScale(title.getScale().x + 0.04f, title.getScale().y + 0.04f);
+			for (int i = 0; i < statTitle.size(); ++i)
+				statTitle[i].setScale(statTitle[i].getScale().x + 0.04f, statTitle[i].getScale().y + 0.04f);
+			for (int i = 0; i < stats.size(); ++i)
+				for (int j = 0; j < stats[i].size(); ++j)
+					stats[i][j].setScale(stats[i][j].getScale().x + 0.04f, stats[i][j].getScale().y + 0.04f);
+			backMenuBtn.setScale(backMenuBtn.getScale().x + 0.04f, backMenuBtn.getScale().y + 0.04f);
+			replayBtn.setScale(replayBtn.getScale().x + 0.04f, replayBtn.getScale().y + 0.04f);
+			loser.setScale(loser.getScale().x + 0.04f, loser.getScale().y + 0.04f);
+			loserS.setScale(loserS.getScale().x + 0.04f, loserS.getScale().y + 0.04f);
+			cover.setFillColor(Color(0, 31, 83, cover.getFillColor().a + 30));
+		}
+
+		window.clear();
+		window.draw(menuBackground);
+		window.draw(bad);
+		window.draw(cover);
+		window.draw(dialogBox);
+		window.draw(titleS);
+		window.draw(title);
+		for (int i = 0; i < statTitle.size(); ++i)
+			window.draw(statTitle[i]);
+		for (int i = 0; i < stats.size(); ++i)
+			for (int j = 0; j < stats[i].size(); ++j)
+				window.draw(stats[i][j]);
+		backMenuBtn.draw();
+		replayBtn.draw();
+		window.draw(loserS);
+		window.draw(loser);
+		window.display();
+	}
+	return true;
 }

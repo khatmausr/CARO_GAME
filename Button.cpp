@@ -125,6 +125,20 @@ sf::Vector2f Button::getPosition()
 	return sf::Vector2f(this->currentSprite->getPosition());
 }
 
+sf::Vector2f Button::getScale()
+{
+	return currentSprite->getScale();
+}
+
+void Button::setScale(float scaleX, float scaleY)
+{
+	defaultPlaceHolder.setScale(scaleX, scaleY);
+	mouseOverPlaceHolder.setScale(scaleX, scaleY);
+	title.setScale(scaleX, scaleY);
+	titleShadow.setScale(scaleX, scaleY);
+}
+
+
 void Button::draw()
 {
 	if (this->isActive)

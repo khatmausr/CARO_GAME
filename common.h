@@ -93,6 +93,7 @@ extern Texture t_star;
 extern Texture t_smallStar;
 extern Texture t_shine;
 extern Texture t_smallShine;
+extern Texture t_bad;
 
 // Common methods
 class common

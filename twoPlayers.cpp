@@ -139,9 +139,16 @@ void twoPlayers::processKeyPressed(int keyCode)
 			if (b.markCell(cursorP.x, cursorP.y, turn))
 			{
 				if (direction = b.checkBoard(cursorP.x, cursorP.y, x_begin, y_begin))
-					isExit = displayWin(0);
+				{
+					markWin(x_begin, y_begin, direction);
+					sleep(milliseconds(1000));
+					isExit = displayWin();
+				}
 				else if (b.getCountX() + b.getCountO() == BOARD_SIZE * BOARD_SIZE)
-					isExit = displayWin(1);
+				{
+					sleep(milliseconds(1000));
+					isExit = displayWin(true); // DRAW
+				}
 				else changeTurn();
 			}
 			break;
@@ -179,10 +186,14 @@ void twoPlayers::processKeyPressed(int keyCode)
 				if (direction = b.checkBoard(cursorP.x, cursorP.y, x_begin, y_begin))
 				{
 					markWin(x_begin, y_begin, direction);
+					sleep(milliseconds(1000));
 					isExit = displayWin();
 				}
 				else if (b.getCountX() + b.getCountO() == BOARD_SIZE * BOARD_SIZE)
-					isExit = true; // DRAW
+				{
+					sleep(milliseconds(1000));
+					isExit = displayWin(true); // DRAW
+				}
 				else changeTurn();
 			}
 			break;

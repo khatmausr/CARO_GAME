@@ -15,9 +15,10 @@ private:
 	sf::Text titleShadow;
 
 	sf::Sprite* currentSprite;
+
+	unsigned int currentState; // 0 : default | 1 : mouse over OR selected | 2 : pressed
 public:
 	bool isActive;
-	unsigned int currentState; // 0 : default | 1 : mouse over OR selected | 2 : pressed
 public:
 	// Constructors of Button
 	//Button();
@@ -27,11 +28,21 @@ public:
 	~Button();
 	// Methods
 	void update(sf::Vector2f mousePos, bool isClicked);
+	
 	void setText(std::string title);
+	
 	void setState(unsigned int state);
+	
 	unsigned int getState();
+	
 	void setPosition(sf::Vector2f position);
+	
 	sf::Vector2f getPosition();
+
+	sf::Vector2f getScale();
+
+	void setScale(float scaleX = 1.0f, float scaleY = 1.0f);
+	
 	void draw();
 };
 

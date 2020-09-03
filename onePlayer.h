@@ -14,6 +14,8 @@ private:
 	Vector2u hardBotMove();
 	Vector3i alphaBetaPrunning(bool isMaximize, int depth, int maxDepth);
 
+	bool displayLose(bool isDraw = false);
+
 public:
 	onePlayer(Texture* bgTexture, int level);
 	~onePlayer();
