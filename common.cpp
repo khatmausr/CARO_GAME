@@ -107,7 +107,7 @@ void common::runGame()
 
 	//subMenu sm;
 	int choice = 1;
-	//Button btn(&t_blueButton_default, &t_blueButton_mouseOver, &t_blueButton_pressed, &s_optionSound, "NEW GAME", sf::Vector2f(500.0f, 50.0f));
+
 	// Opening
 	m.displayOpeningScreen();
 	window.setFramerateLimit(60);

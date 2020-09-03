@@ -94,6 +94,8 @@ void twoPlayers::askForName()
 				}
 			}
 		}
+		window.clear();
+		window.draw(menuBackground);
 		window.draw(dialogBox);
 		window.draw(nameInputTitleS);
 		window.draw(nameInputTitle);
