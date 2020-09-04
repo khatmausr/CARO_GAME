@@ -64,6 +64,11 @@ extern Sound optionSound;
 extern SoundBuffer s_moveSound;
 extern Sound moveSound;
 
+extern SoundBuffer s_winSound;
+extern Sound winSound;
+extern SoundBuffer s_loseSound;
+extern Sound loseSound;
+
 // Button
 extern Texture t_blueButton_default;
 extern Texture t_blueButton_mouseOver;

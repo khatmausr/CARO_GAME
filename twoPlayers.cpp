@@ -243,12 +243,14 @@ void twoPlayers::processKeyPressed(int keyCode)
 		{
 			vol = false;
 			gameMusic.setVolume(0);
+			winSound.setVolume(0);
 			moveSound.setVolume(0);
 		}
 		else
 		{
 			vol = true;
 			gameMusic.setVolume(50);
+			winSound.setVolume(100);
 			moveSound.setVolume(100);
 		}
 	}

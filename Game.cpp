@@ -652,6 +652,8 @@ bool Game::displayWin(bool isDraw)
 	Event e;
 	bool flag = true;
 
+	winSound.play();
+
 	while (window.isOpen() && flag)
 	{
 		while (window.pollEvent(e))

@@ -41,6 +41,12 @@ Sound optionSound;
 
 SoundBuffer s_moveSound;
 Sound moveSound;
+
+SoundBuffer s_winSound;
+Sound winSound;
+SoundBuffer s_loseSound;
+Sound loseSound;
+
 // Button
 Texture t_greenButton_default;
 Texture t_blueButton_default;

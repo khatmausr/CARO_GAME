@@ -66,6 +66,12 @@ void common::initGame()
 	s_moveSound.loadFromFile("sound/moveSound.ogg");
 	moveSound.setBuffer(s_moveSound);
 
+	s_winSound.loadFromFile("sound/winSound.ogg");
+	winSound.setBuffer(s_winSound);
+
+	s_loseSound.loadFromFile("sound/loseSound.ogg");
+	loseSound.setBuffer(s_loseSound);
+
 	// Blue
 	t_blueButton_default.loadFromFile("image/Button/Blue/Button-default.png");
 	t_blueButton_default.setSmooth(true);
