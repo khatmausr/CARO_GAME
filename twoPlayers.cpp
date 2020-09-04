@@ -237,4 +237,19 @@ void twoPlayers::processKeyPressed(int keyCode)
 	if (keyCode == Keyboard::T) askForLoad();
 
 	if (keyCode == Keyboard::Escape) isExit = true;
+	if(keyCode == Keyboard::M)
+	{
+		if (vol)
+		{
+			vol = false;
+			gameMusic.setVolume(0);
+			moveSound.setVolume(0);
+		}
+		else
+		{
+			vol = true;
+			gameMusic.setVolume(100);
+			moveSound.setVolume(100);
+		}
+	}
 }
