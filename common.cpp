@@ -518,7 +518,7 @@ void common::aboutMenu()
 			artBg.move(-0.5f, 0.0f);
 		}
 		else dir = true;
-		if (textList.back().getPosition().y > -29.0f)
+		if (textList.back().getPosition().y > 151.0f)
 		{
 			logo.move(0, -0.75f);
 			group.move(0, -0.75f);
