@@ -389,6 +389,16 @@ Vector3i onePlayer::alphaBetaPrunning(bool isMaximize, int depth, int maxDepth)
 bool onePlayer::displayLose(bool isDraw)
 {
 	// Init
+	switch (turn)
+	{
+	case -1:
+		++scoreO;
+		break;
+	case 1:
+		++scoreX;
+		break;
+	}
+
 	Sprite bad;
 	Sprite dialogBox;
 	RectangleShape cover(Vector2f(1200.0f,700.0f));
