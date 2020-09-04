@@ -20,9 +20,9 @@ void common::initGame()
 	gameBackground.setTexture(t_gameBackground);
 
 	t_logo.loadFromFile("image/menu_logo.png");
-	logo.setTexture(t_logo); 
+	logo.setTexture(t_logo);
 	logo.setOrigin(logo.getLocalBounds().width / 2.0f, logo.getLocalBounds().height / 2.0f);
-	logo.setPosition(WINDOW_WIDTH/2.0f,110.0f);
+	logo.setPosition(WINDOW_WIDTH / 2.0f, 110.0f);
 	icon.loadFromFile("image/logo.png");
 	window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 
@@ -123,6 +123,29 @@ void common::initGame()
 
 	t_bad.loadFromFile("image/asset/bad.png");
 	t_bad.setSmooth(true);
+
+
+	// About us
+	aboutUsMusic.openFromFile("sound/aboutus.ogg");
+	aboutUsMusic.setLoop(true);
+
+	t_artBg.loadFromFile("image/asset/aboutus/artBg.png");
+	t_artBg.setSmooth(true);
+
+	t_artObj.loadFromFile("image/asset/aboutus/artObj.png");
+	t_artObj.setSmooth(true);
+
+	t_zoom.loadFromFile("image/asset/aboutus/zoom.png");
+	t_zoom.setSmooth(true);
+
+	t_group.loadFromFile("image/asset/aboutus/group.png");
+	t_group.setSmooth(true);
+	t_fit.loadFromFile("image/asset/aboutus/fit.png");
+	t_fit.setSmooth(true);
+	t_sLogo.loadFromFile("image/asset/aboutus/logo.png");
+	t_sLogo.setSmooth(true);
+
+
 }
 
 void common::runGame()
@@ -401,48 +424,149 @@ void common::displayOpeningScreen()
 
 void common::aboutMenu()
 {
-	sf::Sprite bg(t_menuBackground);
-	sf::RectangleShape contentBg(sf::Vector2f(800.0f, 530.0f));
-	contentBg.setFillColor(sf::Color(0, 0, 0, 150));
-	contentBg.setOrigin(contentBg.getLocalBounds().width / 2.0f, 0);
-	contentBg.setPosition(WINDOW_WIDTH / 2.0f, 170.0f);
+	menuMusic.stop();
+	aboutUsMusic.play();
+	sf::Sprite bg(t_menuBackground), group(t_group), fit(t_fit), logo(t_sLogo);
+
+	logo.setPosition(754.5f, 700.0f);
+	group.setPosition(836.5f, 870.0f);
+	fit.setPosition(716.5f, 1630.0f);
+
+	sf::RectangleShape contentBg(sf::Vector2f(1200.0f, 700.0f)),
+		top(sf::Vector2f(526.0f, 180.0f)),
+		bot(sf::Vector2f(526.9f, 180.0f));
+
+	contentBg.setFillColor(sf::Color(255, 255, 255, 0));
+	top.setFillColor(sf::Color::White);
+	top.setPosition(674.0f, 0.0f);
+	bot.setFillColor(sf::Color::White);
+	bot.setPosition(674.0f, 520.0f);
+
+	sf::Sprite artBg(t_artBg), artObj(t_artObj), zoom(t_zoom);
+	artBg.setPosition(100.0f, 207.5f);
+	artObj.setPosition(120.25f, 200.0f);
+	zoom.setOrigin(182.5f, 73.0f);
+	zoom.setPosition(379.5f, 390.5f);
+
+	// Dimming white
+	for (int i = 0; i <= 60; ++i)
+	{
+		window.clear();
+		contentBg.setFillColor(sf::Color(255, 255, 255, i * 4.25));
+		window.draw(bg);
+		window.draw(contentBg);
+		window.display();
+	}
 	std::vector<sf::Text> textList;
 
-	textList.push_back(Text("Ho Chi Minh City University of Science", font_robotoMonoBold, 24));
-	textList.push_back(Text("Viet Nam National University, Ho Chi Minh City", font_robotoMonoBold, 24));
-	textList.push_back(Text("Project", font_robotoMonoBold, 24));
-	textList.push_back(Text("Object Oriented Programming", font_robotoMonoBold, 40));
-	textList.push_back(Text("Game CARO (Version 1.0)", font_robotoMonoBold, 30));
-	textList.push_back(Text("Ho Huu Vien                               18127251", font_robotoMonoBold, 24));
-	textList.push_back(Text("Pham Anh Tuan                             19127084", font_robotoMonoBold, 24));
-	textList.push_back(Text("Nguyen Thanh Tinh                         19127292", font_robotoMonoBold, 24));
-	textList.push_back(Text("Tran Xuan Son                             19127321", font_robotoMonoBold, 24));
-	textList.push_back(Text("Special thanks to", font_robotoMonoBold, 30));
-	textList.push_back(Text("M. Truong Toan Thinh      -        Theory Lecturer", font_robotoMonoBold, 24));
-	textList.push_back(Text("M. Nguyen Thanh An        -     Teaching Assistant", font_robotoMonoBold, 24));
-	textList.push_back(Text("M. Tran Ngoc Dat Thanh    -           LAB Lecturer", font_robotoMonoBold, 24));
+	textList.push_back(Text("Ho Chi Minh City University of Science", font_bebasNeueBold, 24));
+	textList.push_back(Text("Viet Nam National University, Ho Chi Minh City", font_bebasNeueBold, 24));
+	textList.push_back(Text("Project", font_bebasNeueBold, 24));
+	textList.push_back(Text("Object Oriented Programming", font_bebasNeueBold, 40));
+	textList.push_back(Text("Game CARO (Version 1.0)", font_bebasNeueBold, 30));
+	textList.push_back(Text("Ho Huu Vien - 18127251", font_bebasNeueBold, 24));
+	textList.push_back(Text("Pham Anh Tuan - 19127084", font_bebasNeueBold, 24));
+	textList.push_back(Text("Nguyen Thanh Tinh - 19127292", font_bebasNeueBold, 24));
+	textList.push_back(Text("Tran Xuan Son - 19127321", font_bebasNeueBold, 24));
+	textList.push_back(Text("Special thanks to", font_bebasNeueBold, 30));
+	textList.push_back(Text("M. Truong Toan Thinh - Theory Lecturer", font_bebasNeueBold, 24));
+	textList.push_back(Text("M. Nguyen Thanh An - Teaching Assistant", font_bebasNeueBold, 24));
+	textList.push_back(Text("M. Tran Ngoc Dat Thanh - LAB Lecturer", font_bebasNeueBold, 24));
 
-	window.clear();
-	window.draw(bg);
-	window.draw(contentBg);
 	for (unsigned int i = 0; i < textList.size(); ++i)
 	{
-		textList[i].setFillColor(sf::Color::White);
-		textList[i].setOrigin(textList[i].getLocalBounds().width / 2.0f + 10.0f, 0);
-		textList[i].setPosition(WINDOW_WIDTH / 2.0f, 170.0f + MENU_LINE_SPACING * i + 10.0f);
-		window.draw(textList[i]);
+		textList[i].setFillColor(sf::Color(112, 112, 112));
+		textList[i].setOrigin(textList[i].getLocalBounds().width / 2.0f, 0.0f);
+		textList[i].setPosition(916.5f, 1110.0f + MENU_LINE_SPACING * i + 10.0f);
 	}
-	window.display();
-	bool isExit = false;
+
+	bool dir = true,dirText = true;
+	int alpha = 100;
+
+	bool show = false;
+	Text getOut("Press any key to get back", font_bebasNeueBold, 30);
+	getOut.setFillColor(Color(112, 112, 112, alpha));
+	getOut.setPosition(808.0f, 444.0f);
+
 	Event e;
-	while (window.isOpen())
+	bool flag = true;
+	while (window.isOpen() && flag)
 	{
 		while (window.pollEvent(e))
 		{
 			if (e.type == sf::Event::Closed)
+			{
+				aboutUsMusic.stop();
 				window.close();
-			if (e.type == sf::Event::KeyPressed)
-				return;
+			}
+			if (e.type == sf::Event::KeyPressed || e.type == sf::Event::MouseButtonPressed)
+			{
+				menuMusic.play();
+				aboutUsMusic.stop();
+				flag = false;
+			}
 		}
+		if (dir && artBg.getPosition().x < 145.0f)
+		{
+			zoom.rotate(0.1f);
+			artBg.move(0.5f, 0.0f);
+		}
+		else dir = false;
+		if (!dir && artBg.getPosition().x > 100.0f)
+		{
+			zoom.rotate(-0.1f);
+			artBg.move(-0.5f, 0.0f);
+		}
+		else dir = true;
+		if (textList.back().getPosition().y > -29.0f)
+		{
+			logo.move(0, -0.75f);
+			group.move(0, -0.75f);
+			for (int i = 0; i < textList.size(); ++i)
+				textList[i].move(0, -0.75f);
+		}
+		else
+		{
+			show = true;
+			if (dirText && alpha < 255)
+			{
+				alpha += 5;
+				getOut.setFillColor(Color(112, 112, 112, alpha));
+			}
+			else dirText = false;
+			if (!dirText && alpha > 100)
+			{
+				alpha -= 5;
+				getOut.setFillColor(Color(112, 112, 112, alpha));
+			}
+			else dirText = true;
+		}
+		if (fit.getPosition().y > 278.0f)
+			fit.move(0, -0.75f);
+		window.clear();
+		window.draw(contentBg);
+		window.draw(logo);
+		window.draw(group);
+		
+		for (int i = 0; i < textList.size(); ++i)
+			window.draw(textList[i]);
+
+		window.draw(fit);
+		window.draw(top);
+		window.draw(bot);
+		window.draw(artBg);
+		window.draw(artObj);
+		window.draw(zoom);
+		if (show) window.draw(getOut);
+		window.display();
+	}
+
+	for (int i = 60; i >= 0; --i)
+	{
+		window.clear();
+		contentBg.setFillColor(sf::Color(255, 255, 255, i * 4.25));
+		window.draw(bg);
+		window.draw(contentBg);
+		window.display();
 	}
 }

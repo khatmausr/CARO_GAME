@@ -95,6 +95,16 @@ extern Texture t_shine;
 extern Texture t_smallShine;
 extern Texture t_bad;
 
+// About us
+extern Music aboutUsMusic;
+
+extern Texture t_artBg;
+extern Texture t_artObj;
+extern Texture t_zoom;
+extern Texture t_group;
+extern Texture t_fit;
+extern Texture t_sLogo;
+
 // Common methods
 class common
 {

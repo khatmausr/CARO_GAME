@@ -69,3 +69,14 @@ Texture t_smallStar;
 Texture t_shine;
 Texture t_smallShine;
 Texture t_bad;
+
+// About us
+Music aboutUsMusic;
+
+Texture t_artBg;
+Texture t_artObj;
+Texture t_zoom;
+
+Texture t_group;
+Texture t_fit;
+Texture t_sLogo;
