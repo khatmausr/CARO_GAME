@@ -390,6 +390,13 @@ void Game::saveGame(std::string fileName)
 
 	std::fstream fout(fileName, std::ios::out | std::ios::binary);
 	fout.write((char*)&data, sizeof(saveGameData));
+	// write player name
+	size_t len = playerName[0].size();
+	fout.write((char*)&len, sizeof(len));
+	fout.write((char*)&playerName[0][0] , len);
+	len = playerName[1].size();
+	fout.write((char*)&len, sizeof(len));
+	fout.write((char*)&playerName[1][0] , len);
 	fout.close();
 
 	// Push to manager file
@@ -408,9 +415,17 @@ void Game::saveGame(std::string fileName)
 void Game::loadGame(std::string fileName)
 {
 	saveGameData data;
-
+	std::string _playerName[2];
+	size_t len;
 	std::fstream fin(fileName, std::ios::in | std::ios::binary);
 	fin.read((char*)&data, sizeof(saveGameData));
+	// read player name
+	fin.read((char*)&len, sizeof(len));
+	_playerName[0].resize(len);
+	fin.read((char*)&_playerName[0][0], len);
+	fin.read((char*)&len, sizeof(len));
+	_playerName[1].resize(len);
+	fin.read((char*)&_playerName[1][0], len);
 	fin.close();
 
 	std::vector <int> dataBoard;
@@ -421,12 +436,14 @@ void Game::loadGame(std::string fileName)
 	this->cursorP = data.cursorP;
 	scoreX = data._scoreX; scoreO = data._scoreO;
 	isExit = data._isExit;
+	this->playerName[0] = _playerName[0];
+	this->playerName[1] = _playerName[1];
 }
 
 void Game::displayGame()
 {
 	// Loading some statistics
-	Text txt_countX, txt_countO, txt_scoreX, txt_scoreO, txt_playerName[2],txt_playerNameS[2];
+	Text txt_countX, txt_countO, txt_scoreX, txt_scoreO, txt_playerName[2], txt_playerNameS[2];
 
 	txt_scoreX.setFont(font_bebasNeueBold);
 	txt_scoreX.setFillColor(Color::White);
