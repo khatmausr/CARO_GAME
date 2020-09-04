@@ -58,6 +58,7 @@ void common::initGame()
 
 	gameMusic.openFromFile("sound/game_music.ogg");
 	gameMusic.setLoop(true);
+	gameMusic.setVolume(50);
 
 	s_optionSound.loadFromFile("sound/optionSound.ogg");
 	optionSound.setBuffer(s_optionSound);

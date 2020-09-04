@@ -230,7 +230,7 @@ void onePlayer::processKeyPressed(int keyCode)
 		else
 		{
 			vol = true;
-			gameMusic.setVolume(100);
+			gameMusic.setVolume(50);
 			moveSound.setVolume(100);
 		}
 		break;
