@@ -150,6 +150,8 @@ void common::initGame()
 
 void common::runGame()
 {
+	displayOpeningScreen();
+
 	// Initializing
 	Game* g = new twoPlayers(&t_gameBackground);
 	Menu mainMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);

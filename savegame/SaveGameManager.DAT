@@ -1,51 +1,51 @@
 10
-savegame/Med1.SGO
-2
-VC
-Medium Bot
-14 0 29 59 7 32 6 241 120
-savegame/Med2.SGO
-2
-VC
-Medium Bot
-14 0 29 59 7 39 6 241 120
-savegame/Ez1.SGO
-1
-VC
-Easy Bot
-15 0 29 0 7 2 6 241 120
-savegame/Ez2.SGO
-1
-VC
-Easy Bot
-15 0 29 0 7 10 6 241 120
-savegame/Ez3.SGO
-1
-VC
-Easy Bot
-15 0 29 0 7 15 6 241 120
-savegame/Hard1.SGO
+savegame/NHOM2_1.SGO
+0
+NHOM2A
+NHOM2B
+11 0 4 24 8 34 5 247 120
+savegame/NHOM2_2.SGO
+0
+NHOM2A
+NHOM2B
+11 0 4 24 8 38 5 247 120
+savegame/NHOM2_3.SGO
+0
+NHOM2A
+NHOM2B
+11 0 4 24 8 45 5 247 120
+savegame/NHOM2_4.SGO
+0
+NHOM2A
+NHOM2B
+11 0 4 24 8 53 5 247 120
+savegame/HARD1.SGO
 3
-VC
+NHOM2
 Hard Bot
-15 0 29 0 7 34 6 241 120
-savegame/Hard2.SGO
+11 0 4 26 8 9 5 247 120
+savegame/HARD2.SGO
 3
-VC
+NHOM2
 Hard Bot
-15 0 29 0 7 39 6 241 120
-savegame/TinhSon1.SGO
-0
-TINH
-SON
-15 0 29 2 7 37 6 241 120
-savegame/TinhSon2.SGO
-0
-TINH
-SON
-15 0 29 2 7 45 6 241 120
-savegame/TinhSon3.SGO
-0
-TINH
-SON
-15 0 29 2 7 55 6 241 120
+11 0 4 26 8 13 5 247 120
+savegame/MEDIUM1.SGO
+2
+NHOM2
+Medium Bot
+11 0 4 26 8 34 5 247 120
+savegame/MEDIUM2.SGO
+2
+NHOM2
+Medium Bot
+11 0 4 26 8 39 5 247 120
+savegame/EASY1.SGO
+1
+NHOM2
+Easy Bot
+11 0 4 26 8 54 5 247 120
+savegame/EASY2.SGO
+1
+NHOM2
+Easy Bot
+11 0 4 27 8 6 5 247 120
