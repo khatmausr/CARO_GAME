@@ -128,22 +128,38 @@ void onePlayer::processKeyPressed(int keyCode)
 	{
 	case Keyboard::Left:
 	{
-		if (cursorP.y > 0) cursorP.y--;
+		if (cursorP.y > 0)
+		{
+			cursorP.y--;
+			moveSound.play();
+		}
 		break;
 	}
 	case Keyboard::Right:
 	{
-		if (cursorP.y < BOARD_SIZE - 1) cursorP.y++;
+		if (cursorP.y < BOARD_SIZE - 1)
+		{
+			cursorP.y++;
+			moveSound.play();
+		}
 		break;
 	}
 	case Keyboard::Up:
 	{
-		if (cursorP.x > 0) cursorP.x--;
+		if (cursorP.x > 0)
+		{
+			cursorP.x--;
+			moveSound.play();
+		}
 		break;
 	}
 	case Keyboard::Down:
 	{
-		if (cursorP.x < BOARD_SIZE - 1) cursorP.x++;
+		if (cursorP.x < BOARD_SIZE - 1)
+		{
+			cursorP.x++;
+			moveSound.play();
+		}
 		break;
 	}
 	case Keyboard::Enter:
