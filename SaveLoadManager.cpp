@@ -148,7 +148,7 @@ int SaveLoadManager::loadForGame(std::string& filename)
 		option[i][3].setString(saveList[i]._s2); option[i][3].setPosition(660.0f, 190.0f + i * 40.0f);
 		option[i][4].setString(
 			std::to_string(saveList[i]._ltm->tm_mday) + ":" +
-			std::to_string(saveList[i]._ltm->tm_mon) + ":" +
+			std::to_string(saveList[i]._ltm->tm_mon + 1) + ":" +
 			std::to_string(saveList[i]._ltm->tm_year + 1900) + " " +
 			std::to_string(saveList[i]._ltm->tm_hour) + ":" +
 			std::to_string(saveList[i]._ltm->tm_min) + ":" +

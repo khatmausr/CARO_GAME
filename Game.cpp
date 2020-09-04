@@ -288,7 +288,7 @@ Game::Game(sf::Texture* bgTexture)
 	background.setTexture(*bgTexture);
 	cursorP = Vector2u(BOARD_SIZE / 2 - 1, BOARD_SIZE / 2 - 1);
 	scoreX = scoreO = 0; playerName[0] = ""; playerName[1] = "";
-	turn = 0; isExit = false;
+	turn = 1; isExit = false;
 }
 
 Game::~Game()

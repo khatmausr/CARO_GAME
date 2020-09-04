@@ -67,6 +67,28 @@ void HighScoreManager::updateFileManager()
 	fout.close();
 }
 
+void HighScoreManager::resetHighScore()
+{
+	HighScoreInfo t;
+	t._playerName = "Player";
+	t._score = 0;
+	t._scoreX = 0;
+	t._scoreO = 0;
+	t._typeGame = 3;
+	t._ltm = new tm();
+	t._ltm->tm_year = 120;
+	t._ltm->tm_mon = 0;
+	t._ltm->tm_mday = 1;
+	t._ltm->tm_hour = 0;
+	t._ltm->tm_min = 0;
+	t._ltm->tm_sec = 0;
+	highScoreList.clear();
+	for (int i = 0; i < MAX_RECORD; ++i)
+		highScoreList.push_back(t);
+	updateFileManager();
+	delete t._ltm;
+}
+
 void HighScoreManager::pushHighScore(HighScoreInfo& temp)
 {
 	updateHighScoreList();
@@ -136,7 +158,7 @@ void HighScoreManager::showHighScore()
 		stat[i][2].setString(std::to_string(highScoreList[i]._score)); stat[i][2].setPosition(555.0f, 190.0f + i * 40);
 		stat[i][3].setString(
 			std::to_string(highScoreList[i]._ltm->tm_mday)			+ ":" +
-			std::to_string(highScoreList[i]._ltm->tm_mon)			+ ":" +
+			std::to_string(highScoreList[i]._ltm->tm_mon + 1)			+ ":" +
 			std::to_string(highScoreList[i]._ltm->tm_year + 1900)	+ " " +
 			std::to_string(highScoreList[i]._ltm->tm_hour)			+ ":" +
 			std::to_string(highScoreList[i]._ltm->tm_min)			+ ":" +
@@ -158,7 +180,29 @@ void HighScoreManager::showHighScore()
 				isDone = true;
 				window.close();
 			}
-
+			else if (e.type == Event::MouseButtonPressed)
+			{
+				resetBtn.update(sf::Vector2f(e.mouseButton.x, e.mouseButton.y), true);
+				if (e.mouseButton.button == sf::Mouse::Left && resetBtn.getState() == 2)
+				{
+					for (unsigned int i = 0; i < stat.size(); i++)
+					{
+						stat[i][0].setString(std::to_string(i + 1));
+						stat[i][1].setString(highScoreList[i]._playerName);
+						stat[i][2].setString(std::to_string(highScoreList[i]._score));
+						stat[i][3].setString(
+							std::to_string(highScoreList[i]._ltm->tm_mday) + ":" +
+							std::to_string(highScoreList[i]._ltm->tm_mon + 1) + ":" +
+							std::to_string(highScoreList[i]._ltm->tm_year + 1900) + " " +
+							std::to_string(highScoreList[i]._ltm->tm_hour) + ":" +
+							std::to_string(highScoreList[i]._ltm->tm_min) + ":" +
+							std::to_string(highScoreList[i]._ltm->tm_sec));
+					}
+					resetHighScore();
+				}
+			}
+			else if (e.type == Event::MouseMoved)
+				resetBtn.update(sf::Vector2f(e.mouseMove.x, e.mouseMove.y), false);
 			if (e.type == Event::KeyPressed && e.key.code == Keyboard::Escape)
 				isDone = true;
 		}
