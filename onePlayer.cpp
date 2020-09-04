@@ -386,7 +386,7 @@ Vector3i onePlayer::alphaBetaPrunning(bool isMaximize, int depth, int maxDepth)
 	return ans;
 }
 
-bool onePlayer::displayLose(bool isDraw)
+bool onePlayer::displayLose()
 {
 	// Init
 	switch (turn)
