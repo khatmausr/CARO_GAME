@@ -86,7 +86,6 @@ void HighScoreManager::resetHighScore()
 	for (int i = 0; i < MAX_RECORD; ++i)
 		highScoreList.push_back(t);
 	updateFileManager();
-	delete t._ltm;
 }
 
 void HighScoreManager::pushHighScore(HighScoreInfo& temp)
