@@ -101,5 +101,6 @@ class common
 public:
 	static void initGame();
 	static void runGame();
+	static void displayOpeningScreen();
 	static void aboutMenu();
 };

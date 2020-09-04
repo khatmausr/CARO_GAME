@@ -701,10 +701,10 @@ bool Game::displayWin(bool isDraw)
 			dialogBox.setScale(dialogBox.getScale().x + 0.05f, dialogBox.getScale().y + 0.05f);
 			titleS.setScale(titleS.getScale().x + 0.05f, titleS.getScale().y + 0.05f);
 			title.setScale(title.getScale().x + 0.05f, title.getScale().y + 0.05f);
-			for (int i = 0; i < statTitle.size(); ++i)
+			for (unsigned int i = 0; i < statTitle.size(); ++i)
 				statTitle[i].setScale(statTitle[i].getScale().x + 0.05f, statTitle[i].getScale().y + 0.05f);
-			for (int i = 0; i < stats.size(); ++i)
-				for (int j = 0; j < stats[i].size(); ++j)
+			for (unsigned int i = 0; i < stats.size(); ++i)
+				for (unsigned int j = 0; j < stats[i].size(); ++j)
 					stats[i][j].setScale(stats[i][j].getScale().x + 0.05f, stats[i][j].getScale().y + 0.05f);
 			backMenuBtn.setScale(backMenuBtn.getScale().x + 0.05f, backMenuBtn.getScale().y + 0.05f);
 			replayBtn.setScale(replayBtn.getScale().x + 0.05f, replayBtn.getScale().y + 0.05f);
@@ -730,10 +730,10 @@ bool Game::displayWin(bool isDraw)
 		window.draw(dialogBox);
 		window.draw(titleS);
 		window.draw(title);
-		for (int i = 0; i < statTitle.size(); ++i)
+		for (unsigned int i = 0; i < statTitle.size(); ++i)
 			window.draw(statTitle[i]);
-		for (int i = 0; i < stats.size(); ++i)
-			for (int j = 0; j < stats[i].size(); ++j)
+		for (unsigned int i = 0; i < stats.size(); ++i)
+			for (unsigned int j = 0; j < stats[i].size(); ++j)
 				window.draw(stats[i][j]);
 		backMenuBtn.draw();
 		replayBtn.draw();

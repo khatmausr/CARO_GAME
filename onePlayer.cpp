@@ -506,10 +506,10 @@ bool onePlayer::displayLose(bool isDraw)
 			dialogBox.setScale(dialogBox.getScale().x + 0.04f, dialogBox.getScale().y + 0.04f);
 			titleS.setScale(titleS.getScale().x + 0.04f, titleS.getScale().y + 0.04f);
 			title.setScale(title.getScale().x + 0.04f, title.getScale().y + 0.04f);
-			for (int i = 0; i < statTitle.size(); ++i)
+			for (unsigned int i = 0; i < statTitle.size(); ++i)
 				statTitle[i].setScale(statTitle[i].getScale().x + 0.04f, statTitle[i].getScale().y + 0.04f);
-			for (int i = 0; i < stats.size(); ++i)
-				for (int j = 0; j < stats[i].size(); ++j)
+			for (unsigned int i = 0; i < stats.size(); ++i)
+				for (unsigned int j = 0; j < stats[i].size(); ++j)
 					stats[i][j].setScale(stats[i][j].getScale().x + 0.04f, stats[i][j].getScale().y + 0.04f);
 			backMenuBtn.setScale(backMenuBtn.getScale().x + 0.04f, backMenuBtn.getScale().y + 0.04f);
 			replayBtn.setScale(replayBtn.getScale().x + 0.04f, replayBtn.getScale().y + 0.04f);
@@ -525,10 +525,10 @@ bool onePlayer::displayLose(bool isDraw)
 		window.draw(dialogBox);
 		window.draw(titleS);
 		window.draw(title);
-		for (int i = 0; i < statTitle.size(); ++i)
+		for (unsigned int i = 0; i < statTitle.size(); ++i)
 			window.draw(statTitle[i]);
-		for (int i = 0; i < stats.size(); ++i)
-			for (int j = 0; j < stats[i].size(); ++j)
+		for (unsigned int i = 0; i < stats.size(); ++i)
+			for (unsigned int j = 0; j < stats[i].size(); ++j)
 				window.draw(stats[i][j]);
 		backMenuBtn.draw();
 		replayBtn.draw();

@@ -1,5 +1,4 @@
 ﻿#include "common.h"
-#include "mainMenu.h"
 #include "Menu.h"
 #include "onePlayer.h"
 #include "twoPlayers.h"
@@ -129,8 +128,7 @@ void common::initGame()
 void common::runGame()
 {
 	// Initializing
-	Game* g2 = new twoPlayers(&t_gameBackground);
-	mainMenu m;
+	Game* g = new twoPlayers(&t_gameBackground);
 	Menu mainMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
 	Menu newGameMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
 	Menu botMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
@@ -193,7 +191,7 @@ void common::runGame()
 						{
 						case 0:
 						{
-							if (g2->isContinue()) g2->continueGame();
+							if (g->isContinue()) g->continueGame();
 							break;
 						}
 						case 1:
@@ -209,29 +207,29 @@ void common::runGame()
 
 							if (typeGame != -1)
 							{
-								if (typeGame != g2->getType())
-									delete g2;
+								if (typeGame != g->getType())
+									delete g;
 								switch (typeGame)
 								{
 								case 0:
-									g2 = new twoPlayers(&t_gameBackground);
-									g2->loadGame(filename);
-									g2->continueGame();
+									g = new twoPlayers(&t_gameBackground);
+									g->loadGame(filename);
+									g->continueGame();
 									break;
 								case 1:
-									g2 = new onePlayer(&t_gameBackground, 1);
-									g2->loadGame(filename);
-									g2->continueGame();
+									g = new onePlayer(&t_gameBackground, 1);
+									g->loadGame(filename);
+									g->continueGame();
 									break;
 								case 2:
-									g2 = new onePlayer(&t_gameBackground, 2);
-									g2->loadGame(filename);
-									g2->continueGame();
+									g = new onePlayer(&t_gameBackground, 2);
+									g->loadGame(filename);
+									g->continueGame();
 									break;
 								case 3:
-									g2 = new onePlayer(&t_gameBackground, 3);
-									g2->loadGame(filename);
-									g2->continueGame();
+									g = new onePlayer(&t_gameBackground, 3);
+									g->loadGame(filename);
+									g->continueGame();
 									break;
 
 								}
@@ -295,10 +293,10 @@ void common::runGame()
 							newGameMenu.isActive = false;
 							break;
 						case 1:
-							delete g2;
-							g2 = new twoPlayers(&t_gameBackground);
-							g2->newGame();
-							if (g2->isContinue()) mainMenu.setActiveBtn(0, true);
+							delete g;
+							g = new twoPlayers(&t_gameBackground);
+							g->newGame();
+							if (g->isContinue()) mainMenu.setActiveBtn(0, true);
 							else mainMenu.setActiveBtn(0, false);
 							mainMenu.isActive = true;
 							newGameMenu.isActive = false;
@@ -335,28 +333,28 @@ void common::runGame()
 						switch (botMenu.selectedItemIndex)
 						{
 						case 0:
-							delete g2;
-							g2 = new onePlayer(&t_gameBackground, 1);
-							g2->newGame();
-							if (g2->isContinue()) mainMenu.setActiveBtn(0, true);
+							delete g;
+							g = new onePlayer(&t_gameBackground, 1);
+							g->newGame();
+							if (g->isContinue()) mainMenu.setActiveBtn(0, true);
 							else mainMenu.setActiveBtn(0, false);
 							mainMenu.isActive = true;
 							botMenu.isActive = false;
 							break;
 						case 1:
-							delete g2;
-							g2 = new onePlayer(&t_gameBackground, 2);
-							g2->newGame();
-							if (g2->isContinue()) mainMenu.setActiveBtn(0, true);
+							delete g;
+							g = new onePlayer(&t_gameBackground, 2);
+							g->newGame();
+							if (g->isContinue()) mainMenu.setActiveBtn(0, true);
 							else mainMenu.setActiveBtn(0, false);
 							mainMenu.isActive = true;
 							botMenu.isActive = false;
 							break;
 						case 2:
-							delete g2;
-							g2 = new onePlayer(&t_gameBackground, 3);
-							g2->newGame();
-							if (g2->isContinue()) mainMenu.setActiveBtn(0, true);
+							delete g;
+							g = new onePlayer(&t_gameBackground, 3);
+							g->newGame();
+							if (g->isContinue()) mainMenu.setActiveBtn(0, true);
 							else mainMenu.setActiveBtn(0, false);
 							mainMenu.isActive = true;
 							botMenu.isActive = false;
@@ -370,7 +368,35 @@ void common::runGame()
 		}
 
 	}
-	delete g2;
+	delete g;
+}
+
+void common::displayOpeningScreen()
+{
+	Texture t_icon; t_icon.loadFromFile("image/group02_logo.png");
+	Sprite icon(t_icon); icon.setPosition(Vector2f(500.f, 225.f));
+
+	Music menuStartup;
+	menuStartup.openFromFile("sound/menu_startup.ogg");
+	menuStartup.play();
+
+	for (int i = 0; i <= 40; i++)
+	{
+		window.clear(Color::White);
+		icon.setColor(sf::Color(255, 255, 255, i * 6));
+		window.draw(icon);
+		window.display();
+	}
+
+	sleep(milliseconds(1000));
+
+	for (int i = 40; i >= 0; i--)
+	{
+		window.clear(Color::White);
+		icon.setColor(sf::Color(255, 255, 255, i * 6));
+		window.draw(icon);
+		window.display();
+	}
 }
 
 void common::aboutMenu()
