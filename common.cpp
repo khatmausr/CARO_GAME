@@ -62,6 +62,9 @@ void common::initGame()
 	s_optionSound.loadFromFile("sound/optionSound.ogg");
 	optionSound.setBuffer(s_optionSound);
 
+	s_moveSound.loadFromFile("sound/moveSound.ogg");
+	moveSound.setBuffer(s_moveSound);
+
 	// Blue
 	t_blueButton_default.loadFromFile("image/Button/Blue/Button-default.png");
 	t_blueButton_default.setSmooth(true);

@@ -39,6 +39,8 @@ Music gameMusic;
 SoundBuffer s_optionSound;
 Sound optionSound;
 
+SoundBuffer s_moveSound;
+Sound moveSound;
 // Button
 Texture t_greenButton_default;
 Texture t_blueButton_default;

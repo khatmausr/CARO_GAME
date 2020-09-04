@@ -61,6 +61,8 @@ extern Music menuMusic;
 extern Music gameMusic;
 extern SoundBuffer s_optionSound;
 extern Sound optionSound;
+extern SoundBuffer s_moveSound;
+extern Sound moveSound;
 
 // Button
 extern Texture t_blueButton_default;

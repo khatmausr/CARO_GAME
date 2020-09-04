@@ -25,6 +25,8 @@ protected:
 	std::string playerName[2];
 	sf::Sprite background;
 
+	bool vol; // 0 : off sound/music | ON
+
 protected:
 	virtual void askForName() = 0;
 	virtual void processKeyPressed(int keyCode) = 0;

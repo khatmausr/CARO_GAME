@@ -285,6 +285,7 @@ int Game::getType()
 
 Game::Game(sf::Texture* bgTexture)
 {
+	vol = true;
 	background.setTexture(*bgTexture);
 	cursorP = Vector2u(BOARD_SIZE / 2 - 1, BOARD_SIZE / 2 - 1);
 	scoreX = scoreO = 0; playerName[0] = ""; playerName[1] = "";
