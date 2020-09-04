@@ -9,6 +9,7 @@ onePlayer::onePlayer(Texture* bgTexture, int level) : Game(bgTexture)
 
 onePlayer::~onePlayer()
 {
+
 }
 
 void onePlayer::askForName()
