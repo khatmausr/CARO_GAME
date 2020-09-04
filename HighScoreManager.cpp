@@ -184,6 +184,7 @@ void HighScoreManager::showHighScore()
 				resetBtn.update(sf::Vector2f(e.mouseButton.x, e.mouseButton.y), true);
 				if (e.mouseButton.button == sf::Mouse::Left && resetBtn.getState() == 2)
 				{
+					resetHighScore();
 					for (unsigned int i = 0; i < stat.size(); i++)
 					{
 						stat[i][0].setString(std::to_string(i + 1));
@@ -197,7 +198,6 @@ void HighScoreManager::showHighScore()
 							std::to_string(highScoreList[i]._ltm->tm_min) + ":" +
 							std::to_string(highScoreList[i]._ltm->tm_sec));
 					}
-					resetHighScore();
 				}
 			}
 			else if (e.type == Event::MouseMoved)
