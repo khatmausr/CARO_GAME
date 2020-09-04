@@ -307,7 +307,7 @@ Vector2u onePlayer::medBotMove()
 
 Vector2u onePlayer::hardBotMove()
 {
-	Vector3i tempMove = alphaBetaPrunning(1, 0, 3);
+	Vector3i tempMove = alphaBetaPrunning(1, 0, 2);
 	
 	Vector2u ans(tempMove.x, tempMove.y);
 	return ans;
@@ -320,50 +320,54 @@ Vector3i onePlayer::alphaBetaPrunning(bool isMaximize, int depth, int maxDepth)
 	if ((depth < maxDepth) && (b.getCountX() + b.getCountO() < BOARD_SIZE * BOARD_SIZE))
 	{
 		std::vector <Vector3i> move;
+
 		// Getting available moves
 		for (int i = 0; i < BOARD_SIZE; i++)
 			for (int j = 0; j < BOARD_SIZE; j++)
 				if (!b.getCell(i, j))
 				{
-					// Cut all unnecessary moves
 					b.markCell(i, j, (isMaximize)? -1 : 1);
 
 					Vector3i tempMove(i, j, 0);
 					int i_begin, j_begin;
 					for (int k = 2; k <= 5; k++)
-						if (b.checkBoard(i, j, i_begin, j_begin, k)) // Moves have influence are not being cutten
+						if (b.checkBoard(i, j, i_begin, j_begin, k)) 
 							tempMove.z = ((isMaximize) ? 1 : -1) * k;
-					
-					Vector3i curseMove = alphaBetaPrunning(!isMaximize, depth + 1, maxDepth);
 
-					if (isMaximize)
+					if (abs(tempMove.z) > 1) // Moves have influence are not being cutten (Having a point that >= 2 or <= -2)
 					{
-						if (tempMove.z < curseMove.z) move.push_back(tempMove);
-						else move.push_back(curseMove);
-					}
-					else
-					{
-						if (tempMove.z > curseMove.z) move.push_back(tempMove);
-						else move.push_back(curseMove);
+						Vector3i curseMove = alphaBetaPrunning(!isMaximize, depth + 1, maxDepth);
+						
+						if (isMaximize)
+						{
+							if (tempMove.z > curseMove.z) tempMove.z = curseMove.z;
+						}
+						else
+						{
+							if (tempMove.z < curseMove.z) tempMove.z = curseMove.z;
+						}
 					}
 
 					b.redoMarkCell(i, j);
 				}
 
 		// Alpha Beta (MiniMax)
-		if (isMaximize)
+		if (!move.empty())
 		{
-			int maxPos = 0;
-			for (unsigned int i = 1; i < move.size(); i++)
-				if (move[maxPos].z < move[i].z) maxPos = i;
-			ans = move[maxPos];
-		}
-		else
-		{
-			int minPos = 0;
-			for (unsigned int i = 1; i < move.size(); i++)
-				if (move[minPos].z > move[i].z) minPos = i;
-			ans = move[minPos];
+			if (isMaximize)
+			{
+				int maxPos = 0;
+				for (unsigned int i = 1; i < move.size(); i++)
+					if (move[maxPos].z < move[i].z) maxPos = i;
+				ans = move[maxPos];
+			}
+			else
+			{
+				int minPos = 0;
+				for (unsigned int i = 1; i < move.size(); i++)
+					if (move[minPos].z > move[i].z) minPos = i;
+				ans = move[minPos];
+			}
 		}
 	}
 
@@ -371,6 +375,11 @@ Vector3i onePlayer::alphaBetaPrunning(bool isMaximize, int depth, int maxDepth)
 	{
 		Vector2u tempMove = medBotMove();
 		ans.x = tempMove.x; ans.y = tempMove.y; ans.z = 0;
+		
+		// Calculate point of MedBotMove()
+		int x_begin, y_begin;
+		for (int k = 2; k <= 5; k++)
+			if (b.checkBoard(ans.x, ans.y, x_begin, y_begin, k)) ans.z = ((isMaximize) ? 1 : -1) * k;
 	}
 
 	return ans;

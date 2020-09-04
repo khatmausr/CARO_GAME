@@ -82,6 +82,9 @@ bool board::markCell(int x, int y, int val)
 
 void board::redoMarkCell(int x, int y)
 {
+	if (arr[x][y] == 1) countX--;
+	else if (arr[x][y] == -1) countO--;
+	
 	arr[x][y] = 0;
 }
 
@@ -151,7 +154,7 @@ int board::checkBoard(int x, int y, int& x_begin, int& y_begin, int k)
 	return 0;
 }
 
-bool board::getCell(int x, int y)
+int board::getCell(int x, int y)
 {
 	return arr[x][y];
 }

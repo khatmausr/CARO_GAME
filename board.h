@@ -21,7 +21,7 @@ public:
 	void redoMarkCell(int x, int y);
 	int  checkBoard(int x, int y, int& x_begin, int& y_begin, int k = 5);
 
-	bool getCell(int x, int y);
+	int  getCell(int x, int y);
 	int  getCountX();
 	int  getCountO();
 };
