@@ -137,7 +137,7 @@ void Game::askForLoad()
 			}
 		}
 
-		txt_isAvailable.setString((isAvailable) ? "This file is unavailable" : "This file is available");
+		txt_isAvailable.setString((isAvailable) ? "This file is available" : "This file is unavailable");
 		txt_isAvailable.setFillColor((isAvailable) ? Color::Green : Color::Red);
 
 		displayGame(); window.draw(tint);
