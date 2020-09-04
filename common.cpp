@@ -481,8 +481,8 @@ void common::aboutMenu()
 	textList.push_back(Text("Nguyen Thanh Tinh - 19127292", font_bebasNeueBold, 24));
 	textList.push_back(Text("Tran Xuan Son - 19127321", font_bebasNeueBold, 24));
 	textList.push_back(Text("Special thanks to", font_bebasNeueBold, 30));
-	textList.push_back(Text("M. Truong Toan Thinh - Theory Lecturer", font_bebasNeueBold, 24));
-	textList.push_back(Text("M. Nguyen Thanh An - Teaching Assistant", font_bebasNeueBold, 24));
+	textList.push_back(Text("PhD. Truong Toan Thinh - Theory Lecturer", font_bebasNeueBold, 24));
+	textList.push_back(Text("PhD. Nguyen Thanh An - Teaching Assistant", font_bebasNeueBold, 24));
 	textList.push_back(Text("M. Tran Ngoc Dat Thanh - LAB Lecturer", font_bebasNeueBold, 24));
 
 	for (unsigned int i = 0; i < textList.size(); ++i)
