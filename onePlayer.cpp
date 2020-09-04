@@ -126,7 +126,7 @@ void onePlayer::processKeyPressed(int keyCode)
 
 	switch (keyCode)
 	{
-	case Keyboard::Left:
+	case Keyboard::A:
 	{
 		if (cursorP.y > 0)
 		{
@@ -135,7 +135,7 @@ void onePlayer::processKeyPressed(int keyCode)
 		}
 		break;
 	}
-	case Keyboard::Right:
+	case Keyboard::D:
 	{
 		if (cursorP.y < BOARD_SIZE - 1)
 		{
@@ -144,7 +144,7 @@ void onePlayer::processKeyPressed(int keyCode)
 		}
 		break;
 	}
-	case Keyboard::Up:
+	case Keyboard::W:
 	{
 		if (cursorP.x > 0)
 		{
@@ -153,7 +153,7 @@ void onePlayer::processKeyPressed(int keyCode)
 		}
 		break;
 	}
-	case Keyboard::Down:
+	case Keyboard::S:
 	{
 		if (cursorP.x < BOARD_SIZE - 1)
 		{
@@ -162,7 +162,7 @@ void onePlayer::processKeyPressed(int keyCode)
 		}
 		break;
 	}
-	case Keyboard::Enter:
+	case Keyboard::Space:
 	{
 		// Player's Turn
 		if (b.markCell(cursorP.x, cursorP.y, 1))
