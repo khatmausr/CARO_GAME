@@ -425,15 +425,7 @@ Vector3i onePlayer::alphaBetaPrunning(bool isMaximize, int depth, int maxDepth)
 bool onePlayer::displayLose()
 {
 	// Init
-	switch (turn)
-	{
-	case -1:
-		++scoreO;
-		break;
-	case 1:
-		++scoreX;
-		break;
-	}
+	++scoreO;
 
 	Sprite bad;
 	Sprite dialogBox;
