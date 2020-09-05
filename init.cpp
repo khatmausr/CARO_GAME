@@ -65,8 +65,6 @@ Texture t_yellowButton_mouseOver;
 Texture t_dialogBox;
 Texture t_board;
 Texture t_textPlaceholder;
-Texture t_navBack;
-Texture t_navOk;
 Texture t_navReset;
 
 // Animation

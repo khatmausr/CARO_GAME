@@ -89,8 +89,6 @@ extern Texture t_yellowButton_mouseOver;
 extern Texture t_dialogBox;
 extern Texture t_board;
 extern Texture t_textPlaceholder;
-extern Texture t_navBack;
-extern Texture t_navOk;
 extern Texture t_navReset;
 
 // Animation
