@@ -1,5 +1,5 @@
-#include "common.h"
 #include "onePlayer.h"
+#include "common.h"
 #include "button.h"
 
 onePlayer::onePlayer(Texture* bgTexture, int level) : Game(bgTexture)
@@ -9,7 +9,6 @@ onePlayer::onePlayer(Texture* bgTexture, int level) : Game(bgTexture)
 
 onePlayer::~onePlayer()
 {
-
 }
 
 void onePlayer::askForName()
@@ -180,9 +179,7 @@ void onePlayer::processKeyPressed(int keyCode)
 			}
 			else // Player doesn't win, so it is machine's turn
 			{
-				// The BOT is thinking
 				displayGame(); window.display();
-				//sleep(milliseconds(rand() % 501 + 500);
 
 				// Bot's Turn
 				Vector2u botMoving = botMove();

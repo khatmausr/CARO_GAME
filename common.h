@@ -16,12 +16,10 @@
 
 #define MENU_TOP 250.0f
 #define MENU_BUTTON_SPACING 75.0f
-#define MENU_LINE_SPACING 40.0f
+#define MENU_LINE_SPACING   40.0f
 
 #define BOARD_LEFT 300.f
 #define BOARD_TOP  50.f
-
-#define THEME_MAX 3
 
 #define ASCII_BACKSPACE 8
 #define ASCII_ENTER     13
@@ -34,23 +32,23 @@ using namespace sf;
 extern RenderWindow window;
 
 extern Texture t_menuBackground;
-extern Sprite menuBackground;
+extern Sprite  menuBackground;
 
 extern Texture t_gameBackground;
-extern Sprite gameBackground;
+extern Sprite  gameBackground;
 
 extern Texture t_logo;
-extern Sprite logo;
-extern Image icon;
+extern Sprite  logo;
+extern Image   icon;
 
 extern Texture t_button_X, t_button_O;
-extern Sprite button_X, button_O;
+extern Sprite  button_X, button_O;
 
 extern Texture t_cursor_X, t_cursor_O;
-extern Sprite cursor_X, cursor_O;
+extern Sprite  cursor_X, cursor_O;
 
 extern Texture t_x_big, t_o_big;
-extern Sprite x_big, o_big;
+extern Sprite  x_big, o_big;
 
 extern Font font_arial;
 extern Font font_courierNew;

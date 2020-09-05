@@ -1,8 +1,8 @@
-﻿#include "common.h"
-#include "Menu.h"
+﻿#include "Menu.h"
+#include "button.h"
+#include "common.h"
 #include "onePlayer.h"
 #include "twoPlayers.h"
-#include "button.h"
 #include "SaveLoadManager.h"
 #include "HighScoreManager.h"
 
@@ -152,28 +152,24 @@ void common::initGame()
 	t_fit.setSmooth(true);
 	t_sLogo.loadFromFile("image/asset/aboutus/logo.png");
 	t_sLogo.setSmooth(true);
-
-
 }
 
 void common::runGame()
 {
-	displayOpeningScreen();
-
 	// Initializing
 	Game* g = new twoPlayers(&t_gameBackground);
+	
 	Menu mainMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
 	Menu newGameMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
 	Menu botMenu(&t_menuBackground, Vector2f(window.getSize().x / 2.0f, MENU_TOP), MENU_BUTTON_SPACING);
-	SaveLoadManager LoadGameMenu;
+	
+	SaveLoadManager  LoadGameMenu;
 	HighScoreManager HighScore;
 
-	//subMenu sm;
 	int choice = 1;
 
-	// Opening
-	//m.displayOpeningScreen();
-	window.setFramerateLimit(60);
+	// Opening Screen
+	displayOpeningScreen();
 
 	// Init menu
 	mainMenu.pushButton(2, "CONTINUE");
@@ -208,6 +204,7 @@ void common::runGame()
 			window.clear();
 			mainMenu.draw();
 			window.display();
+
 			while (window.pollEvent(e))
 			{
 				if (e.type == sf::Event::Closed)
@@ -242,6 +239,7 @@ void common::runGame()
 							{
 								if (typeGame != g->getType())
 									delete g;
+
 								switch (typeGame)
 								{
 								case 0:
@@ -277,7 +275,6 @@ void common::runGame()
 						case 4:
 						{
 							aboutMenu();
-							//mainMenu.setActive(false);
 							break;
 						}
 						case 5:
@@ -289,19 +286,20 @@ void common::runGame()
 						}
 					}
 				}
-				else if (e.type == sf::Event::MouseMoved)
-					mainMenu.update(sf::Vector2f((float)e.mouseMove.x, (float)e.mouseMove.y), false);
+				else if (e.type == sf::Event::MouseMoved) mainMenu.update(sf::Vector2f((float)e.mouseMove.x, (float)e.mouseMove.y), false);
 			}
 			/// <summary>
 			/// DO NOT REMOVE THIS!!!
 			/// </summary>
 			if (!window.isOpen()) mainMenu.isActive = false;
 		}
+
 		while (newGameMenu.isActive)
 		{
 			window.clear();
 			newGameMenu.draw();
 			window.display();
+
 			while (window.pollEvent(e))
 			{
 				if (e.type == sf::Event::Closed)
@@ -337,15 +335,16 @@ void common::runGame()
 						}
 					}
 				}
-				else if (e.type == sf::Event::MouseMoved)
-					newGameMenu.update(sf::Vector2f((float)e.mouseMove.x, (float)e.mouseMove.y), false);
+				else if (e.type == sf::Event::MouseMoved) newGameMenu.update(sf::Vector2f((float)e.mouseMove.x, (float)e.mouseMove.y), false);
 			}
 		}
+
 		while (botMenu.isActive)
 		{
 			window.clear();
 			botMenu.draw();
 			window.display();
+
 			while (window.pollEvent(e))
 			{
 				if (e.type == sf::Event::Closed)
@@ -395,19 +394,18 @@ void common::runGame()
 						}
 					}
 				}
-				else if (e.type == sf::Event::MouseMoved)
-					botMenu.update(sf::Vector2f((float)e.mouseMove.x, (float)e.mouseMove.y), false);
+				else if (e.type == sf::Event::MouseMoved) botMenu.update(sf::Vector2f((float)e.mouseMove.x, (float)e.mouseMove.y), false);
 			}
 		}
-
 	}
+
 	delete g;
 }
 
 void common::displayOpeningScreen()
 {
 	Texture t_icon; t_icon.loadFromFile("image/group02_logo.png");
-	Sprite icon(t_icon); icon.setPosition(Vector2f(500.f, 225.f));
+	Sprite  icon(t_icon); icon.setPosition(Vector2f(500.f, 225.f));
 
 	Music menuStartup;
 	menuStartup.openFromFile("sound/menu_startup.ogg");
@@ -443,8 +441,8 @@ void common::aboutMenu()
 	fit.setPosition(716.5f, 1630.0f);
 
 	sf::RectangleShape contentBg(sf::Vector2f(1200.0f, 700.0f)),
-		top(sf::Vector2f(526.0f, 180.0f)),
-		bot(sf::Vector2f(526.9f, 180.0f));
+	top(sf::Vector2f(526.0f, 180.0f)),
+	bot(sf::Vector2f(526.9f, 180.0f));
 
 	contentBg.setFillColor(sf::Color(255, 255, 255, 0));
 	top.setFillColor(sf::Color::White);
@@ -467,6 +465,8 @@ void common::aboutMenu()
 		window.draw(contentBg);
 		window.display();
 	}
+
+	// Text list
 	std::vector<sf::Text> textList;
 
 	textList.push_back(Text("Ho Chi Minh City University of Science", font_bebasNeueBold, 24));

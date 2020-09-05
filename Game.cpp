@@ -1,7 +1,8 @@
-#include "Game.h"
-#include "SaveLoadManager.h"
 #include "HighScoreManager.h"
+#include "SaveLoadManager.h"
 #include "button.h"
+#include "Game.h"
+
 void Game::continueGame()
 {
 	isExit = false;
@@ -152,7 +153,6 @@ void Game::askForLoad()
 		tint.setFillColor(Color(0, 0, 0, i * 10)); window.draw(tint);
 		window.display();
 	}
-	//return; // Leave here, ill do it later
 }
 
 void Game::askForSave()
@@ -329,6 +329,8 @@ void Game::runGame()
 	// Managing musics after exiting the game
 	gameMusic.stop();
 	if (window.isOpen()) menuMusic.play();
+
+	// Managing HighScore
 	if (typeGame)
 	{
 		time_t now = time(0);
@@ -357,6 +359,7 @@ void Game::exitGame()
 	turn = 0; isExit = true;
 	gameMusic.stop(); menuMusic.stop();
 
+	// Managing HighScore
 	if (typeGame)
 	{
 		time_t now = time(0);
@@ -390,7 +393,8 @@ void Game::saveGame(std::string fileName)
 
 	std::fstream fout(fileName, std::ios::out | std::ios::binary);
 	fout.write((char*)&data, sizeof(saveGameData));
-	// write player name
+
+	// Write player name
 	size_t len = playerName[0].size();
 	fout.write((char*)&len, sizeof(len));
 	fout.write((char*)&playerName[0][0] , len);
@@ -414,12 +418,14 @@ void Game::saveGame(std::string fileName)
 
 void Game::loadGame(std::string fileName)
 {
+	// Read data
 	saveGameData data;
 	std::string _playerName[2];
 	size_t len;
 	std::fstream fin(fileName, std::ios::in | std::ios::binary);
 	fin.read((char*)&data, sizeof(saveGameData));
-	// read player name
+
+	// Read player name
 	fin.read((char*)&len, sizeof(len));
 	_playerName[0].resize(len);
 	fin.read((char*)&_playerName[0][0], len);
@@ -428,6 +434,7 @@ void Game::loadGame(std::string fileName)
 	fin.read((char*)&_playerName[1][0], len);
 	fin.close();
 
+	// Import data
 	std::vector <int> dataBoard;
 	for (int i = 0; i < BOARD_SIZE * BOARD_SIZE + 2; i++) dataBoard.push_back(data._board[i]);
 	b.importBoard(dataBoard);
@@ -453,7 +460,6 @@ void Game::displayGame()
 	txt_scoreO.setFillColor(Color::White);
 	txt_scoreO.setCharacterSize(100);
 
-
 	for (int i = 0; i <= 1; i++)
 	{
 		txt_playerName[i].setFont(font_bebasNeueBold);
@@ -462,6 +468,7 @@ void Game::displayGame()
 		txt_playerName[i].setString(playerName[i]);
 		txt_playerName[i].setOrigin(txt_playerName[i].getLocalBounds().width / 2.0f, txt_playerName[i].getLocalBounds().height / 2 + 10.0f);
 	}
+
 	txt_playerNameS[0] = txt_playerName[0]; txt_playerNameS[1] = txt_playerName[1];
 	txt_playerNameS[0].setFillColor(Color::Black); txt_playerNameS[1].setFillColor(Color::Black);
 	txt_playerNameS[0].setPosition(Vector2f(143.f, 70.f)); txt_playerNameS[1].setPosition(Vector2f(1053.f, 70.f));
@@ -508,7 +515,6 @@ void Game::changeTurn()
 
 void Game::markWin(int x_begin, int y_begin, int direction)
 {
-	// Draw a line first
 	RectangleShape line;
 	line.setFillColor(Color::Black);
 	int length = 0;
@@ -554,7 +560,6 @@ void Game::markWin(int x_begin, int y_begin, int direction)
 
 bool Game::displayWin(bool isDraw)
 {
-	// Process winner
 	std::string winnerString;
 	if (isDraw) winnerString = "TIE!!!";
 	else

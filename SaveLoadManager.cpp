@@ -1,5 +1,5 @@
-#include "common.h"
 #include "SaveLoadManager.h"
+#include "common.h"
 
 std::istream& operator >> (std::istream& in, tm*& ltm)
 {

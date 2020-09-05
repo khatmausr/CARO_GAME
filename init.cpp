@@ -8,23 +8,23 @@ RenderWindow window;
 
 // Image
 Texture t_menuBackground;
-Sprite menuBackground;
+Sprite  menuBackground;
 
 Texture t_gameBackground;
-Sprite gameBackground;
+Sprite  gameBackground;
 
 Texture t_logo;
-Sprite logo;
-Image icon;
+Sprite  logo;
+Image   icon;
 
 Texture t_button_X, t_button_O;
-Sprite button_X, button_O;
+Sprite  button_X, button_O;
 
 Texture t_cursor_X, t_cursor_O;
-Sprite cursor_X, cursor_O;
+Sprite  cursor_X, cursor_O;
 
 Texture t_x_big, t_o_big;
-Sprite x_big, o_big;
+Sprite  x_big, o_big;
 
 // Font
 Font font_arial;

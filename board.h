@@ -1,12 +1,13 @@
 #pragma once
 #include <vector>
+
 #define BOARD_SIZE 20
 
 class board
 {
 private:
 	int** arr;
-	int countX, countO;
+	int   countX, countO;
 
 public:
 	board();

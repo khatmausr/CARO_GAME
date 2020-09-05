@@ -27,6 +27,7 @@ private:
 	void sortHighScoreList();
 	void updateFileManager();
 	void resetHighScore();
+
 public:
 	void pushHighScore(HighScoreInfo& temp);
 	void showHighScore();

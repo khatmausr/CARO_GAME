@@ -1,5 +1,5 @@
-#include "common.h"
 #include "HighScoreManager.h"
+#include "common.h"
 #include "button.h"
 
 extern std::istream& operator >> (std::istream& in, tm*& ltm);
@@ -75,6 +75,7 @@ void HighScoreManager::resetHighScore()
 	t._scoreX = 0;
 	t._scoreO = 0;
 	t._typeGame = 3;
+
 	t._ltm = new tm();
 	t._ltm->tm_year = 120;
 	t._ltm->tm_mon = 0;
@@ -82,9 +83,12 @@ void HighScoreManager::resetHighScore()
 	t._ltm->tm_hour = 0;
 	t._ltm->tm_min = 0;
 	t._ltm->tm_sec = 0;
+
 	highScoreList.clear();
+
 	for (int i = 0; i < MAX_RECORD; ++i)
 		highScoreList.push_back(t);
+
 	updateFileManager();
 }
 

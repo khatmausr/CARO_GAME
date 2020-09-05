@@ -1,11 +1,6 @@
 #include "button.h"
 #include "common.h"
 
-//Button::Button()
-//{
-//	currentSprite = NULL;
-//	currentState = 0;
-//}
 Button::Button(sf::Texture* defaultTexture, sf::Texture* mouseOverTexture, sf::SoundBuffer* soundBuffer, std::string title, sf::Vector2f position)
 {
 	isActive = true;
@@ -84,7 +79,7 @@ void Button::update(sf::Vector2f mousePos, bool isClicked)
 			this->setState(1);
 		}
 	} else if(this->getState())
-		this->setState(0);
+	this->setState(0);
 }
 
 void Button::setText(std::string title)
@@ -95,7 +90,6 @@ void Button::setText(std::string title)
 	this->titleShadow = this->title;
 	this->title.setFillColor(sf::Color::White);
 	this->titleShadow.setFillColor(sf::Color(117, 76, 40));
-
 }
 
 void Button::setState(unsigned int state)
@@ -148,4 +142,3 @@ void Button::draw()
 		window.draw(this->title);
 	}
 }
-
