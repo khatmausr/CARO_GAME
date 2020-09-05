@@ -294,20 +294,6 @@ Game::Game(sf::Texture* bgTexture)
 
 Game::~Game()
 {
-	if (typeGame)
-	{
-		time_t now = time(0);
-		HighScoreInfo temp; temp._ltm = new tm;
-		temp._playerName = playerName[0];
-		temp._typeGame = typeGame;
-		temp._score = scoreX - scoreO;
-		temp._scoreX = scoreX;
-		temp._scoreO = scoreO;
-		localtime_s(temp._ltm, &now);
-
-		HighScoreManager HSM;
-		HSM.pushHighScore(temp);
-	}
 }
 
 bool Game::isContinue()
@@ -343,6 +329,20 @@ void Game::runGame()
 	// Managing musics after exiting the game
 	gameMusic.stop();
 	if (window.isOpen()) menuMusic.play();
+	if (typeGame)
+	{
+		time_t now = time(0);
+		HighScoreInfo temp; temp._ltm = new tm;
+		temp._playerName = playerName[0];
+		temp._typeGame = typeGame;
+		temp._score = scoreX - scoreO;
+		temp._scoreX = scoreX;
+		temp._scoreO = scoreO;
+		localtime_s(temp._ltm, &now);
+
+		HighScoreManager HSM;
+		HSM.pushHighScore(temp);
+	}
 }
 
 void Game::resetData()
