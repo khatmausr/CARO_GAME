@@ -181,7 +181,7 @@ void HighScoreManager::showHighScore()
 			}
 			else if (e.type == Event::MouseButtonPressed)
 			{
-				resetBtn.update(sf::Vector2f(e.mouseButton.x, e.mouseButton.y), true);
+				resetBtn.update(sf::Vector2f(float(e.mouseButton.x), float(e.mouseButton.y)), true);
 				if (e.mouseButton.button == sf::Mouse::Left && resetBtn.getState() == 2)
 				{
 					resetHighScore();
@@ -201,7 +201,7 @@ void HighScoreManager::showHighScore()
 				}
 			}
 			else if (e.type == Event::MouseMoved)
-				resetBtn.update(sf::Vector2f(e.mouseMove.x, e.mouseMove.y), false);
+				resetBtn.update(sf::Vector2f(float(e.mouseMove.x), float(e.mouseMove.y)), false);
 			if (e.type == Event::KeyPressed && e.key.code == Keyboard::Escape)
 				isDone = true;
 		}

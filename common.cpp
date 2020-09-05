@@ -464,7 +464,7 @@ void common::aboutMenu()
 	for (int i = 0; i <= 60; ++i)
 	{
 		window.clear();
-		contentBg.setFillColor(sf::Color(255, 255, 255, i * 4.25));
+		contentBg.setFillColor(sf::Color(255, 255, 255, sf::Uint8(i * 4.25)));
 		window.draw(bg);
 		window.draw(contentBg);
 		window.display();
@@ -534,7 +534,7 @@ void common::aboutMenu()
 		{
 			logo.move(0, -0.75f);
 			group.move(0, -0.75f);
-			for (int i = 0; i < textList.size(); ++i)
+			for (unsigned int i = 0; i < textList.size(); ++i)
 				textList[i].move(0, -0.75f);
 		}
 		else
@@ -560,7 +560,7 @@ void common::aboutMenu()
 		window.draw(logo);
 		window.draw(group);
 		
-		for (int i = 0; i < textList.size(); ++i)
+		for (unsigned int i = 0; i < textList.size(); ++i)
 			window.draw(textList[i]);
 
 		window.draw(fit);
@@ -576,7 +576,7 @@ void common::aboutMenu()
 	for (int i = 60; i >= 0; --i)
 	{
 		window.clear();
-		contentBg.setFillColor(sf::Color(255, 255, 255, i * 4.25));
+		contentBg.setFillColor(sf::Color(255, 255, 255, sf::Uint8(i * 4.25)));
 		window.draw(bg);
 		window.draw(contentBg);
 		window.display();
